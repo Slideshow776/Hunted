@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.scenes.scene2d.Group
 import kotlin.math.abs
 
-class BaseActor(x: Float, y: Float, s: Stage) : Group() {
+open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
     private val tag = "BaseActor.kt"
     private var animation: Animation<TextureAtlas.AtlasRegion>?
     private var animationTime: Float = 0f

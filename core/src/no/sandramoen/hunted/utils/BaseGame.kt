@@ -42,6 +42,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
+        var defaultShader: String? = null
+        var waveShader: String? = null
 
         // game state
         var prefs: Preferences? = null
@@ -97,7 +99,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleParameter(Locale(currentLocale)))
 
             // shaders
-            // assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/wave.fs", Text::class.java, TextLoader.TextParameter()))
 
             assetManager.finishLoading()
 
@@ -109,7 +112,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 
             // text files
-            // defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
+            defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
+            waveShader = assetManager.get("shaders/wave.fs", Text::class.java).getString()
 
             // skin
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)
