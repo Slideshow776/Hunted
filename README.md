@@ -1,7 +1,7 @@
 # Hunted
 A pattern recognition game.
 
-[Try it](github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
+[Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
 
 ![hunted](https://user-images.githubusercontent.com/4059636/154849216-7cd201f8-2e5c-477b-903a-cdab62175a36.gif)
 
