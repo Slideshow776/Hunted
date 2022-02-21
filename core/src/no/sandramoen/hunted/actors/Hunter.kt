@@ -1,5 +1,7 @@
 package no.sandramoen.hunted.actors
 
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -12,7 +14,7 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
-class Hunter(s: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, s) {
+class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
     private var hunterIsOnLayer = MathUtils.random(1, 4)
     private var forestLayer = forestLayers[hunterIsOnLayer]
@@ -20,6 +22,7 @@ class Hunter(s: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, s) 
     private lateinit var clickBox: BaseActor
     private var jump = false
     private val revealScaleAmount = .5f
+    /*private val stage = stage*/
 
     init {
         loadImage("hunter")
@@ -27,7 +30,7 @@ class Hunter(s: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, s) 
         setOrigin(Align.center)
         touchable = Touchable.disabled
 
-        initClickBox(s)
+        initClickBox()
         setUpLayerAndPosition()
 
         setAcceleration(10f)
@@ -45,8 +48,8 @@ class Hunter(s: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, s) 
         applyPhysics(dt)
     }
 
-    private fun initClickBox(s: Stage) {
-        clickBox = BaseActor(x, y, s)
+    private fun initClickBox() {
+        clickBox = BaseActor(x, y, stage)
         clickBox.setSize(width * 2 * BaseGame.RATIO, height * 2)
         clickBox.centerAtActor(this)
         clickBox.addListener(object : ClickListener() {
@@ -67,15 +70,50 @@ class Hunter(s: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, s) 
         val direction = if (MathUtils.randomBoolean()) 60f else 130f
         setMotionAngle(direction)
 
+        shoot()
         addAction(Actions.sequence(
             Actions.parallel(
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
-                    Actions.delay(1f),
-                    Actions.fadeOut(2f)
+                    Actions.delay(.25f),
+                    Actions.run { shoot() },
+                    Actions.delay(.5f),
+                    Actions.run { shoot() },
+                    Actions.delay(.25f),
+                    Actions.fadeOut(1.75f)
                 )
             ),
             Actions.run { reset() }
+        ))
+    }
+
+    private fun shoot() {
+        val shot = BaseActor(x, y, stage)
+        shot.loadImage("whitePixel")
+        shot.setSize(.1f, .1f * BaseGame.RATIO)
+        shot.color = Color.RED
+        shot.setOrigin(Align.center)
+        //var duration = -1f
+        var duration = when (hunterIsOnLayer) {
+            4 -> 1f
+            3 -> 1.25f
+            2 -> 1.5f
+            else -> 2f
+        }
+        val shotTravelAmount = 10f
+        val shotX = if (MathUtils.randomBoolean()) -shotTravelAmount else shotTravelAmount
+        val shotY = if (MathUtils.randomBoolean()) -shotTravelAmount else shotTravelAmount
+        shot.addAction(Actions.sequence(
+            Actions.parallel(
+                Actions.scaleBy(100f, 100f, duration, Interpolation.pow5In),
+                Actions.moveBy(shotX, shotY, duration)
+            ),
+            Actions.run { shot.isVisible = false },
+            Actions.delay(.3f),
+            Actions.run {
+                BaseGame.shotSound!!.play(BaseGame.soundVolume)
+                shot.remove()
+            }
         ))
     }
 

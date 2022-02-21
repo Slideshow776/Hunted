@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Cursor
 import com.badlogic.gdx.graphics.Pixmap
@@ -47,6 +48,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var skin: Skin? = null
         var defaultShader: String? = null
         var waveShader: String? = null
+        var shotSound: Sound? = null
 
         // game state
         var prefs: Preferences? = null
@@ -87,7 +89,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // assetManager.load("audio/music/BNB_MX_INTRO.wav", Music::class.java)
 
             // sounds
-            // assetManager.load("audio/sound/BNB_SFX_TRANS_UP.wav", Sound::class.java)
+            assetManager.load("audio/sound/Laser_Shoot28.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -111,6 +113,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
             // audio
             // levelMusic = assetManager.get("audio/music/BNB_MX_LOOP.wav", Music::class.java)
+            shotSound = assetManager.get("audio/sound/Laser_Shoot28.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 
