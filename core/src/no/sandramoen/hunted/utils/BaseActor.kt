@@ -62,29 +62,29 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         if (animation != null && isVisible) {
             if (isFacingRight)
                 batch.draw(
-                        animation!!.getKeyFrame(animationTime),
-                        x - abs(width - animationWidth) / 2,
-                        y,
-                        originX,
-                        originY,
-                        animationWidth,
-                        animationHeight,
-                        scaleX,
-                        scaleY,
-                        rotation
+                    animation!!.getKeyFrame(animationTime),
+                    x + abs(width - animationWidth) / 2,
+                    y + abs(height - animationHeight) / 2,
+                    originX,
+                    originY,
+                    animationWidth,
+                    animationHeight,
+                    scaleX,
+                    scaleY,
+                    rotation
                 )
             else
                 batch.draw(
-                        animation!!.getKeyFrame(animationTime),
-                        x + width + abs(width - animationWidth) / 2,
-                        y,
-                        originX,
-                        originY,
-                        -animationWidth,
-                        animationHeight,
-                        scaleX,
-                        scaleY,
-                        rotation
+                    animation!!.getKeyFrame(animationTime),
+                    x + width - abs(width - animationWidth) / 2,
+                    y + abs(height - animationHeight) / 2,
+                    originX,
+                    originY,
+                    -animationWidth,
+                    animationHeight,
+                    scaleX,
+                    scaleY,
+                    rotation
                 )
         }
         super.draw(batch, parentAlpha)
@@ -179,7 +179,8 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
 
         // decrease speed (decelerate) when not accelerating
         if (accelerationVec.len() == 0f)
-            speed -= deceleration * dt
+            // speed -= deceleration * dt
+
 
         // keep speed within set bounds
         speed = MathUtils.clamp(speed, 0f, maxSpeed)

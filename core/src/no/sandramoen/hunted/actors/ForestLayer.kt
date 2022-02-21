@@ -1,11 +1,14 @@
 package no.sandramoen.hunted.actors
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
-class ForestLayer(stage: Stage, path: String) : BaseActor(0f, 0f, stage) {
+class ForestLayer(stage: Stage, path: String, color: Color) : BaseActor(0f, 0f, stage) {
     init {
+        this.color = color
         treeLayerInit(path)
 
         val layerNumber = path.substring(path.length-1).toInt()
