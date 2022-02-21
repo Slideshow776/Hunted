@@ -6,6 +6,8 @@ import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Cursor
+import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -17,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import kotlin.system.measureTimeMillis
+
 
 abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: String) : Game(), AssetErrorListener {
     private val tag = "BaseGame.kt"
@@ -150,6 +153,11 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             textButtonStyle = TextButtonStyle()
             textButtonStyle!!.font = buttonCustomFont
             textButtonStyle!!.fontColor = Color.WHITE
+
+            if (Gdx.app.type == Application.ApplicationType.Desktop) {
+                val customCursor: Cursor = Gdx.graphics.newCursor(Pixmap(Gdx.files.internal("images/excluded/cursor.png")), 0, 0)
+                Gdx.graphics.setCursor(customCursor)
+            }
         }
         Gdx.app.error(tag, "Asset manager took $time ms to load all game assets.")
     }
