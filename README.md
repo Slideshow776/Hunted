@@ -1,5 +1,6 @@
 # Hunted
 A pattern recognition game.
+_You are being hunted! Can you find the hunter before they find you?_
 
 [Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
 
