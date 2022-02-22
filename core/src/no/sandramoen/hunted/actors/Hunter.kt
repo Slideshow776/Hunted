@@ -70,50 +70,21 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         val direction = if (MathUtils.randomBoolean()) 60f else 130f
         setMotionAngle(direction)
 
-        shoot()
+        Shot(x, y, stage, hunterIsOnLayer)
         addAction(Actions.sequence(
             Actions.parallel(
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
                     Actions.delay(.25f),
-                    Actions.run { shoot() },
+                    Actions.run { Shot(x, y, stage, hunterIsOnLayer) },
                     Actions.delay(.5f),
-                    Actions.run { shoot() },
+                    Actions.run { Shot(x, y, stage, hunterIsOnLayer) },
                     Actions.delay(.25f),
                     Actions.fadeOut(1.75f)
                 )
             ),
+            Actions.delay(2f),
             Actions.run { reset() }
-        ))
-    }
-
-    private fun shoot() {
-        val shot = BaseActor(x, y, stage)
-        shot.loadImage("whitePixel")
-        shot.setSize(.1f, .1f * BaseGame.RATIO)
-        shot.color = Color.RED
-        shot.setOrigin(Align.center)
-        //var duration = -1f
-        var duration = when (hunterIsOnLayer) {
-            4 -> 1f
-            3 -> 1.25f
-            2 -> 1.5f
-            else -> 2f
-        }
-        val shotTravelAmount = 10f
-        val shotX = if (MathUtils.randomBoolean()) -shotTravelAmount else shotTravelAmount
-        val shotY = if (MathUtils.randomBoolean()) -shotTravelAmount else shotTravelAmount
-        shot.addAction(Actions.sequence(
-            Actions.parallel(
-                Actions.scaleBy(100f, 100f, duration, Interpolation.pow5In),
-                Actions.moveBy(shotX, shotY, duration)
-            ),
-            Actions.run { shot.isVisible = false },
-            Actions.delay(.3f),
-            Actions.run {
-                BaseGame.shotSound!!.play(BaseGame.soundVolume)
-                shot.remove()
-            }
         ))
     }
 
