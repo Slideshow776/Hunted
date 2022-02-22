@@ -18,7 +18,7 @@ class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
 
     init {
         loadImage("shot")
-        setSize(.1f, .1f)
+        setSize(.2f, .2f)
         color = warmBrown
         setOrigin(Align.center)
 
@@ -46,18 +46,6 @@ class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
         )
     }
 
-    private fun sounds(): SequenceAction {
-        return Actions.sequence(
-            Actions.delay(.05f),
-            Actions.run { BaseGame.swooshSound!!.play(BaseGame.soundVolume) },
-            Actions.delay(shotTravelAmount() * .4f),
-            Actions.run {
-                BaseGame.shotSound!!.play(BaseGame.soundVolume)
-                remove()
-            }
-        )
-    }
-
     private fun shotMissAmount(): Vector2 {
         val x = if (MathUtils.randomBoolean()) MathUtils.random(-40f, -20f) else MathUtils.random(20f, 40f)
         val y = if (MathUtils.randomBoolean()) MathUtils.random(-40f, -20f) else MathUtils.random(20f, 40f)
@@ -71,5 +59,17 @@ class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
             2 -> 2f
             else -> 2.75f
         }
+    }
+
+    private fun sounds(): SequenceAction {
+        return Actions.sequence(
+            Actions.delay(.05f),
+            Actions.run { BaseGame.swooshSound!!.play(BaseGame.soundVolume) },
+            Actions.delay(shotTravelAmount() * .4f),
+            Actions.run {
+                BaseGame.shotSound!!.play(BaseGame.soundVolume)
+                remove()
+            }
+        )
     }
 }

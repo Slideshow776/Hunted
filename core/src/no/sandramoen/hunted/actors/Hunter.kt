@@ -1,7 +1,6 @@
 package no.sandramoen.hunted.actors
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -16,28 +15,27 @@ import no.sandramoen.hunted.utils.BaseGame
 
 class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
-    private var hunterIsOnLayer = MathUtils.random(1, 4)
-    private var forestLayer = forestLayers[hunterIsOnLayer]
-
+    private lateinit var forestLayer: ForestLayer
     private lateinit var clickBox: BaseActor
+    private var hunterIsOnLayer = -1
     private var jump = false
     private val revealScaleAmount = .5f
-    /*private val stage = stage*/
+
+    var hidden = true
+    var inAction = false
 
     init {
         loadImage("hunter")
         setSize(.5f, 1f * BaseGame.RATIO)
         setOrigin(Align.center)
-        touchable = Touchable.disabled
 
-        initClickBox()
+        initializeClickBox()
         setUpLayerAndPosition()
 
         setAcceleration(10f)
         setMaxSpeed(5f)
         setDeceleration(10f)
 
-        color = forestLayer.color
         /*color = Color.PINK*/
     }
 
@@ -48,7 +46,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         applyPhysics(dt)
     }
 
-    private fun initClickBox() {
+    private fun initializeClickBox() {
         clickBox = BaseActor(x, y, stage)
         clickBox.setSize(width * 2 * BaseGame.RATIO, height * 2)
         clickBox.centerAtActor(this)
@@ -56,13 +54,15 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 super.clicked(event, x, y)
                 revealHunter()
+                clickBox.touchable = Touchable.disabled
             }
         })
-        forestLayer!!.addActor(clickBox)
         /*clickBox.debug = true*/
     }
 
     private fun revealHunter() {
+        inAction = true
+        hidden = false
         rotation = 0f
         jump = true
         setSpeed(4f)
@@ -73,6 +73,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         Shot(x, y, stage, hunterIsOnLayer)
         addAction(Actions.sequence(
             Actions.parallel(
+                Actions.color(Color.PINK, .125f),
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
                     Actions.delay(.25f),
@@ -83,18 +84,19 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
                     Actions.fadeOut(1.75f)
                 )
             ),
-            Actions.delay(2f),
+            Actions.delay(2.5f),
             Actions.run { reset() }
         ))
     }
 
     private fun reset() {
-        setUpLayerAndPosition()
-        color.a = 1f
+        inAction = false
+        hidden = true
         jump = false
-        color = forestLayer.color
+        setUpLayerAndPosition()
         setSpeed(0f)
         scaleBy(-revealScaleAmount, -revealScaleAmount)
+        clickBox.touchable = Touchable.enabled
     }
 
     private fun setUpLayerAndPosition() {
@@ -110,6 +112,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         forestLayer.touchable = Touchable.enabled
         forestLayer.addActor(this)
         forestLayer.addActor(clickBox)
+        color = forestLayer.color
     }
 
     private fun positionSetup() {

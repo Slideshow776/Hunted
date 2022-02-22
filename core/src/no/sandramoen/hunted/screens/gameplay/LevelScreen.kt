@@ -1,5 +1,6 @@
 package no.sandramoen.hunted.screens.gameplay
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.input
 import com.badlogic.gdx.Input.Peripheral
 import com.badlogic.gdx.graphics.Color
@@ -7,10 +8,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Touchable
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.ForestLayer
 import no.sandramoen.hunted.actors.Hunter
+import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
+import kotlin.math.ceil
 
 class LevelScreen : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
@@ -21,26 +26,36 @@ class LevelScreen : BaseScreen() {
 
     private var mousePosition = Vector2(50f, 50f)
 
+    private var timer = 61f
+    private var timerLabel = Label("$timer", BaseGame.labelStyle)
+
+    private lateinit var hunter: Hunter
+
     override fun initialize() {
-            forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
-            forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
-            forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
-            forestLayers.add(ForestLayer(mainStage, "forest/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
-            forestLayers.add(ForestLayer(mainStage, "forest/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
 
         for (layer in forestLayers)
             layer.touchable = Touchable.disabled
 
-        Hunter(mainStage, forestLayers)
+        hunter = Hunter(mainStage, forestLayers)
 
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
+
+        timerLabel.color = Color(0.988f, 0.925f, 0.82f, 1f)
+        uiTable.add(timerLabel).expandY().top().padTop(Gdx.graphics.height * .01f)
+        /*uiTable.debug = true*/
     }
 
     override fun update(dt: Float) {
         for (i in 0 until forestLayers.size)
             forestLayers[i].act(dt)
         accelerometer()
+        updateTimer(dt)
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -59,6 +74,21 @@ class LevelScreen : BaseScreen() {
         }
         mousePosition = Vector2(worldCoordinates.x, worldCoordinates.y)
         return super.mouseMoved(screenX, screenY)
+    }
+
+    private fun updateTimer(dt:Float) {
+        if (hunter.hidden) {
+            timer -= dt
+            timerLabel.setText("${timer.toInt()}")
+            if (timerLabel.color.a == 0f)
+                timerLabel.addAction(Actions.fadeIn(.5f))
+        } else if (timer != 61f && timerLabel.actions.size == 0) {
+            timerLabel.addAction(Actions.sequence(
+                Actions.delay(2f), // hardcoded to fit with hunter reset
+                Actions.fadeOut(.5f),
+                Actions.run { timer = 61f }
+            ))
+        }
     }
 
     private fun accelerometer() {
