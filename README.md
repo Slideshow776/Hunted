@@ -103,6 +103,12 @@ Read on below for project specifics.
 ## Credits
 
 ## Project comments
+Found out `.ttf` fonts can have a shadow, like this:
+```
+fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
+fontParameters.shadowOffsetX = 2
+fontParameters.shadowOffsetY = 2
+```
 
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Hunted/commits/main).
