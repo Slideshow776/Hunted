@@ -5,7 +5,12 @@ _You are being hunted! Can you find the hunter before they find you?_
 
 [Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
 
-![hunted](https://user-images.githubusercontent.com/4059636/154849216-7cd201f8-2e5c-477b-903a-cdab62175a36.gif)
+Spooky forest animation
+![spooky forest](https://user-images.githubusercontent.com/4059636/154849216-7cd201f8-2e5c-477b-903a-cdab62175a36.gif)
+
+The hunter revealed!
+![hunter revealed](https://user-images.githubusercontent.com/4059636/155113906-11717ed0-2367-4ed9-a5c1-6069745603e2.gif)
+
 
 Read on below for project specifics.
 
