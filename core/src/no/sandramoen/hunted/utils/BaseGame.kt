@@ -137,6 +137,9 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             fontParameters.size = (.038f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
             fontParameters.color = Color.WHITE
             fontParameters.borderWidth = 2f
+            fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
+            fontParameters.shadowOffsetX = 2
+            fontParameters.shadowOffsetY = 2
             fontParameters.borderColor = Color.BLACK
             fontParameters.borderStraight = true
             fontParameters.minFilter = TextureFilter.Linear

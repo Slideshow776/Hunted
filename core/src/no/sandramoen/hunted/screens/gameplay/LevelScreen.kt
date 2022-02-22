@@ -15,7 +15,7 @@ import no.sandramoen.hunted.actors.ForestLayer
 import no.sandramoen.hunted.actors.Hunter
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
-import kotlin.math.ceil
+import no.sandramoen.hunted.utils.StoryEngine
 
 class LevelScreen : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
@@ -24,12 +24,14 @@ class LevelScreen : BaseScreen() {
     private val mouseMovedDeadZone = .5f
     private val desktopLayerShuffleModifier = .5f
 
+    private lateinit var hunter: Hunter
     private var mousePosition = Vector2(50f, 50f)
 
     private var timer = 61f
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
-    private lateinit var hunter: Hunter
+    private var storyLabel = Label("LevelScreen", BaseGame.labelStyle)
+    private var storyEngine = StoryEngine(storyLabel, timer)
 
     override fun initialize() {
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
@@ -46,8 +48,11 @@ class LevelScreen : BaseScreen() {
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
 
-        timerLabel.color = Color(0.988f, 0.925f, 0.82f, 1f)
-        uiTable.add(timerLabel).expandY().top().padTop(Gdx.graphics.height * .01f)
+        timerLabel.color = Color(0.859f, 0.788f, 0.706f, 1f)
+        storyLabel.color = Color(0.988f, 0.925f, 0.82f, 1f)
+        val padding = Gdx.graphics.height * .01f
+        uiTable.add(timerLabel).expandY().top().padTop(padding).row()
+        uiTable.add(storyLabel).bottom().padBottom(padding)
         /*uiTable.debug = true*/
     }
 
@@ -56,6 +61,7 @@ class LevelScreen : BaseScreen() {
             forestLayers[i].act(dt)
         accelerometer()
         updateTimer(dt)
+        storyEngine.update(dt, timer)
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -76,7 +82,7 @@ class LevelScreen : BaseScreen() {
         return super.mouseMoved(screenX, screenY)
     }
 
-    private fun updateTimer(dt:Float) {
+    private fun updateTimer(dt: Float) {
         if (hunter.hidden) {
             timer -= dt
             timerLabel.setText("${timer.toInt()}")
