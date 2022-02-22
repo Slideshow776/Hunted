@@ -11,6 +11,9 @@ Spooky forest animation
 The hunter revealed!
 ![hunter revealed](https://user-images.githubusercontent.com/4059636/155113906-11717ed0-2367-4ed9-a5c1-6069745603e2.gif)
 
+The hunter looks like this
+
+![hunter_big](https://user-images.githubusercontent.com/4059636/155168629-0809d23e-f8f6-4c92-8746-b04ab132c03b.png)
 
 Read on below for project specifics.
 
