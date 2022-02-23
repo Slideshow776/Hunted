@@ -26,28 +26,49 @@ Read on below for project specifics.
 
 1. Overall Vision
     * **Write a short paragraph explaining the game:**
+    
+        A single player pattern recognition game set in an alien forest. You are being hunted! If you spot the hunter first, you might just have a chance to get away.
             
     * **Describe the genre:**
+
+        A hidden object pattern recognition game.
         
     * **What is the target audience?**
+
+        The game is appropriate for children older than 8 (maybe?) and is thought to be enjoyed by casual gamers. The target platform is Android devices and on Desktop.
         
     * **Why play this game?**
+
+        The challenge presented is to find the hunter amongst an alien forest, and discover the story dialogue as it develops. Gameplay sessionss only meant to be a few minutes long. The unique theme is complemented by visual effects and other telltale gameplay information.
        
     
 2. Mechanics: the rules of the game world
     * **What are the character's goals?**
+
+        To find and click the hunter before the time runs out.
            
     * **What abilities does the character have?**
+
+        No abilities, the entire game world is presented at once, and the controls are only to click.
         
     * **What obstacles or difficulties will the character face?**
+
+        The hunter to be found is camouflaged and is therefore hard to spot. The forest is big and the hunter is tiny, further increasing the difficulty. The forest is also alive in its own sense of movements and other distractions.
         
     * **What items can the character obtain**
+
+        No items.
         
     * **What resources must be managed?**
+
+        Time is the only resource to be managed, as to give a sense of urgency fitting to the situation and further increasing the difficulty.
     
         
 3. Dynamics: the interaction between the player and the game mechanics
     * **What hardware is required by the game?** 
+
+        * Android devices needs to have a functional touch screen.
+        * Desktop needs to have a functional mouse and screen.
         
     * **What type of proficiency will the player need to develop to become proficient at the game?**
        
