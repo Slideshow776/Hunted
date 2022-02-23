@@ -97,9 +97,6 @@ open class BaseActor(x: Float, y: Float, s: Stage) : Group() {
         val tr: TextureRegion = animation!!.getKeyFrame(0.toFloat())
         val w: Float = tr.regionWidth.toFloat()
         val h: Float = tr.regionHeight.toFloat()
-        setSize(w, h)
-        setAnimationSize(w, h)
-        setOrigin(w / 2, h / 2)
 
         if (boundaryPolygon == null)
             setBoundaryRectangle()

@@ -1,6 +1,8 @@
 package no.sandramoen.hunted.actors
 
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -15,18 +17,25 @@ import no.sandramoen.hunted.utils.BaseGame
 
 class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
+    private val revealScaleAmount = .5f
+
     private lateinit var forestLayer: ForestLayer
     private lateinit var clickBox: BaseActor
+    private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var somersaultAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var currentAnimation: Animation<TextureAtlas.AtlasRegion>
+
     private var hunterIsOnLayer = -1
     private var jump = false
-    private val revealScaleAmount = .5f
+    private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
 
     var hidden = true
     var inAction = false
 
     init {
-        loadImage("hunter")
-        setSize(.5f, 1f * BaseGame.RATIO)
+        animationSetUp()
+        val scale = 1f
+        setSize(.5f * scale, 1f * BaseGame.RATIO * scale)
         setOrigin(Align.center)
 
         initializeClickBox()
@@ -36,7 +45,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         setMaxSpeed(5f)
         setDeceleration(10f)
 
-        /*color = Color.PINK*/
+        // color = lightYellowBrown // debug
     }
 
     override fun act(dt: Float) {
@@ -44,6 +53,29 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         if (jump)
             accelerateAtAngle(270f)
         applyPhysics(dt)
+    }
+
+    private fun animationSetUp() {
+        var animationImages: Array<TextureAtlas.AtlasRegion> = Array()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/idle"))
+        idleAnimation = Animation(1f, animationImages)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault3"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault4"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault5"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault4"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault3"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/somersault1"))
+        somersaultAnimation = Animation(.25f, animationImages, Animation.PlayMode.NORMAL)
+        animationImages.clear()
+
+        currentAnimation = idleAnimation
+        setAnimation(idleAnimation)
     }
 
     private fun initializeClickBox() {
@@ -66,6 +98,11 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         rotation = 0f
         jump = true
         setSpeed(4f)
+        setAnimation(somersaultAnimation)
+        addAction(Actions.sequence(
+            Actions.delay(.5f),
+            Actions.rotateBy(360f, 1f))
+        )
 
         val direction = if (MathUtils.randomBoolean()) 60f else 130f
         setMotionAngle(direction)
@@ -73,7 +110,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         Shot(x, y, stage, hunterIsOnLayer)
         addAction(Actions.sequence(
             Actions.parallel(
-                Actions.color(Color.PINK, .125f),
+                Actions.color(lightYellowBrown, .125f),
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
                     Actions.delay(.25f),
@@ -93,6 +130,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         inAction = false
         hidden = true
         jump = false
+        setAnimation(idleAnimation)
         setUpLayerAndPosition()
         setSpeed(0f)
         scaleBy(-revealScaleAmount, -revealScaleAmount)
