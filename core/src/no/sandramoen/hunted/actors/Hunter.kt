@@ -86,13 +86,13 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 super.clicked(event, x, y)
                 revealHunter()
-                clickBox.touchable = Touchable.disabled
             }
         })
         /*clickBox.debug = true*/
     }
 
-    private fun revealHunter() {
+    fun revealHunter() {
+        clickBox.touchable = Touchable.disabled
         inAction = true
         hidden = false
         rotation = 0f

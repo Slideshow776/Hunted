@@ -27,7 +27,8 @@ class LevelScreen : BaseScreen() {
     private lateinit var hunter: Hunter
     private var mousePosition = Vector2(50f, 50f)
 
-    private var timer = 61f
+    private val timerStartValue = 61f
+    private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.labelStyle)
@@ -83,16 +84,17 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun updateTimer(dt: Float) {
-        if (hunter.hidden) {
+        if (hunter.hidden && timer > 0f) {
             timer -= dt
             timerLabel.setText("${timer.toInt()}")
             if (timerLabel.color.a == 0f)
                 timerLabel.addAction(Actions.fadeIn(.5f))
-        } else if (timer != 61f && timerLabel.actions.size == 0) {
+        } else if (timer <= 0f) {
+            timer = timerStartValue
+            hunter.revealHunter()
             timerLabel.addAction(Actions.sequence(
                 Actions.delay(2f), // hardcoded to fit with hunter reset
-                Actions.fadeOut(.5f),
-                Actions.run { timer = 61f }
+                Actions.fadeOut(.5f)
             ))
         }
     }
