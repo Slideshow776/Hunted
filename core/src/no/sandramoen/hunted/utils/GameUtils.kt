@@ -20,6 +20,15 @@ class GameUtils {
             return event is InputEvent && event.type == InputEvent.Type.touchDown
         }
 
+        fun shotTravelAmount(layer: Int): Float {
+            return when (layer) {
+                4 -> .75f
+                3 -> 1f
+                2 -> 2f
+                else -> 2.75f
+            }
+        }
+
         fun saveGameState() {
             BaseGame.prefs!!.putBoolean("loadPersonalParameters", true)
             BaseGame.prefs!!.putBoolean("googlePlayServices", BaseGame.isGPS)

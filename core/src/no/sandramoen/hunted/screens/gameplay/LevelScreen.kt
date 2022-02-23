@@ -2,6 +2,7 @@ package no.sandramoen.hunted.screens.gameplay
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Gdx.input
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.Input.Peripheral
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -13,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.ForestLayer
 import no.sandramoen.hunted.actors.Hunter
+import no.sandramoen.hunted.actors.Net
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
+import no.sandramoen.hunted.utils.GameUtils
 import no.sandramoen.hunted.utils.StoryEngine
 
 class LevelScreen : BaseScreen() {
@@ -25,6 +28,7 @@ class LevelScreen : BaseScreen() {
     private val desktopLayerShuffleModifier = .5f
 
     private lateinit var hunter: Hunter
+    private lateinit var net: Net
     private var mousePosition = Vector2(50f, 50f)
 
     private val timerStartValue = 61f
@@ -45,6 +49,7 @@ class LevelScreen : BaseScreen() {
             layer.touchable = Touchable.disabled
 
         hunter = Hunter(mainStage, forestLayers)
+        net = Net(hunter.x, hunter.y, mainStage)
 
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
@@ -83,15 +88,27 @@ class LevelScreen : BaseScreen() {
         return super.mouseMoved(screenX, screenY)
     }
 
+    override fun keyDown(keycode: Int): Boolean {
+        if (keycode == Input.Keys.R)
+            reset()
+        return super.keyDown(keycode)
+    }
+
+    private fun reset() {
+        timer = timerStartValue
+        net.reset()
+        hunter.reset()
+    }
+
     private fun updateTimer(dt: Float) {
         if (hunter.hidden && timer > 0f) {
             timer -= dt
             timerLabel.setText("${timer.toInt()}")
             if (timerLabel.color.a == 0f)
                 timerLabel.addAction(Actions.fadeIn(.5f))
-        } else if (timer <= 0f) {
-            timer = timerStartValue
-            hunter.revealHunter()
+        } else if (timer <= 0f && timer >= -10f) {
+            timer = -11f
+            net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
             timerLabel.addAction(Actions.sequence(
                 Actions.delay(2f), // hardcoded to fit with hunter reset
                 Actions.fadeOut(.5f)

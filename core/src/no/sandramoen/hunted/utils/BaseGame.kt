@@ -50,6 +50,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var waveShader: String? = null
         var shotSound: Sound? = null
         var swooshSound: Sound? = null
+        var netFireSound: Sound? = null
+        var netCaughtSound: Sound? = null
 
         // game state
         var prefs: Preferences? = null
@@ -92,6 +94,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // sounds
             assetManager.load("audio/sound/Laser_Shoot28.wav", Sound::class.java)
             assetManager.load("audio/sound/Hit_Hurt13.wav", Sound::class.java)
+            assetManager.load("audio/sound/Laser_Shoot42.wav", Sound::class.java)
+            assetManager.load("audio/sound/Explosion9.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -117,6 +121,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // levelMusic = assetManager.get("audio/music/BNB_MX_LOOP.wav", Music::class.java)
             shotSound = assetManager.get("audio/sound/Laser_Shoot28.wav", Sound::class.java)
             swooshSound = assetManager.get("audio/sound/Hit_Hurt13.wav", Sound::class.java)
+            netFireSound = assetManager.get("audio/sound/Laser_Shoot42.wav", Sound::class.java)
+            netCaughtSound = assetManager.get("audio/sound/Explosion9.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 

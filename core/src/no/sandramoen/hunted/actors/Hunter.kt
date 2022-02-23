@@ -25,12 +25,12 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private lateinit var somersaultAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var currentAnimation: Animation<TextureAtlas.AtlasRegion>
 
-    private var hunterIsOnLayer = -1
     private var jump = false
     private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
 
     var hidden = true
     var inAction = false
+    var layerNumber: Int = -1
 
     init {
         animationSetUp()
@@ -107,16 +107,16 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         val direction = if (MathUtils.randomBoolean()) 60f else 130f
         setMotionAngle(direction)
 
-        Shot(x, y, stage, hunterIsOnLayer)
+        Shot(x, y, stage, layerNumber)
         addAction(Actions.sequence(
             Actions.parallel(
                 Actions.color(lightYellowBrown, .125f),
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
                     Actions.delay(.25f),
-                    Actions.run { Shot(x, y, stage, hunterIsOnLayer) },
+                    Actions.run { Shot(x, y, stage, layerNumber) },
                     Actions.delay(.5f),
-                    Actions.run { Shot(x, y, stage, hunterIsOnLayer) },
+                    Actions.run { Shot(x, y, stage, layerNumber) },
                     Actions.delay(.25f),
                     Actions.fadeOut(1.75f)
                 )
@@ -126,10 +126,11 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         ))
     }
 
-    private fun reset() {
+    fun reset() {
         inAction = false
         hidden = true
         jump = false
+        rotation = 0f
         setAnimation(idleAnimation)
         setUpLayerAndPosition()
         setSpeed(0f)
@@ -145,8 +146,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private fun layerSetup() {
         for (layer in forestLayers)
             layer.touchable = Touchable.disabled
-        hunterIsOnLayer = MathUtils.random(1, 4)
-        forestLayer = forestLayers[hunterIsOnLayer]
+        layerNumber = MathUtils.random(1, 4)
+        forestLayer = forestLayers[layerNumber]
         forestLayer.touchable = Touchable.enabled
         forestLayer.addActor(this)
         forestLayer.addActor(clickBox)
@@ -163,19 +164,19 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     private fun getLayeredPositions(): Array<Position> {
         val positions = Array<Position>()
-        if (hunterIsOnLayer == 4) {
+        if (layerNumber == 4) {
             positions.add(Position(Vector2(30f, 66.5f), 0f))
             positions.add(Position(Vector2(56.2f, 52f), -15f))
             positions.add(Position(Vector2(75f, 74f), 0f))
-        } else if (hunterIsOnLayer == 3) {
+        } else if (layerNumber == 3) {
             positions.add(Position(Vector2(47.5f, 71f), 0f))
             positions.add(Position(Vector2(73.4f, 50f), 10f))
             positions.add(Position(Vector2(30f, 83f), 0f))
             positions.add(Position(Vector2(84.4f, 82f), -170f))
-        } else if (hunterIsOnLayer == 2) {
+        } else if (layerNumber == 2) {
             positions.add(Position(Vector2(5f, 65f), 0f))
             positions.add(Position(Vector2(92.1f, 30f), -12f))
-        } else if (hunterIsOnLayer == 1) {
+        } else if (layerNumber == 1) {
             positions.add(Position(Vector2(66f, 50f), 10f))
             positions.add(Position(Vector2(27.4f, 39f), 10f))
             positions.add(Position(Vector2(17f, 73f), 0f))

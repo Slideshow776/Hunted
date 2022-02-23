@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
+import no.sandramoen.hunted.utils.GameUtils
 
 class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
     private val layer = layer
@@ -37,10 +38,10 @@ class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
     private fun movement(): SequenceAction? {
         return Actions.sequence(
             Actions.parallel(
-                Actions.rotateBy(360f, shotTravelAmount()),
-                Actions.color(lightWineRed, shotTravelAmount(), Interpolation.pow5Out),
-                Actions.scaleBy(200f, 200f, shotTravelAmount(), Interpolation.pow5In),
-                Actions.moveTo(shotMissAmount().x, shotMissAmount().y, shotTravelAmount(), Interpolation.exp10In)
+                Actions.rotateBy(360f, GameUtils.shotTravelAmount(layer)),
+                Actions.color(lightWineRed, GameUtils.shotTravelAmount(layer), Interpolation.pow5Out),
+                Actions.scaleBy(200f, 200f, GameUtils.shotTravelAmount(layer), Interpolation.pow5In),
+                Actions.moveTo(shotMissAmount().x, shotMissAmount().y, GameUtils.shotTravelAmount(layer), Interpolation.exp10In)
             ),
             Actions.run { isVisible = false }
         )
@@ -52,20 +53,11 @@ class Shot(x: Float, y: Float, s: Stage, layer: Int) : BaseActor(x, y, s) {
         return Vector2(50f + x, 50f + y)
     }
 
-    private fun shotTravelAmount(): Float {
-        return when (layer) {
-            4 -> .75f
-            3 -> 1f
-            2 -> 2f
-            else -> 2.75f
-        }
-    }
-
     private fun sounds(): SequenceAction {
         return Actions.sequence(
             Actions.delay(.05f),
             Actions.run { BaseGame.swooshSound!!.play(BaseGame.soundVolume) },
-            Actions.delay(shotTravelAmount() * .4f),
+            Actions.delay(GameUtils.shotTravelAmount(layer) * .4f),
             Actions.run {
                 BaseGame.shotSound!!.play(BaseGame.soundVolume)
                 remove()
