@@ -114,7 +114,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
                 revealHunter()
             }
         })
-        clickBox.debug = true
+        /*clickBox.debug = true*/
     }
 
     fun blowHorn() {
