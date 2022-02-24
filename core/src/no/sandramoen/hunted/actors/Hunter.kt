@@ -1,5 +1,6 @@
 package no.sandramoen.hunted.actors
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
@@ -23,7 +24,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     lateinit var clickBox: BaseActor
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var somersaultAnimation: Animation<TextureAtlas.AtlasRegion>
-    private lateinit var currentAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var playHornAnimation: Animation<TextureAtlas.AtlasRegion>
+    private lateinit var putHornAwayAnimation: Animation<TextureAtlas.AtlasRegion>
 
     private var jump = false
     private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
@@ -31,12 +33,14 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     var isHidden = true
     var inAction = false
     var layerNumber: Int = -1
+    var isNotBlowingHorn = true
 
     init {
         animationSetUp()
         val scale = 1f
-        setSize(.5f * scale, 1f * BaseGame.RATIO * scale)
+        setSize(1.25f * scale, 1f * BaseGame.RATIO * scale)
         setOrigin(Align.center)
+        touchable = Touchable.disabled
 
         initializeClickBox()
         setUpLayerAndPosition()
@@ -74,13 +78,24 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         somersaultAnimation = Animation(.25f, animationImages, Animation.PlayMode.NORMAL)
         animationImages.clear()
 
-        currentAnimation = idleAnimation
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn1"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn3"))
+        playHornAnimation = Animation(.5f, animationImages, Animation.PlayMode.NORMAL)
+        animationImages.clear()
+
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn3"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn2"))
+        animationImages.add(BaseGame.textureAtlas!!.findRegion("hunter/horn1"))
+        putHornAwayAnimation = Animation(.5f, animationImages, Animation.PlayMode.NORMAL)
+        animationImages.clear()
+
         setAnimation(idleAnimation)
     }
 
     private fun initializeClickBox() {
         clickBox = BaseActor(x, y, stage)
-        clickBox.setSize(width * 2 * BaseGame.RATIO, height * 2)
+        clickBox.setSize(width * .75f * BaseGame.RATIO, height * 2)
         clickBox.centerAtActor(this)
         clickBox.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -91,22 +106,38 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         /*clickBox.debug = true*/
     }
 
+    fun blowHorn() {
+        if (isHidden) {
+            isNotBlowingHorn = false
+            setAnimation(playHornAnimation)
+            addAction(Actions.sequence(
+                Actions.delay(.6f),
+                Actions.run { BaseGame.hornSound!!.play(BaseGame.soundVolume) },
+                Actions.delay(4f),
+                Actions.run { setAnimation(putHornAwayAnimation) },
+                Actions.delay(1.8f),
+                Actions.run {
+                    setAnimation(idleAnimation)
+                    isNotBlowingHorn = true
+                }
+            ))
+        } else Gdx.app.error(javaClass.simpleName, "Horn was blown when not hidden...")
+    }
+
     fun revealHunter() {
+        BaseGame.hornSound!!.stop()
         clickBox.touchable = Touchable.disabled
         inAction = true
         isHidden = false
         addAction(Actions.rotateTo(0f, .125f))
         jump = true
         setSpeed(4f)
-        setAnimation(somersaultAnimation)
-        addAction(Actions.sequence(
-            Actions.delay(.5f),
-            Actions.rotateBy(360f, 1f))
-        )
 
         val direction = if (MathUtils.randomBoolean()) 60f else 130f
         setMotionAngle(direction)
 
+        setAnimation(somersaultAnimation)
+        somersaultAction()
         Shot(x, y, stage, layerNumber)
         addAction(Actions.sequence(
             Actions.parallel(
@@ -117,7 +148,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
                     Actions.run { Shot(x, y, stage, layerNumber) },
                     Actions.delay(.5f),
                     Actions.run { Shot(x, y, stage, layerNumber) },
-                    Actions.delay(.25f),
+                    Actions.delay(.75f),
                     Actions.fadeOut(1.75f)
                 )
             ),
@@ -166,23 +197,31 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private fun getLayeredPositions(): Array<Position> {
         val positions = Array<Position>()
         if (layerNumber == 4) {
-            positions.add(Position(Vector2(30f, 66.5f), 0f))
-            positions.add(Position(Vector2(56.2f, 52f), -15f))
+            positions.add(Position(Vector2(30f, 67f), 0f))
+            positions.add(Position(Vector2(55.8f, 52f), -15f))
             positions.add(Position(Vector2(75f, 74f), 0f))
         } else if (layerNumber == 3) {
-            positions.add(Position(Vector2(47.5f, 71f), 0f))
-            positions.add(Position(Vector2(73.4f, 50f), 10f))
+            positions.add(Position(Vector2(47.5f, 71.5f), 0f))
+            positions.add(Position(Vector2(73f, 50f), 10f))
             positions.add(Position(Vector2(30f, 83f), 0f))
-            positions.add(Position(Vector2(84.4f, 82f), -170f))
+            positions.add(Position(Vector2(84.4f, 84f), -170f))
         } else if (layerNumber == 2) {
             positions.add(Position(Vector2(5f, 65f), 0f))
-            positions.add(Position(Vector2(92.1f, 30f), -12f))
+            positions.add(Position(Vector2(91.5f, 30f), -12f))
         } else if (layerNumber == 1) {
-            positions.add(Position(Vector2(66f, 50f), 10f))
-            positions.add(Position(Vector2(27.4f, 39f), 10f))
-            positions.add(Position(Vector2(17f, 73f), 0f))
+            positions.add(Position(Vector2(65.7f, 48.3f), 10f))
+            positions.add(Position(Vector2(17f, 74f), 0f))
         }
         return positions
+    }
+
+    private fun somersaultAction() {
+        addAction(
+            Actions.sequence(
+                Actions.delay(.5f),
+                Actions.rotateBy(360f, 1f)
+            )
+        )
     }
 
     class Position(position: Vector2, rotation: Float) {

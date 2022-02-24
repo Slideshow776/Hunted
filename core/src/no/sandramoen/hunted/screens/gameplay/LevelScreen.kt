@@ -1,14 +1,9 @@
 package no.sandramoen.hunted.screens.gameplay
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Gdx.input
 import com.badlogic.gdx.Input
-import com.badlogic.gdx.Input.Peripheral
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -26,7 +21,7 @@ class LevelScreen : BaseScreen() {
     private lateinit var hunter: Hunter
     private lateinit var net: Net
 
-    private val timerStartValue = 6f
+    private val timerStartValue = 61f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
@@ -81,11 +76,11 @@ class LevelScreen : BaseScreen() {
 
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Input.Keys.R) reset()
+        if (keycode == Input.Keys.T) hunter.blowHorn()
         return super.keyDown(keycode)
     }
 
     private fun reset() {
-        println("reset")
         timer = timerStartValue
         net.reset()
         hunter.reset()
@@ -102,11 +97,18 @@ class LevelScreen : BaseScreen() {
             timer = -11f
             net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
             hunter.clickBox.touchable = Touchable.disabled
+            storyEngine.triggerCaught()
+        }
+
+        if (timer.toInt() == 15 && hunter.isNotBlowingHorn) {
+            hunter.blowHorn()
+            storyEngine.triggerHornSound()
         }
     }
 
     private fun restartTimer() {
         if (!timerLabel.hasActions()) {
+            storyEngine.triggerFound()
             GameUtils.stopAmbientMusic()
             timer = timerStartValue
             val duration = .125f

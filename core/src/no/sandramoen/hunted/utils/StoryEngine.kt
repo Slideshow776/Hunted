@@ -14,12 +14,30 @@ class StoryEngine(var label: Label, var timer: Float) {
         if (timer.toInt() == 58) {
             resetTypeWriter()
             storyText = "You're being hunted!"
+        } else if (timer.toInt() == 53) {
+            resetTypeWriter()
+            storyText = "Find the hunter, before it sees you first..."
         } else if (timer.toInt() == 30) {
             resetTypeWriter()
             storyText = "It's still out there..."
         }
 
         typeWriter(dt)
+    }
+
+    fun triggerHornSound() {
+        resetTypeWriter()
+        storyText = "Do you hear that?"
+    }
+
+    fun triggerFound() {
+        resetTypeWriter
+        storyText = "Run!"
+    }
+
+    fun triggerCaught() {
+        resetTypeWriter()
+        storyText = "It caught you!"
     }
 
     private fun typeWriter(dt: Float): Boolean {
@@ -35,9 +53,10 @@ class StoryEngine(var label: Label, var timer: Float) {
         if (numberOfCharacters >= storyText.length) {
             label.addAction(
                 Actions.sequence(
-                Actions.delay(2f),
-                Actions.fadeOut(.25f)
-            ))
+                    Actions.delay(4f),
+                    Actions.fadeOut(.25f)
+                )
+            )
         }
 
         return (numberOfCharacters >= storyText.length)
