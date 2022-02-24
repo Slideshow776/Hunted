@@ -26,7 +26,7 @@ class LevelScreen : BaseScreen() {
     private lateinit var hunter: Hunter
     private lateinit var net: Net
 
-    private val timerStartValue = 61f
+    private val timerStartValue = 6f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
@@ -85,6 +85,7 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun reset() {
+        println("reset")
         timer = timerStartValue
         net.reset()
         hunter.reset()
@@ -100,19 +101,23 @@ class LevelScreen : BaseScreen() {
         } else if (timer <= 0f && timer >= -10f) {
             timer = -11f
             net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
+            hunter.clickBox.touchable = Touchable.disabled
         }
     }
 
     private fun restartTimer() {
-        GameUtils.stopAmbientMusic()
-        val duration = .125f
-        timerLabel.addAction(
-            Actions.sequence(
-                Actions.fadeOut(duration),
-                Actions.delay(3f),
-                Actions.run { timer = timerStartValue },
-                Actions.fadeIn(duration)
+        if (!timerLabel.hasActions()) {
+            GameUtils.stopAmbientMusic()
+            timer = timerStartValue
+            val duration = .125f
+            timerLabel.addAction(
+                Actions.sequence(
+                    Actions.delay(1.5f),
+                    Actions.fadeOut(duration),
+                    Actions.delay(1.5f),
+                    Actions.fadeIn(duration)
+                )
             )
-        )
+        }
     }
 }

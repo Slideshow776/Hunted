@@ -20,7 +20,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private val revealScaleAmount = .5f
 
     private lateinit var forestLayer: ForestLayer
-    private lateinit var clickBox: BaseActor
+    lateinit var clickBox: BaseActor
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var somersaultAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var currentAnimation: Animation<TextureAtlas.AtlasRegion>
@@ -95,7 +95,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         clickBox.touchable = Touchable.disabled
         inAction = true
         isHidden = false
-        rotation = 0f
+        addAction(Actions.rotateTo(0f, .125f))
         jump = true
         setSpeed(4f)
         setAnimation(somersaultAnimation)
@@ -134,7 +134,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         setAnimation(idleAnimation)
         setUpLayerAndPosition()
         setSpeed(0f)
-        scaleBy(-revealScaleAmount, -revealScaleAmount)
+        scaleX = 1f
+        scaleY = 1f
         clickBox.touchable = Touchable.enabled
     }
 
