@@ -15,15 +15,14 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.ForestLayer
 import no.sandramoen.hunted.actors.Hunter
 import no.sandramoen.hunted.actors.Net
-import no.sandramoen.hunted.utils.BaseGame
-import no.sandramoen.hunted.utils.BaseScreen
-import no.sandramoen.hunted.utils.GameUtils
-import no.sandramoen.hunted.utils.StoryEngine
+import no.sandramoen.hunted.actors.Vignette
+import no.sandramoen.hunted.utils.*
 
 class LevelScreen : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
     private val isAccelerometerAvailable = input.isPeripheralAvailable(Peripheral.Accelerometer)
-    private val accelerometerXOffset = 6f // offsets the device to a tilted position towards the player
+    private val accelerometerXOffset =
+        6f // offsets the device to a tilted position towards the player
     private val mouseMovedDeadZone = .5f
     private val desktopLayerShuffleModifier = .5f
 
@@ -39,9 +38,22 @@ class LevelScreen : BaseScreen() {
     private var storyEngine = StoryEngine(storyLabel, timer)
 
     override fun initialize() {
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
+
+        forestLayers.add(
+            ForestLayer(
+                mainStage,
+                "forest/Layer 5",
+                Color(0.627f, 0.867f, 0.827f, 1f)
+            )
+        )
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
+        forestLayers.add(
+            ForestLayer(
+                mainStage,
+                "forest/Layer 3",
+                Color(0.341f, 0.498f, 0.616f, 1f)
+            )
+        )
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
 
@@ -50,6 +62,8 @@ class LevelScreen : BaseScreen() {
 
         hunter = Hunter(mainStage, forestLayers)
         net = Net(hunter.x, hunter.y, mainStage)
+
+        Vignette(mainStage)
 
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
@@ -68,6 +82,8 @@ class LevelScreen : BaseScreen() {
         accelerometer()
         updateTimer(dt)
         storyEngine.update(dt, timer)
+        if (!hunter.isHidden)
+            restartTimer()
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -101,19 +117,25 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun updateTimer(dt: Float) {
-        if (hunter.hidden && timer > 0f) {
+        if (hunter.isHidden && timer > 0f) {
             timer -= dt
             timerLabel.setText("${timer.toInt()}")
-            if (timerLabel.color.a == 0f)
-                timerLabel.addAction(Actions.fadeIn(.5f))
         } else if (timer <= 0f && timer >= -10f) {
             timer = -11f
             net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
-            timerLabel.addAction(Actions.sequence(
-                Actions.delay(2f), // hardcoded to fit with hunter reset
-                Actions.fadeOut(.5f)
-            ))
         }
+    }
+
+    private fun restartTimer() {
+        val duration = .125f
+        timerLabel.addAction(
+            Actions.sequence(
+                Actions.fadeOut(duration),
+                Actions.delay(3f),
+                Actions.run { timer = timerStartValue },
+                Actions.fadeIn(duration)
+            )
+        )
     }
 
     private fun accelerometer() {

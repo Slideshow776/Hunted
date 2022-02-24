@@ -28,7 +28,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private var jump = false
     private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
 
-    var hidden = true
+    var isHidden = true
     var inAction = false
     var layerNumber: Int = -1
 
@@ -94,7 +94,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     fun revealHunter() {
         clickBox.touchable = Touchable.disabled
         inAction = true
-        hidden = false
+        isHidden = false
         rotation = 0f
         jump = true
         setSpeed(4f)
@@ -128,7 +128,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     fun reset() {
         inAction = false
-        hidden = true
+        isHidden = true
         jump = false
         rotation = 0f
         setAnimation(idleAnimation)
