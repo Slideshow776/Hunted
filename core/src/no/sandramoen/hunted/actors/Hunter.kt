@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
+import no.sandramoen.hunted.utils.GameUtils
 
 class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
@@ -125,7 +126,10 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     }
 
     fun revealHunter() {
-        BaseGame.hornSound!!.stop()
+        addAction(Actions.sequence(
+            Actions.delay(GameUtils.shotTravelAmount(layerNumber)),
+            Actions.run { BaseGame.hornSound!!.stop() }
+        ))
         clickBox.touchable = Touchable.disabled
         inAction = true
         isHidden = false

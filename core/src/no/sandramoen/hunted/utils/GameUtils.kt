@@ -22,6 +22,7 @@ class GameUtils {
 
         fun playAmbientMusicWithRandomStart() {
             BaseGame.ambient1Music!!.play()
+            BaseGame.ambient1Music!!.volume = BaseGame.musicVolume
             BaseGame.ambient1Music!!.isLooping = true
             BaseGame.ambient1Music!!.position = MathUtils.random(0f, 97f)
         }
