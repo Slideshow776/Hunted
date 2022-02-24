@@ -5,7 +5,7 @@ _You are being hunted! Can you find the hunter before they find you?_
 
 [Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
 
-![demo of the game](https://user-images.githubusercontent.com/4059636/155170995-a3185c33-9eb1-4ea9-93a6-8789daf433c5.gif)
+![demo of the game](https://user-images.githubusercontent.com/4059636/155588323-9d5097fd-37f3-4dfe-90b4-8d3932e36ab8.gif)
 
 The hunter looks like this
 
