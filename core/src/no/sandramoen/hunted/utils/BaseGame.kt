@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Cursor
@@ -52,6 +53,10 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var swooshSound: Sound? = null
         var netFireSound: Sound? = null
         var netCaughtSound: Sound? = null
+        var ambient1Music: Music? = null
+        var ambient2Music: Music? = null
+        var level1Music: Music? = null
+        var level2Music: Music? = null
 
         // game state
         var prefs: Preferences? = null
@@ -89,7 +94,10 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("images/included/packed/hunted.pack.atlas", TextureAtlas::class.java)
 
             // music
-            // assetManager.load("audio/music/BNB_MX_INTRO.wav", Music::class.java)
+            assetManager.load("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
+            assetManager.load("audio/music/585806__klankbeeld__kampina-forest-spring-011-denoise-190322-1321.wav", Music::class.java)
+            assetManager.load("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
+            assetManager.load("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/Laser_Shoot28.wav", Sound::class.java)
@@ -118,7 +126,11 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             textureAtlas = assetManager.get("images/included/packed/hunted.pack.atlas") // all images are found in this global static variable
 
             // audio
-            // levelMusic = assetManager.get("audio/music/BNB_MX_LOOP.wav", Music::class.java)
+            ambient1Music = assetManager.get("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
+            ambient2Music = assetManager.get("audio/music/585806__klankbeeld__kampina-forest-spring-011-denoise-190322-1321.wav", Music::class.java)
+            level1Music = assetManager.get("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
+            level2Music = assetManager.get("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
+
             shotSound = assetManager.get("audio/sound/Laser_Shoot28.wav", Sound::class.java)
             swooshSound = assetManager.get("audio/sound/Hit_Hurt13.wav", Sound::class.java)
             netFireSound = assetManager.get("audio/sound/Laser_Shoot42.wav", Sound::class.java)

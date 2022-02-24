@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -14,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 
 class GameUtils {
     companion object {
-        private val tag = "GameUtils.kt"
 
         fun isTouchDownEvent(event: Event): Boolean { // Custom type checker
             return event is InputEvent && event.type == InputEvent.Type.touchDown
@@ -27,6 +27,20 @@ class GameUtils {
                 2 -> 2f
                 else -> 2.75f
             }
+        }
+
+        fun playRandomAmbientMusic() {
+            if (MathUtils.randomBoolean())
+                playAndLoopMusic(BaseGame.ambient1Music)
+            else
+                playAndLoopMusic(BaseGame.ambient2Music)
+        }
+
+        fun playRandomLevelMusic() {
+            if (MathUtils.randomBoolean())
+                playAndLoopMusic(BaseGame.level1Music)
+            else
+                playAndLoopMusic(BaseGame.level2Music)
         }
 
         fun saveGameState() {
@@ -46,21 +60,29 @@ class GameUtils {
         }
 
         fun stopAllMusic() {
-            // BaseGame.levelMusic!!.stop()
+            BaseGame.ambient1Music!!.stop()
+            BaseGame.ambient2Music!!.stop()
+            BaseGame.level1Music!!.stop()
+            BaseGame.level2Music!!.stop()
+        }
+
+        fun stopAmbientMusic() {
+            BaseGame.ambient1Music!!.stop()
+            BaseGame.ambient2Music!!.stop()
         }
 
         fun initShaderProgram(vertexShader: String?, fragmentShader: String?): ShaderProgram {
             ShaderProgram.pedantic = false
             val shaderProgram = ShaderProgram(vertexShader, fragmentShader)
-            if (!shaderProgram!!.isCompiled) Gdx.app.error(tag, "Couldn't compile shader: " + shaderProgram.log)
+            if (!shaderProgram.isCompiled)
+                Gdx.app.error(javaClass.simpleName, "Couldn't compile shader: " + shaderProgram.log)
             return shaderProgram
         }
 
         fun setMusicVolume(volume: Float) {
             if (volume > 1f || volume < 0f)
-                Gdx.app.error(tag, "setMusicVolume()'s parameter needs to be within [0-1]. Volume is: $volume")
+                Gdx.app.error(javaClass.simpleName, "Volume needs to be within [0-1]. Volume is: $volume")
             BaseGame.musicVolume = volume
-            // BaseGame.levelMusic!!.volume = BaseGame.musicVolume
         }
 
         fun playAndLoopMusic(music: Music?, volume: Float = BaseGame.musicVolume) {

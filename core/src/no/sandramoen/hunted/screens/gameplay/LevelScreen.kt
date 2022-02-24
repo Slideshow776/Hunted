@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.Input.Peripheral
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Touchable
@@ -33,7 +34,6 @@ class LevelScreen : BaseScreen() {
     private var storyEngine = StoryEngine(storyLabel, timer)
 
     override fun initialize() {
-
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
@@ -59,6 +59,9 @@ class LevelScreen : BaseScreen() {
         uiTable.add(timerLabel).expandY().top().padTop(padding).row()
         uiTable.add(storyLabel).bottom().padBottom(padding)
         /*uiTable.debug = true*/
+
+        GameUtils.playRandomAmbientMusic()
+        GameUtils.playRandomLevelMusic()
     }
 
     override fun update(dt: Float) {
@@ -85,6 +88,9 @@ class LevelScreen : BaseScreen() {
         timer = timerStartValue
         net.reset()
         hunter.reset()
+        GameUtils.stopAllMusic()
+        GameUtils.playRandomAmbientMusic()
+        GameUtils.playRandomLevelMusic()
     }
 
     private fun updateTimer(dt: Float) {
@@ -98,6 +104,7 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun restartTimer() {
+        GameUtils.stopAmbientMusic()
         val duration = .125f
         timerLabel.addAction(
             Actions.sequence(
