@@ -121,7 +121,7 @@ Read on below for project specifics.
     This game will be made available for free on desktop. It will be deployed on the Google Play store for a small fee and advertised to various indie game-portal websites (LibGDX, Reddit, ...). Gameplay images and a trailer video will be posted and marketed via social media.
 
 ## Credits
-Ambient forest sounds by [klankbeeld](https://freesound.org/people/klankbeeld/) on [freesounds.org](freesound.org).
+Ambient forest sounds by [klankbeeld](https://freesound.org/people/klankbeeld/) on [freesound.org](freesound.org).
 
 ## Project comments
 Found out `.ttf` fonts can have a shadow, like this:
