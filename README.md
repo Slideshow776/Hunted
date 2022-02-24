@@ -136,7 +136,7 @@ Music by [neolein](https://freesound.org/people/neolein/) on [freesound.org](fre
    ```
    ambient1Music.position = MathUtils.random(0f, 97f)
    ```
-   This particular setup randomizes ambient music, so that the player dosen't hear the same sounds all the time upon starting a new game.
+   This particular setup randomizes ambient music (in seconds), so that the player dosen't hear the same sounds all the time upon starting a new game.
 
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Hunted/commits/main).
