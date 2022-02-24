@@ -50,7 +50,9 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         setMaxSpeed(5f)
         setDeceleration(10f)
 
-        // color = lightYellowBrown // debug
+        slowBreathing()
+
+        // color = Color.PINK // debug
     }
 
     override fun act(dt: Float) {
@@ -58,6 +60,13 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         if (jump)
             accelerateAtAngle(270f)
         applyPhysics(dt)
+    }
+
+    private fun slowBreathing() {
+        addAction(Actions.forever(Actions.sequence(
+            Actions.scaleBy(0f, .125f, 4f),
+            Actions.scaleBy(0f, -.125f, 4f)
+        )))
     }
 
     private fun animationSetUp() {

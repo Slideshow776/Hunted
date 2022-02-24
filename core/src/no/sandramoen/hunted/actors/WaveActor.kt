@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.glutils.ShaderProgram
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
@@ -28,6 +29,7 @@ class WaveActor(
         loadImage("$path")
         setSize(BaseGame.WORLD_WIDTH, BaseGame.WORLD_HEIGHT)
         shaderProgram = GameUtils.initShaderProgram(BaseGame.defaultShader, BaseGame.waveShader)
+        touchable = Touchable.disabled
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {
