@@ -20,15 +20,10 @@ import no.sandramoen.hunted.utils.*
 
 class LevelScreen : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
-    private val isAccelerometerAvailable = input.isPeripheralAvailable(Peripheral.Accelerometer)
-    private val accelerometerXOffset =
-        6f // offsets the device to a tilted position towards the player
-    private val mouseMovedDeadZone = .5f
-    private val desktopLayerShuffleModifier = .5f
+    private lateinit var io: IO
 
     private lateinit var hunter: Hunter
     private lateinit var net: Net
-    private var mousePosition = Vector2(50f, 50f)
 
     private val timerStartValue = 61f
     private var timer = timerStartValue
@@ -39,23 +34,13 @@ class LevelScreen : BaseScreen() {
 
     override fun initialize() {
 
-        forestLayers.add(
-            ForestLayer(
-                mainStage,
-                "forest/Layer 5",
-                Color(0.627f, 0.867f, 0.827f, 1f)
-            )
-        )
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
-        forestLayers.add(
-            ForestLayer(
-                mainStage,
-                "forest/Layer 3",
-                Color(0.341f, 0.498f, 0.616f, 1f)
-            )
-        )
+        forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
+
+        io = IO(forestLayers)
 
         for (layer in forestLayers)
             layer.touchable = Touchable.disabled
@@ -79,7 +64,7 @@ class LevelScreen : BaseScreen() {
     override fun update(dt: Float) {
         for (i in 0 until forestLayers.size)
             forestLayers[i].act(dt)
-        accelerometer()
+        io.accelerometer()
         updateTimer(dt)
         storyEngine.update(dt, timer)
         if (!hunter.isHidden)
@@ -87,26 +72,12 @@ class LevelScreen : BaseScreen() {
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
-        val worldCoordinates = camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0f))
-
-        if ((worldCoordinates.x - mousePosition.x) < -mouseMovedDeadZone && forestLayers.last().x <= 1f) {
-            shuffleLayersRight(desktopLayerShuffleModifier)
-        } else if ((worldCoordinates.x - mousePosition.x) > mouseMovedDeadZone && forestLayers.last().x >= -1f) {
-            shuffleLayersLeft(desktopLayerShuffleModifier)
-        }
-
-        if ((worldCoordinates.y - mousePosition.y) < -mouseMovedDeadZone && forestLayers.last().y <= 1f) {
-            shuffleLayersUp(desktopLayerShuffleModifier)
-        } else if ((worldCoordinates.y - mousePosition.y) > mouseMovedDeadZone && forestLayers.last().y >= -1f) {
-            shuffleLayersDown(desktopLayerShuffleModifier)
-        }
-        mousePosition = Vector2(worldCoordinates.x, worldCoordinates.y)
+        io.mouseMoved(camera, screenX, screenY)
         return super.mouseMoved(screenX, screenY)
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Input.Keys.R)
-            reset()
+        if (keycode == Input.Keys.R) reset()
         return super.keyDown(keycode)
     }
 
@@ -136,51 +107,5 @@ class LevelScreen : BaseScreen() {
                 Actions.fadeIn(duration)
             )
         )
-    }
-
-    private fun accelerometer() {
-        if (isAccelerometerAvailable) {
-            if (input.accelerometerY > 1f && forestLayers.last().x <= 1f)
-                shuffleLayersRight()
-            else if (input.accelerometerY < -1f && forestLayers.last().x >= -1f)
-                shuffleLayersLeft()
-
-            if (input.accelerometerX > 1f + accelerometerXOffset && forestLayers.last().y <= 1f)
-                shuffleLayersUp()
-            else if (input.accelerometerX < -1f + accelerometerXOffset && forestLayers.last().y >= -1f)
-                shuffleLayersDown()
-        }
-    }
-
-    private fun shuffleLayersRight(modifier: Float = 1f) {
-        var shuffleLength = .00125f * modifier
-        for (layer in forestLayers) {
-            layer.x += shuffleLength
-            shuffleLength *= 2
-        }
-    }
-
-    private fun shuffleLayersLeft(modifier: Float = 1f) {
-        var shuffleLength = .00125f * modifier
-        for (layer in forestLayers) {
-            layer.x -= shuffleLength
-            shuffleLength *= 2
-        }
-    }
-
-    private fun shuffleLayersUp(modifier: Float = 1f) {
-        var shuffleLength = .00125f * modifier
-        for (layer in forestLayers) {
-            layer.y += shuffleLength
-            shuffleLength *= 2
-        }
-    }
-
-    private fun shuffleLayersDown(modifier: Float = 1f) {
-        var shuffleLength = .00125f * modifier
-        for (layer in forestLayers) {
-            layer.y -= shuffleLength
-            shuffleLength *= 2
-        }
     }
 }
