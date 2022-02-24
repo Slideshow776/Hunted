@@ -105,7 +105,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     private fun initializeClickBox() {
         clickBox = BaseActor(x, y, stage)
-        clickBox.setSize(width * .75f * BaseGame.RATIO, height * 2)
+        val scale = 2f
+        clickBox.setSize(width * .75f * BaseGame.RATIO * scale, height * 2 * scale)
         clickBox.centerAtActor(this)
         clickBox.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -113,7 +114,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
                 revealHunter()
             }
         })
-        /*clickBox.debug = true*/
+        clickBox.debug = true
     }
 
     fun blowHorn() {
