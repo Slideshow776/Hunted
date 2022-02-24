@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -55,7 +56,7 @@ class LevelScreen : BaseScreen() {
         uiTable.add(storyLabel).bottom().padBottom(padding)
         /*uiTable.debug = true*/
 
-        GameUtils.playRandomAmbientMusic()
+        GameUtils.playAmbientMusicWithRandomStart()
         GameUtils.playRandomLevelMusic()
     }
 
@@ -85,7 +86,7 @@ class LevelScreen : BaseScreen() {
         net.reset()
         hunter.reset()
         GameUtils.stopAllMusic()
-        GameUtils.playRandomAmbientMusic()
+        GameUtils.playAmbientMusicWithRandomStart()
         GameUtils.playRandomLevelMusic()
     }
 

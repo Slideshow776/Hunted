@@ -20,6 +20,12 @@ class GameUtils {
             return event is InputEvent && event.type == InputEvent.Type.touchDown
         }
 
+        fun playAmbientMusicWithRandomStart() {
+            BaseGame.ambient1Music!!.play()
+            BaseGame.ambient1Music!!.isLooping = true
+            BaseGame.ambient1Music!!.position = MathUtils.random(0f, 97f)
+        }
+
         fun shotTravelAmount(layer: Int): Float {
             return when (layer) {
                 4 -> .75f
@@ -27,13 +33,6 @@ class GameUtils {
                 2 -> 2f
                 else -> 2.75f
             }
-        }
-
-        fun playRandomAmbientMusic() {
-            if (MathUtils.randomBoolean())
-                playAndLoopMusic(BaseGame.ambient1Music)
-            else
-                playAndLoopMusic(BaseGame.ambient2Music)
         }
 
         fun playRandomLevelMusic() {
@@ -61,14 +60,12 @@ class GameUtils {
 
         fun stopAllMusic() {
             BaseGame.ambient1Music!!.stop()
-            BaseGame.ambient2Music!!.stop()
             BaseGame.level1Music!!.stop()
             BaseGame.level2Music!!.stop()
         }
 
         fun stopAmbientMusic() {
             BaseGame.ambient1Music!!.stop()
-            BaseGame.ambient2Music!!.stop()
         }
 
         fun initShaderProgram(vertexShader: String?, fragmentShader: String?): ShaderProgram {

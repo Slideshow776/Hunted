@@ -55,7 +55,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var netCaughtSound: Sound? = null
         var hornSound: Sound? = null
         var ambient1Music: Music? = null
-        var ambient2Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
 
@@ -96,7 +95,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
             // music
             assetManager.load("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
-            assetManager.load("audio/music/585806__klankbeeld__kampina-forest-spring-011-denoise-190322-1321.wav", Music::class.java)
             assetManager.load("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
             assetManager.load("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
 
@@ -129,7 +127,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
             // audio
             ambient1Music = assetManager.get("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
-            ambient2Music = assetManager.get("audio/music/585806__klankbeeld__kampina-forest-spring-011-denoise-190322-1321.wav", Music::class.java)
             level1Music = assetManager.get("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
             level2Music = assetManager.get("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
 
