@@ -125,12 +125,18 @@ Ambient forest sounds by [klankbeeld](https://freesound.org/people/klankbeeld/) 
 Music by [neolein](https://freesound.org/people/neolein/) on [freesound.org](freesound.org).
 
 ## Project comments
-Found out `.ttf` fonts can have a shadow, like this:
-```
-fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
-fontParameters.shadowOffsetX = 2
-fontParameters.shadowOffsetY = 2
-```
+* Found out `.ttf` fonts can have a shadow, like this:
+   ```
+   fontParameters.shadowColor = Color(0f, 0f, 0f, .25f)
+   fontParameters.shadowOffsetX = 2
+   fontParameters.shadowOffsetY = 2
+   ```
+   
+* Music can be started at arbitraty positions like this: 
+   ```
+   ambient1Music.position = MathUtils.random(0f, 97f)
+   ```
+   This particular setup randomizes ambient music, so that the player dosen't hear the same sounds all the time upon starting a new game.
 
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Hunted/commits/main).
