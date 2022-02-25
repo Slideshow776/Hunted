@@ -54,6 +54,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var netFireSound: Sound? = null
         var netCaughtSound: Sound? = null
         var hornSound: Sound? = null
+        var heartBeatSlowerSound: Sound? = null
+        var heartBeatFasterSound: Sound? = null
         var ambient1Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
@@ -104,6 +106,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/Laser_Shoot42.wav", Sound::class.java)
             assetManager.load("audio/sound/Explosion9.wav", Sound::class.java)
             assetManager.load("audio/sound/218488__danmitch3ll__distant-horns.wav", Sound::class.java)
+            assetManager.load("audio/sound/heartBeatSlower.wav", Sound::class.java)
+            assetManager.load("audio/sound/heartBeatFaster.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -135,6 +139,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             netFireSound = assetManager.get("audio/sound/Laser_Shoot42.wav", Sound::class.java)
             netCaughtSound = assetManager.get("audio/sound/Explosion9.wav", Sound::class.java)
             hornSound = assetManager.get("audio/sound/218488__danmitch3ll__distant-horns.wav", Sound::class.java)
+            heartBeatSlowerSound = assetManager.get("audio/sound/heartBeatSlower.wav", Sound::class.java)
+            heartBeatFasterSound = assetManager.get("audio/sound/heartBeatFaster.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 

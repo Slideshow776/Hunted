@@ -93,6 +93,7 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun cinematicOpening() {
+        BaseGame.heartBeatSlowerSound!!.play(BaseGame.soundVolume * .6f)
         val duration = 10f
         forestLayers.last().fog.makeInvisible()
         forestLayers.last().fog.delayedFadeIn(duration)
@@ -102,6 +103,7 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun cinematicClosing() {
+        BaseGame.heartBeatFasterSound!!.play(BaseGame.soundVolume * .6f)
         gameOver = true
         val delayDuration = 8f
         forestLayers.last().fog.clearActions()
@@ -119,7 +121,6 @@ class LevelScreen : BaseScreen() {
 
         if (!net.isShot)
             storyEngine.triggerFound()
-        GameUtils.stopAmbientMusic()
         timerLabel.addAction(
             Actions.sequence(
                 Actions.delay(2f),
@@ -128,6 +129,8 @@ class LevelScreen : BaseScreen() {
                 Actions.run {
                     GameUtils.stopAmbientMusic()
                     GameUtils.stopAllMusic()
+                    BaseGame.heartBeatSlowerSound!!.stop()
+                    BaseGame.heartBeatFasterSound!!.stop()
                     BaseGame.setActiveScreen(LevelScreen())
                 }
             )
