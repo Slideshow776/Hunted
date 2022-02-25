@@ -12,6 +12,8 @@ import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
 class Net(x: Float, y: Float, s: Stage) : BaseActor(x, y, s) {
+    var isShot = false
+
     init {
         loadImage("net")
         setSize(1f, 1f)
@@ -20,6 +22,7 @@ class Net(x: Float, y: Float, s: Stage) : BaseActor(x, y, s) {
     }
 
     fun shoot(x: Float, y: Float, travelAmount: Float) {
+        isShot = true
         centerAtPosition(x, y)
         color.a = 1f
         addAction(
@@ -33,6 +36,7 @@ class Net(x: Float, y: Float, s: Stage) : BaseActor(x, y, s) {
     }
 
     fun reset() {
+        isShot = false
         actions.clear()
         setScale(1f, 1f)
         color.a = 0f

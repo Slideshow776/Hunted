@@ -117,15 +117,19 @@ class LevelScreen : BaseScreen() {
             Actions.fadeOut(2f)
         ))
 
-        storyEngine.triggerFound()
+        if (!net.isShot)
+            storyEngine.triggerFound()
         GameUtils.stopAmbientMusic()
         timerLabel.addAction(
             Actions.sequence(
                 Actions.delay(2f),
-                Actions.run { storyEngine.pause = true },
                 Actions.fadeOut(.125f),
                 Actions.delay(delayDuration * .6f),
-                Actions.run { BaseGame.setActiveScreen(LevelScreen()) }
+                Actions.run {
+                    GameUtils.stopAmbientMusic()
+                    GameUtils.stopAllMusic()
+                    BaseGame.setActiveScreen(LevelScreen())
+                }
             )
         )
     }
