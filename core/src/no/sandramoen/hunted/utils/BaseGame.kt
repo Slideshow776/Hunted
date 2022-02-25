@@ -58,6 +58,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var heartBeatFasterSound: Sound? = null
         var pantingFadeInSound: Sound? = null
         var pantingFadeOutSound: Sound? = null
+        var bushSound: Sound? = null
         var ambient1Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
@@ -112,6 +113,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/heartBeatFaster.wav", Sound::class.java)
             assetManager.load("audio/sound/pantingFadeIn.wav", Sound::class.java)
             assetManager.load("audio/sound/pantingFadeOut.wav", Sound::class.java)
+            assetManager.load("audio/sound/bushesCracking.wav", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -147,6 +149,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             heartBeatFasterSound = assetManager.get("audio/sound/heartBeatFaster.wav", Sound::class.java)
             pantingFadeInSound = assetManager.get("audio/sound/pantingFadeIn.wav", Sound::class.java)
             pantingFadeOutSound = assetManager.get("audio/sound/pantingFadeOut.wav", Sound::class.java)
+            bushSound = assetManager.get("audio/sound/bushesCracking.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 

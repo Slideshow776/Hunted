@@ -95,6 +95,7 @@ class LevelScreen : BaseScreen() {
     private fun cinematicOpening() {
         BaseGame.heartBeatSlowerSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeOutSound!!.play(BaseGame.soundVolume * .6f)
+        BaseGame.bushSound!!.play(BaseGame.soundVolume)
         val duration = 10f
         forestLayers.last().fog.makeInvisible()
         forestLayers.last().fog.delayedFadeIn(duration)
@@ -126,6 +127,7 @@ class LevelScreen : BaseScreen() {
         timerLabel.addAction(
             Actions.sequence(
                 Actions.delay(2f),
+                Actions.run { BaseGame.bushSound!!.play(BaseGame.soundVolume) },
                 Actions.fadeOut(.125f),
                 Actions.delay(delayDuration * .6f),
                 Actions.run {
