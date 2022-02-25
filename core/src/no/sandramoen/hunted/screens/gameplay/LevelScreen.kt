@@ -94,6 +94,7 @@ class LevelScreen : BaseScreen() {
 
     private fun cinematicOpening() {
         BaseGame.heartBeatSlowerSound!!.play(BaseGame.soundVolume * .6f)
+        BaseGame.pantingFadeOutSound!!.play(BaseGame.soundVolume * .6f)
         val duration = 10f
         forestLayers.last().fog.makeInvisible()
         forestLayers.last().fog.delayedFadeIn(duration)
@@ -104,6 +105,7 @@ class LevelScreen : BaseScreen() {
 
     private fun cinematicClosing() {
         BaseGame.heartBeatFasterSound!!.play(BaseGame.soundVolume * .6f)
+        BaseGame.pantingFadeInSound!!.play(BaseGame.soundVolume)
         gameOver = true
         val delayDuration = 8f
         forestLayers.last().fog.clearActions()
