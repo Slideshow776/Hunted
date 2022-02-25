@@ -165,9 +165,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
                     Actions.delay(.75f),
                     Actions.fadeOut(1.75f)
                 )
-            ),
-            Actions.delay(2.5f),
-            Actions.run { reset() }
+            )
         ))
     }
 

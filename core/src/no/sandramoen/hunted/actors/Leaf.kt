@@ -3,6 +3,7 @@ package no.sandramoen.hunted.actors
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.utils.BaseActor
@@ -11,6 +12,7 @@ import no.sandramoen.hunted.utils.BaseGame
 class Leaf(x: Float, y: Float, s: Stage, color: Color, layer: Int) : BaseActor(x, y, s) {
     init {
         loadImage("leaf")
+        touchable = Touchable.disabled
 
         val scale = 1f
         when (layer) {

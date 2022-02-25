@@ -9,7 +9,11 @@ class StoryEngine(var label: Label, var timer: Float) {
     private var storyText = ""
     private var resetTypeWriter = { typeWriterElapsedTime = 0f }
 
+    var pause = false
+
     fun update(dt: Float, timer: Float) {
+        if (pause) return
+
         this.timer = timer
         if (timer.toInt() == 58) {
             resetTypeWriter()

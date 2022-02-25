@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -22,12 +22,14 @@ class LevelScreen : BaseScreen() {
     private lateinit var hunter: Hunter
     private lateinit var net: Net
 
-    private val timerStartValue = 61f
+    private val timerStartValue = 63f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.labelStyle)
     private var storyEngine = StoryEngine(storyLabel, timer)
+
+    private var gameOver = false
 
     override fun initialize() {
         forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
@@ -38,8 +40,13 @@ class LevelScreen : BaseScreen() {
 
         io = IO(forestLayers)
 
-        for (layer in forestLayers)
+        for (layer in forestLayers) {
             layer.touchable = Touchable.disabled
+            layer.y = 100f
+        }
+        forestLayers.last().scaleY = 1.001f
+        forestLayers.last().y -= .5f
+        cinematicOpening()
 
         hunter = Hunter(mainStage, forestLayers)
         net = Net(hunter.x, hunter.y, mainStage)
@@ -49,7 +56,11 @@ class LevelScreen : BaseScreen() {
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
 
-        timerLabel.color = Color(0.859f, 0.788f, 0.706f, 1f)
+        timerLabel.color = Color(0.859f, 0.788f, 0.706f, 0f)
+        timerLabel.addAction(Actions.sequence(
+            Actions.delay(2f),
+            Actions.fadeIn(.125f)
+        ))
         storyLabel.color = Color(0.988f, 0.925f, 0.82f, 1f)
         val padding = Gdx.graphics.height * .01f
         uiTable.add(timerLabel).expandY().top().padTop(padding).row()
@@ -66,8 +77,8 @@ class LevelScreen : BaseScreen() {
         io.accelerometer()
         updateTimer(dt)
         storyEngine.update(dt, timer)
-        if (!hunter.isHidden)
-            restartTimer()
+        if (!hunter.isHidden && !gameOver)
+            cinematicClosing()
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -75,10 +86,48 @@ class LevelScreen : BaseScreen() {
         return super.mouseMoved(screenX, screenY)
     }
 
-    override fun keyDown(keycode: Int): Boolean {
+    override fun keyDown(keycode: Int): Boolean { // debugging purposes
         if (keycode == Input.Keys.R) reset()
         if (keycode == Input.Keys.T) hunter.blowHorn()
         return super.keyDown(keycode)
+    }
+
+    private fun cinematicOpening() {
+        val duration = 10f
+        forestLayers.last().fog.makeInvisible()
+        forestLayers.last().fog.delayedFadeIn(duration)
+        for (layer in forestLayers) {
+            layer.addAction(Actions.moveBy(0f, -100f, duration, Interpolation.exp10Out))
+        }
+    }
+
+    private fun cinematicClosing() {
+        gameOver = true
+        val delayDuration = 8f
+        forestLayers.last().fog.clearActions()
+        forestLayers.last().fog.delayedFadeOut(delayDuration)
+        for (layer in forestLayers) {
+            layer.addAction(Actions.sequence(
+                    Actions.delay(delayDuration),
+                    Actions.moveBy(0f, 100f, 10f, Interpolation.exp10Out)
+            ))
+        }
+        net.addAction(Actions.sequence(
+            Actions.delay(delayDuration),
+            Actions.fadeOut(2f)
+        ))
+
+        storyEngine.triggerFound()
+        GameUtils.stopAmbientMusic()
+        timerLabel.addAction(
+            Actions.sequence(
+                Actions.delay(2f),
+                Actions.run { storyEngine.pause = true },
+                Actions.fadeOut(.125f),
+                Actions.delay(delayDuration * .6f),
+                Actions.run { BaseGame.setActiveScreen(LevelScreen()) }
+            )
+        )
     }
 
     private fun reset() {
@@ -99,28 +148,12 @@ class LevelScreen : BaseScreen() {
             net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
             hunter.clickBox.touchable = Touchable.disabled
             storyEngine.triggerCaught()
+            cinematicClosing()
         }
 
         if (timer.toInt() == 15 && hunter.isNotBlowingHorn) {
             hunter.blowHorn()
             storyEngine.triggerHornSound()
-        }
-    }
-
-    private fun restartTimer() {
-        if (!timerLabel.hasActions()) {
-            storyEngine.triggerFound()
-            GameUtils.stopAmbientMusic()
-            timer = timerStartValue
-            val duration = .125f
-            timerLabel.addAction(
-                Actions.sequence(
-                    Actions.delay(1.5f),
-                    Actions.fadeOut(duration),
-                    Actions.delay(1.5f),
-                    Actions.fadeIn(duration)
-                )
-            )
         }
     }
 }
