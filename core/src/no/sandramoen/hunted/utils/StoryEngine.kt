@@ -17,13 +17,13 @@ class StoryEngine(var label: Label, var timer: Float) {
         this.timer = timer
         if (timer.toInt() == 58) {
             resetTypeWriter()
-            storyText = "You're being hunted!"
+            storyText = BaseGame.myBundle!!.get("level1_intro1")
         } else if (timer.toInt() == 53) {
             resetTypeWriter()
-            storyText = "Find the hunter, before it sees you first..."
+            storyText = BaseGame.myBundle!!.get("level1_intro2")
         } else if (timer.toInt() == 30) {
             resetTypeWriter()
-            storyText = "It's still out there..."
+            storyText = BaseGame.myBundle!!.get("level_middle")
         }
 
         typeWriter(dt)
@@ -31,17 +31,17 @@ class StoryEngine(var label: Label, var timer: Float) {
 
     fun triggerHornSound() {
         resetTypeWriter()
-        storyText = "Do you hear that?"
+        storyText = BaseGame.myBundle!!.get("horn_blow")
     }
 
     fun triggerFound() {
         resetTypeWriter
-        storyText = "Run!"
+        storyText = BaseGame.myBundle!!.get("run")
     }
 
     fun triggerCaught() {
         resetTypeWriter()
-        storyText = "It caught you!"
+        storyText = BaseGame.myBundle!!.get("caught")
     }
 
     private fun typeWriter(dt: Float): Boolean {

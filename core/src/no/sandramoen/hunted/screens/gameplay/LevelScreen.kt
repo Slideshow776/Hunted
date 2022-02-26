@@ -32,11 +32,11 @@ class LevelScreen : BaseScreen() {
     private var gameOver = false
 
     override fun initialize() {
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
 
         io = IO(forestLayers)
 

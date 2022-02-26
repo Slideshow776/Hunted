@@ -1,9 +1,11 @@
 package no.sandramoen.hunted.utils
 
 import com.badlogic.gdx.*
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
@@ -20,8 +22,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
+import com.badlogic.gdx.utils.I18NBundle
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader.I18NBundleParameter
+import java.util.*
 import kotlin.system.measureTimeMillis
-
 
 abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: String) : Game(), AssetErrorListener {
     private val tag = "BaseGame.kt"
@@ -69,6 +73,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var soundVolume = .75f
         var musicVolume = .5f
         var isGPS = false
+        var currentLocale: String? = null
+        var myBundle: I18NBundle? = null
 
         fun setActiveScreen(screen: BaseScreen) {
             screen.initialize()
@@ -77,12 +83,12 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
     }
 
     override fun create() {
-        Gdx.input.setCatchKey(Input.Keys.BACK, true) // so that android doesn't exit game on back button
+        Gdx.input.setCatchKey(Keys.BACK, true) // so that android doesn't exit game on back button
         Gdx.input.inputProcessor = InputMultiplexer() // discrete input
 
         // global variables
         gps = this.googlePlayServices
-
+        currentLocale = appLocale // TODO: Move this inside if block below
         GameUtils.loadGameState()
         if (!loadPersonalParameters) {
             soundVolume = .75f
@@ -125,7 +131,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // assetManager.load("skins/arcade/arcade.json", Skin::class.java)
 
             // i18n
-            // assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleParameter(Locale(currentLocale)))
+            assetManager.load("i18n/MyBundle", I18NBundle::class.java, I18NBundleParameter(Locale(currentLocale)))
 
             // shaders
             assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
@@ -161,7 +167,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)
 
             // i18n
-            // myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
+            myBundle = assetManager["i18n/MyBundle", I18NBundle::class.java]
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android
