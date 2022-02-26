@@ -17,15 +17,11 @@ class ForestLayer(stage: Stage, path: String, color: Color) : BaseActor(0f, 0f, 
 
         val layer = path.substring(path.length - 1).toInt()
         if (layer < 5) {
-            addActor(WaveActor(0f, 0f, stage, "$path - vinesThin"))
-            addActor(WaveActor(0f, 0f, stage, "$path - vinesMedium"))
-            addActor(WaveActor(0f, 0f, stage, "$path - vinesThick"))
-
-            fog = FogLayer(0f, 0f, stage, "$path - fog")
-            addActor(fog)
-
-            for (i in 0..MathUtils.random(25, 150))
-                addActor(Leaf(50f, 50f, stage, color, layer))
+            treeLayerInit(path)
+            addVines(path)
+            addFog(path)
+            addLeaves(layer)
+            addBirds(layer)
         }
     }
 
@@ -34,5 +30,26 @@ class ForestLayer(stage: Stage, path: String, color: Color) : BaseActor(0f, 0f, 
         treeLayer.loadImage(path)
         treeLayer.setSize(BaseGame.WORLD_WIDTH, BaseGame.WORLD_HEIGHT)
         addActor(treeLayer)
+    }
+
+    private fun addVines(path: String) {
+        addActor(WaveActor(0f, 0f, stage, "$path - vinesThin"))
+        addActor(WaveActor(0f, 0f, stage, "$path - vinesMedium"))
+        addActor(WaveActor(0f, 0f, stage, "$path - vinesThick"))
+    }
+
+    private fun addFog(path: String) {
+        fog = FogLayer(0f, 0f, stage, "$path - fog")
+        addActor(fog)
+    }
+
+    private fun addLeaves(layer: Int) {
+        for (i in 0..MathUtils.random(25, 150))
+            addActor(Leaf(50f, 50f, stage, color, layer))
+    }
+
+    private fun addBirds(layer: Int) {
+        for (i in 0 until MathUtils.random(0, 5))
+            addActor(Bird(45f, 50f, stage, color, layer))
     }
 }

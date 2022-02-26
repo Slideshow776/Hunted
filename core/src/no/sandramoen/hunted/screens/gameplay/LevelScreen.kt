@@ -9,10 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
-import no.sandramoen.hunted.actors.ForestLayer
-import no.sandramoen.hunted.actors.Hunter
-import no.sandramoen.hunted.actors.Net
-import no.sandramoen.hunted.actors.Vignette
+import no.sandramoen.hunted.actors.*
 import no.sandramoen.hunted.utils.*
 
 class LevelScreen : BaseScreen() {
@@ -89,6 +86,7 @@ class LevelScreen : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean { // debugging purposes
         if (keycode == Input.Keys.R) reset()
         if (keycode == Input.Keys.T) hunter.blowHorn()
+        if (keycode == Input.Keys.Q) timer = timerStartValue
         return super.keyDown(keycode)
     }
 
