@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Interpolation
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -29,11 +30,12 @@ class LevelScreen : BaseScreen() {
     private var gameOver = false
 
     override fun initialize() {
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f)))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f)))
+        val lightRayRotation = MathUtils.random(-15f, 15f)
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
 
         io = IO(forestLayers)
 
@@ -41,7 +43,7 @@ class LevelScreen : BaseScreen() {
             layer.touchable = Touchable.disabled
             layer.y = 100f
         }
-        forestLayers.last().scaleY = 1.001f
+        forestLayers.last().scaleY = 1.002f
         forestLayers.last().y -= .5f
         cinematicOpening()
 
@@ -93,7 +95,7 @@ class LevelScreen : BaseScreen() {
     private fun cinematicOpening() {
         BaseGame.heartBeatSlowerSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeOutSound!!.play(BaseGame.soundVolume * .6f)
-        BaseGame.bushSound!!.play(BaseGame.soundVolume)
+        BaseGame.bushSound!!.play(BaseGame.soundVolume, MathUtils.random(.9f, 1.1f), 0f)
         val duration = 10f
         forestLayers.last().fog.makeInvisible()
         forestLayers.last().fog.delayedFadeIn(duration)
@@ -125,7 +127,7 @@ class LevelScreen : BaseScreen() {
         timerLabel.addAction(
             Actions.sequence(
                 Actions.delay(2f),
-                Actions.run { BaseGame.bushSound!!.play(BaseGame.soundVolume) },
+                Actions.run { BaseGame.bushSound!!.play(BaseGame.soundVolume, MathUtils.random(.9f, 1.1f), 0f) },
                 Actions.fadeOut(.125f),
                 Actions.delay(delayDuration * .6f),
                 Actions.run {
