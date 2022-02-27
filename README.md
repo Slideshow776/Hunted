@@ -1,5 +1,5 @@
 # Hunted
-A pattern recognition game.
+A survival horror pattern recognition game.
 
 _You are being hunted! Can you find the hunter before they find you?_
 
