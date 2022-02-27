@@ -26,7 +26,7 @@ class LevelScreen : BaseScreen() {
     private var timerLabel = Label("$timer", BaseGame.labelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.labelStyle)
-    private var storyEngine = StoryEngine(storyLabel, timer)
+    private var storyEngine = StoryEngine(storyLabel)
 
     private var gameOver = false
 

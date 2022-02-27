@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
-import com.badlogic.gdx.assets.loaders.I18NBundleLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
@@ -63,6 +62,12 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var pantingFadeInSound: Sound? = null
         var pantingFadeOutSound: Sound? = null
         var bushSound: Sound? = null
+        var caughtVoiceSound: Sound? = null
+        var horn_blowVoiceSound: Sound? = null
+        var level1_intro2VoiceSound: Sound? = null
+        var runVoiceSound: Sound? = null
+        var level_middleVoiceSound: Sound? = null
+        var level1_intro1VoiceSound: Sound? = null
         var ambient1Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
@@ -121,6 +126,13 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/pantingFadeOut.wav", Sound::class.java)
             assetManager.load("audio/sound/bushesCracking.wav", Sound::class.java)
 
+            assetManager.load("audio/sound/story/caught.wav", Sound::class.java)
+            assetManager.load("audio/sound/story/do you hear that.wav", Sound::class.java)
+            assetManager.load("audio/sound/story/find the hunter.wav", Sound::class.java)
+            assetManager.load("audio/sound/story/run!.wav", Sound::class.java)
+            assetManager.load("audio/sound/story/still out there.wav", Sound::class.java)
+            assetManager.load("audio/sound/story/you're being hunted.wav", Sound::class.java)
+
             // fonts
             val resolver = InternalFileHandleResolver()
             assetManager.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
@@ -156,6 +168,13 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             pantingFadeInSound = assetManager.get("audio/sound/pantingFadeIn.wav", Sound::class.java)
             pantingFadeOutSound = assetManager.get("audio/sound/pantingFadeOut.wav", Sound::class.java)
             bushSound = assetManager.get("audio/sound/bushesCracking.wav", Sound::class.java)
+
+            caughtVoiceSound = assetManager.get("audio/sound/story/caught.wav", Sound::class.java)
+            horn_blowVoiceSound = assetManager.get("audio/sound/story/do you hear that.wav", Sound::class.java)
+            level1_intro2VoiceSound = assetManager.get("audio/sound/story/find the hunter.wav", Sound::class.java)
+            runVoiceSound = assetManager.get("audio/sound/story/run!.wav", Sound::class.java)
+            level_middleVoiceSound = assetManager.get("audio/sound/story/still out there.wav", Sound::class.java)
+            level1_intro1VoiceSound = assetManager.get("audio/sound/story/you're being hunted.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
 
