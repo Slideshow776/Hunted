@@ -7,11 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.forest.ForestLayer
@@ -42,12 +40,9 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     init {
         animationSetUp()
-        val scale = 1f
-        setSize(1.25f * scale, 1f * BaseGame.RATIO * scale)
-        setOrigin(Align.center)
 
         initializeClickBox()
-        setUpLayerAndPosition()
+        setUpLayerPositionAndSize()
 
         setAcceleration(10f)
         setMaxSpeed(5f)
@@ -69,14 +64,26 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     private fun initializeClickBox() {
         clickBox = BaseActor(x, y, stage)
-        val scale = 2f
-        clickBox.setSize(width * .75f * BaseGame.RATIO * scale, height * 2 * scale)
         clickBox.centerAtActor(this)
         clickBox.addListener { e: Event ->
             if (isTouchDownEvent(e)) { revealHunter() }
             false
         }
         /*clickBox.debug = true*/
+    }
+
+    private fun setSize() {
+        val hunterScale = 1f
+        when (layerNumber) {
+            1 -> setSize(1.25f * hunterScale, 1f * BaseGame.RATIO * hunterScale)
+            2 -> setSize(1.4f * hunterScale, 1.12f * BaseGame.RATIO * hunterScale)
+            3 -> setSize(1.6f * hunterScale, 1.263f * BaseGame.RATIO * hunterScale)
+            4 -> setSize(1.8f * hunterScale, 1.388f * BaseGame.RATIO * hunterScale)
+        }
+        setOrigin(Align.center)
+        val clickScale = 2f
+        clickBox.setSize(width * .75f * BaseGame.RATIO * clickScale, height * 2 * clickScale)
+        clickBox.centerAtActor(this)
     }
 
     private fun slowBreathing() {
@@ -120,6 +127,13 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         setAnimation(idleAnimation)
     }
 
+    private fun stopBlowingHorn() {
+        addAction(Actions.sequence(
+            Actions.delay(GameUtils.shotTravelAmount(layerNumber)),
+            Actions.run { BaseGame.hornSound!!.stop() }
+        ))
+    }
+
     fun blowHorn() {
         if (isHidden) {
             isNotBlowingHorn = false
@@ -139,10 +153,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     }
 
     fun revealHunter() {
-        addAction(Actions.sequence(
-            Actions.delay(GameUtils.shotTravelAmount(layerNumber)),
-            Actions.run { BaseGame.hornSound!!.stop() }
-        ))
+        stopBlowingHorn()
         clickBox.touchable = Touchable.disabled
         inAction = true
         isHidden = false
@@ -178,16 +189,17 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         jump = false
         rotation = 0f
         setAnimation(idleAnimation)
-        setUpLayerAndPosition()
+        setUpLayerPositionAndSize()
         setSpeed(0f)
         scaleX = 1f
         scaleY = 1f
         clickBox.touchable = Touchable.enabled
     }
 
-    private fun setUpLayerAndPosition() {
+    private fun setUpLayerPositionAndSize() {
         layerSetup()
         positionSetup()
+        setSize()
     }
 
     private fun layerSetup() {
