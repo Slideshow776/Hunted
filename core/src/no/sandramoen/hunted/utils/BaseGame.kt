@@ -52,6 +52,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var skin: Skin? = null
         var defaultShader: String? = null
         var waveShader: String? = null
+        var shockwaveShader: String? = null
         var shotSound: Sound? = null
         var swooshSound: Sound? = null
         var netFireSound: Sound? = null
@@ -68,6 +69,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var runVoiceSound: Sound? = null
         var level_middleVoiceSound: Sound? = null
         var level1_intro1VoiceSound: Sound? = null
+        var clickSound: Sound? = null
+        var hoverOverEnterSound: Sound? = null
         var ambient1Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
@@ -102,6 +105,11 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
                 isGPS = true
         }
         RATIO = Gdx.graphics.width.toFloat() / Gdx.graphics.height
+        try {
+            skin = Skin(Gdx.files.internal("skins/default/uiskin.json"))
+        } catch (error: Throwable) {
+            Gdx.app.error(tag, "Error: Could not load skin: $error")
+        }
 
         // asset manager
         val time = measureTimeMillis {
@@ -125,6 +133,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/pantingFadeIn.wav", Sound::class.java)
             assetManager.load("audio/sound/pantingFadeOut.wav", Sound::class.java)
             assetManager.load("audio/sound/bushesCracking.wav", Sound::class.java)
+            assetManager.load("audio/sound/click1.wav", Sound::class.java)
+            assetManager.load("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
             assetManager.load("audio/sound/story/caught.wav", Sound::class.java)
             assetManager.load("audio/sound/story/do you hear that.wav", Sound::class.java)
@@ -148,6 +158,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // shaders
             assetManager.load(AssetDescriptor("shaders/default.vs", Text::class.java, TextLoader.TextParameter()))
             assetManager.load(AssetDescriptor("shaders/wave.fs", Text::class.java, TextLoader.TextParameter()))
+            assetManager.load(AssetDescriptor("shaders/shockwave.fs", Text::class.java, TextLoader.TextParameter()))
 
             assetManager.finishLoading()
 
@@ -168,6 +179,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             pantingFadeInSound = assetManager.get("audio/sound/pantingFadeIn.wav", Sound::class.java)
             pantingFadeOutSound = assetManager.get("audio/sound/pantingFadeOut.wav", Sound::class.java)
             bushSound = assetManager.get("audio/sound/bushesCracking.wav", Sound::class.java)
+            clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
+            hoverOverEnterSound = assetManager.get("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
             caughtVoiceSound = assetManager.get("audio/sound/story/caught.wav", Sound::class.java)
             horn_blowVoiceSound = assetManager.get("audio/sound/story/do you hear that.wav", Sound::class.java)
@@ -181,6 +194,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
             waveShader = assetManager.get("shaders/wave.fs", Text::class.java).getString()
+            shockwaveShader = assetManager.get("shaders/shockwave.fs", Text::class.java).getString()
 
             // skin
             // skin = assetManager.get("skins/arcade/arcade.json", Skin::class.java)

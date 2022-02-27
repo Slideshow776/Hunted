@@ -92,26 +92,28 @@ class GameUtils {
         fun addTextButtonEnterExitEffect(textButton: TextButton, enterColor: Color = BaseGame.lightPink, exitColor: Color = Color.WHITE) {
             textButton.addListener(object : ClickListener() {
                 override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
-                    textButton.label.color = enterColor
+                    textButton.label.addAction(Actions.color(enterColor, .125f))
+                    BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 
                 override fun exit(event: InputEvent?, x: Float, y: Float, pointer: Int, toActor: Actor?) {
-                    textButton.label.color = exitColor
+                    textButton.label.addAction(Actions.color(exitColor, .125f))
                     super.exit(event, x, y, pointer, toActor)
                 }
             })
         }
 
-        fun addWidgetEnterExitEffect(widget: Widget, enter: Color = BaseGame.lightPink, exit: Color = Color.WHITE) {
+        fun addWidgetEnterExitEffect(widget: Widget, enterColor: Color = BaseGame.lightPink, exitColor: Color = Color.WHITE) {
             widget.addListener(object : ClickListener() {
                 override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
-                    widget.color = enter
+                    widget.addAction(Actions.color(enterColor, .125f))
+                    BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                     super.enter(event, x, y, pointer, fromActor)
                 }
 
                 override fun exit(event: InputEvent?, x: Float, y: Float, pointer: Int, toActor: Actor?) {
-                    widget.color = exit
+                    widget.addAction(Actions.color(exitColor, .125f))
                     super.exit(event, x, y, pointer, toActor)
                 }
             })

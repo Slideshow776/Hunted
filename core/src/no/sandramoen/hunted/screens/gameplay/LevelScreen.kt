@@ -1,7 +1,7 @@
 package no.sandramoen.hunted.screens.gameplay
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Interpolation
@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.*
 import no.sandramoen.hunted.actors.forest.ForestLayer
+import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
 class LevelScreen : BaseScreen() {
@@ -85,9 +86,11 @@ class LevelScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean { // debugging purposes
-        if (keycode == Input.Keys.R) reset()
-        if (keycode == Input.Keys.T) hunter.blowHorn()
-        if (keycode == Input.Keys.Q) timer = timerStartValue
+        if (keycode == Keys.R) reset()
+        if (keycode == Keys.T) hunter.blowHorn()
+        if (keycode == Keys.Q) timer = timerStartValue
+        if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE)
+            BaseGame.setActiveScreen(MenuScreen())
         return super.keyDown(keycode)
     }
 
