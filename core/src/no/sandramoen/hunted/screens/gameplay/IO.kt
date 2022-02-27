@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.utils.Array
-import no.sandramoen.hunted.actors.ForestLayer
+import no.sandramoen.hunted.actors.forest.ForestLayer
 
 class IO(forestLayers: Array<ForestLayer>) {
     private val forestLayers = forestLayers

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.*
+import no.sandramoen.hunted.actors.forest.ForestLayer
 import no.sandramoen.hunted.utils.*
 
 class LevelScreen : BaseScreen() {

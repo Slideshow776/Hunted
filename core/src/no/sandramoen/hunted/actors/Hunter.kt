@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.Touchable
@@ -13,16 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
+import no.sandramoen.hunted.actors.forest.ForestLayer
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
+import no.sandramoen.hunted.utils.GameUtils.Companion.isTouchDownEvent
 
 class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
     private val revealScaleAmount = .5f
 
     private lateinit var forestLayer: ForestLayer
-    lateinit var clickBox: BaseActor
     private lateinit var idleAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var somersaultAnimation: Animation<TextureAtlas.AtlasRegion>
     private lateinit var playHornAnimation: Animation<TextureAtlas.AtlasRegion>
@@ -30,6 +32,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     private var jump = false
     private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
+
+    lateinit var clickBox: BaseActor
 
     var isHidden = true
     var inAction = false
@@ -41,7 +45,6 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         val scale = 1f
         setSize(1.25f * scale, 1f * BaseGame.RATIO * scale)
         setOrigin(Align.center)
-        touchable = Touchable.disabled
 
         initializeClickBox()
         setUpLayerAndPosition()
@@ -51,8 +54,10 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         setDeceleration(10f)
 
         slowBreathing()
+        touchable = Touchable.disabled
 
         // color = Color.PINK // debug
+        /*debug = true*/
     }
 
     override fun act(dt: Float) {
@@ -60,6 +65,18 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         if (jump)
             accelerateAtAngle(270f)
         applyPhysics(dt)
+    }
+
+    private fun initializeClickBox() {
+        clickBox = BaseActor(x, y, stage)
+        val scale = 2f
+        clickBox.setSize(width * .75f * BaseGame.RATIO * scale, height * 2 * scale)
+        clickBox.centerAtActor(this)
+        clickBox.addListener { e: Event ->
+            if (isTouchDownEvent(e)) { revealHunter() }
+            false
+        }
+        /*clickBox.debug = true*/
     }
 
     private fun slowBreathing() {
@@ -101,20 +118,6 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         animationImages.clear()
 
         setAnimation(idleAnimation)
-    }
-
-    private fun initializeClickBox() {
-        clickBox = BaseActor(x, y, stage)
-        val scale = 2f
-        clickBox.setSize(width * .75f * BaseGame.RATIO * scale, height * 2 * scale)
-        clickBox.centerAtActor(this)
-        clickBox.addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                super.clicked(event, x, y)
-                revealHunter()
-            }
-        })
-        /*clickBox.debug = true*/
     }
 
     fun blowHorn() {
@@ -193,8 +196,8 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         layerNumber = MathUtils.random(1, 4)
         forestLayer = forestLayers[layerNumber]
         forestLayer.touchable = Touchable.enabled
-        forestLayer.addActor(this)
         forestLayer.addActor(clickBox)
+        forestLayer.addActor(this)
         color = forestLayer.color
     }
 

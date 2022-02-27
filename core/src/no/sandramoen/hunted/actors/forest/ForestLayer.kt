@@ -1,8 +1,9 @@
-package no.sandramoen.hunted.actors
+package no.sandramoen.hunted.actors.forest
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
+import no.sandramoen.hunted.actors.WaveActor
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 

@@ -1,4 +1,4 @@
-package no.sandramoen.hunted.actors
+package no.sandramoen.hunted.actors.forest
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
