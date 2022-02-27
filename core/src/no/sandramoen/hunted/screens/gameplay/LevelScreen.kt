@@ -44,8 +44,6 @@ class LevelScreen : BaseScreen() {
             layer.touchable = Touchable.disabled
             layer.y = 100f
         }
-        forestLayers.last().scaleY = 1.002f
-        forestLayers.last().y -= .5f
         cinematicOpening()
 
         hunter = Hunter(mainStage, forestLayers)

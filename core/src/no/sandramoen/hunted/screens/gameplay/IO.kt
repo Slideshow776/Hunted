@@ -14,21 +14,22 @@ class IO(forestLayers: Array<ForestLayer>) {
     private val accelerometerXOffset = 6f // offsets device to tilted position towards the player
     private val mouseMovedDeadZone = .5f
     private val desktopLayerShuffleModifier = .5f
+    private val parallaxAmount = .75f
 
     private var mousePosition = Vector2(50f, 50f)
 
     fun mouseMoved(camera: OrthographicCamera, screenX: Int, screenY: Int) {
         val worldCoordinates = camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0f))
 
-        if ((worldCoordinates.x - mousePosition.x) < -mouseMovedDeadZone && forestLayers.last().x <= 1f) {
+        if ((worldCoordinates.x - mousePosition.x) < -mouseMovedDeadZone && forestLayers.last().x <= parallaxAmount) {
             shuffleLayersRight(desktopLayerShuffleModifier)
-        } else if ((worldCoordinates.x - mousePosition.x) > mouseMovedDeadZone && forestLayers.last().x >= -1f) {
+        } else if ((worldCoordinates.x - mousePosition.x) > mouseMovedDeadZone && forestLayers.last().x >= -parallaxAmount) {
             shuffleLayersLeft(desktopLayerShuffleModifier)
         }
 
-        if ((worldCoordinates.y - mousePosition.y) < -mouseMovedDeadZone && forestLayers.last().y <= 1f) {
+        if ((worldCoordinates.y - mousePosition.y) < -mouseMovedDeadZone && forestLayers.last().y <= parallaxAmount) {
             shuffleLayersUp(desktopLayerShuffleModifier)
-        } else if ((worldCoordinates.y - mousePosition.y) > mouseMovedDeadZone && forestLayers.last().y >= -1f) {
+        } else if ((worldCoordinates.y - mousePosition.y) > mouseMovedDeadZone && forestLayers.last().y >= -parallaxAmount) {
             shuffleLayersDown(desktopLayerShuffleModifier)
         }
         mousePosition = Vector2(worldCoordinates.x, worldCoordinates.y)
@@ -36,14 +37,14 @@ class IO(forestLayers: Array<ForestLayer>) {
 
     fun accelerometer() {
         if (isAccelerometerAvailable) {
-            if (Gdx.input.accelerometerY > 1f && forestLayers.last().x <= 1f)
+            if (Gdx.input.accelerometerY > parallaxAmount && forestLayers.last().x <= parallaxAmount)
                 shuffleLayersRight()
-            else if (Gdx.input.accelerometerY < -1f && forestLayers.last().x >= -1f)
+            else if (Gdx.input.accelerometerY < -parallaxAmount && forestLayers.last().x >= -parallaxAmount)
                 shuffleLayersLeft()
 
-            if (Gdx.input.accelerometerX > 1f + accelerometerXOffset && forestLayers.last().y <= 1f)
+            if (Gdx.input.accelerometerX > parallaxAmount + accelerometerXOffset && forestLayers.last().y <= parallaxAmount)
                 shuffleLayersUp()
-            else if (Gdx.input.accelerometerX < -1f + accelerometerXOffset && forestLayers.last().y >= -1f)
+            else if (Gdx.input.accelerometerX < -parallaxAmount + accelerometerXOffset && forestLayers.last().y >= -parallaxAmount)
                 shuffleLayersDown()
         }
     }

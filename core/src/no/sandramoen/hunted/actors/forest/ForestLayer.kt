@@ -7,8 +7,8 @@ import no.sandramoen.hunted.actors.WaveActor
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
-class ForestLayer(stage: Stage, path: String, color: Color, var lightRayRotation: Float) :
-    BaseActor(0f, 0f, stage) {
+class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Float) :
+    BaseActor(0f, 0f, s) {
     lateinit var fog: FogLayer
 
     init {
@@ -23,6 +23,11 @@ class ForestLayer(stage: Stage, path: String, color: Color, var lightRayRotation
             addLeaves(layer)
             addBirds(layer)
             addLightRays(layer)
+        }
+
+        if (layer == 1) {
+            initCoverUp(-19f, s)
+            initCoverUp(98f, s)
         }
     }
 
@@ -58,5 +63,13 @@ class ForestLayer(stage: Stage, path: String, color: Color, var lightRayRotation
         if (layer > 1)
             for (i in 0 until MathUtils.random(0, 2))
                 addActor(LightRay(MathUtils.random(10f, 90f), 2f, stage, lightRayRotation))
+    }
+
+    private fun initCoverUp(y: Float, s: Stage) {
+        val actor = BaseActor(0f, y, s)
+        actor.loadImage("whitePixel")
+        actor.color = color
+        actor.setSize(BaseGame.WORLD_WIDTH, 20f)
+        addActor(actor)
     }
 }

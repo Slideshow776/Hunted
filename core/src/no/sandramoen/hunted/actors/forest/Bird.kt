@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
-class Bird(x: Float, y:Float, s:Stage, color: Color, layer: Int) : BaseActor(x, y, s) {
+class Bird(x: Float, y: Float, s: Stage, color: Color, layer: Int) : BaseActor(x, y, s) {
     private var movementSpeed = -1f
 
     init {
