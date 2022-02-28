@@ -89,8 +89,10 @@ class LevelScreen : BaseScreen() {
         if (keycode == Keys.R) reset()
         if (keycode == Keys.T) hunter.blowHorn()
         if (keycode == Keys.Q) timer = timerStartValue
-        if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE)
+        if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE) {
+            GameUtils.stopAllMusic()
             BaseGame.setActiveScreen(MenuScreen())
+        }
         return super.keyDown(keycode)
     }
 

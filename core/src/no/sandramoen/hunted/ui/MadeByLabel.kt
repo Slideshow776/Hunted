@@ -15,7 +15,7 @@ class MadeByLabel :
     Label("${BaseGame.myBundle!!.get("madeBy")} Sandra Moen 2022", BaseGame.labelStyle) {
 
     init {
-        setFontScale(.4f)
+        setFontScale(.75f)
         setAlignment(Align.center)
         color = Color.GRAY
         addListener { e: Event ->

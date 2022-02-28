@@ -52,7 +52,7 @@ class GameUtils {
         }
 
         fun loadGameState() {
-            BaseGame.prefs = Gdx.app.getPreferences("binaryNonBinaryGameState")
+            BaseGame.prefs = Gdx.app.getPreferences("huntedGameState")
             BaseGame.loadPersonalParameters = BaseGame.prefs!!.getBoolean("loadPersonalParameters")
             BaseGame.isGPS = BaseGame.prefs!!.getBoolean("googlePlayServices")
             BaseGame.musicVolume = BaseGame.prefs!!.getFloat("musicVolume")
@@ -81,6 +81,9 @@ class GameUtils {
             if (volume > 1f || volume < 0f)
                 Gdx.app.error(javaClass.simpleName, "Volume needs to be within [0-1]. Volume is: $volume")
             BaseGame.musicVolume = volume
+            BaseGame.level1Music!!.volume = BaseGame.musicVolume
+            BaseGame.level2Music!!.volume = BaseGame.musicVolume
+            BaseGame.ambient1Music!!.volume = BaseGame.musicVolume
         }
 
         fun playAndLoopMusic(music: Music?, volume: Float = BaseGame.musicVolume) {

@@ -12,7 +12,7 @@ class HuntedGame(googlePlayServices: GooglePlayServices?, appLocale: String) : B
         super.create()
         // setActiveScreen(LevelScreen())
         // setActiveScreen(MenuScreen())
-        setActiveScreen(OptionsScreen())
-        // setActiveScreen(SplashScreen())
+        // setActiveScreen(OptionsScreen())
+        setActiveScreen(SplashScreen())
     }
 }

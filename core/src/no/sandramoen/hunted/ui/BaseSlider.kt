@@ -54,7 +54,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
                 BaseGame.musicVolume = slider.value
                 when (value) {
                     "sound" -> BaseGame.soundVolume = slider.value
-                    "music" -> BaseGame.musicVolume = slider.value
+                    "music" -> GameUtils.setMusicVolume(slider.value)
                 }
                 BaseGame.clickSound!!.play(BaseGame.musicVolume)
                 GameUtils.saveGameState()
