@@ -10,20 +10,47 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 
-class GPSTable(val achievementButton: AchievementButton, val leaderboardsButton: LeaderboardsButton): Table() {
-    private var onImage: Image
-    private var offImage: Image
-    private var toggleGPS: Button
+class GPSTable(): Table() {
+    private lateinit var onImage: Image
+    private lateinit var offImage: Image
+    private lateinit var toggleGPS: Button
 
-    private var up: TextureRegion
-    private var down: TextureRegion
+    private lateinit var up: TextureRegion
+    private lateinit var down: TextureRegion
 
     private var attemptedToSignIn = false
 
+    private val achievementButton = TextButtonWithImage("Achievements", "achievements-icon")
+    private val leaderboardsButton = TextButtonWithImage("Leaderboards", "leaderboards-icon")
+
     init {
         val gpsLabel = Label("Google Play Services", BaseGame.labelStyle)
-        gpsLabel.setFontScale(.5f)
+        gpsLabel.setFontScale(1.25f)
 
+        add(gpsLabel).colspan(3).padBottom(Gdx.graphics.height * .02f).row()
+        add(toggleButton()).row()
+        add(achievementButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
+        add(leaderboardsButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
+
+        /*debug = true*/
+    }
+
+    fun update() {
+        if (attemptedToSignIn && BaseGame.gps!!.isSignedIn()) {
+            BaseGame.isGPS = true
+
+            achievementButton.enable()
+            leaderboardsButton.enable()
+
+            GameUtils.saveGameState()
+            setToggleButtonColors(toggleGPS, onImage, offImage)
+            toggleGPS.style.up = TextureRegionDrawable(up)
+            toggleGPS.style.checked = TextureRegionDrawable(up)
+            attemptedToSignIn = false
+        }
+    }
+
+    private fun toggleButton(): Table {
         onImage = Image(BaseGame.textureAtlas!!.findRegion("gpsOn"))
         offImage = Image(BaseGame.textureAtlas!!.findRegion("gpsOff"))
 
@@ -34,6 +61,18 @@ class GPSTable(val achievementButton: AchievementButton, val leaderboardsButton:
         buttonStyle.checked = TextureRegionDrawable(down)
         toggleGPS = Button(buttonStyle)
         toggleGPS.isChecked = BaseGame.gps != null && !BaseGame.gps!!.isSignedIn()
+        setToggleListener()
+        setToggleButtonColors(toggleGPS, onImage, offImage)
+
+        val table = Table()
+        table.add(offImage).width(Gdx.graphics.width * .07f).height(Gdx.graphics.height * .1f).padRight(Gdx.graphics.width * .02f)
+        table.add(toggleGPS).width(Gdx.graphics.width * .08f).height(Gdx.graphics.height * .07f).padRight(Gdx.graphics.width * .02f)
+        table.add(onImage).width(Gdx.graphics.width * .07f).height(Gdx.graphics.height * .1f)
+        /*table.debug = true*/
+        return table
+    }
+
+    private fun setToggleListener() {
         toggleGPS.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)
@@ -56,27 +95,6 @@ class GPSTable(val achievementButton: AchievementButton, val leaderboardsButton:
                 toggleGPS.style.checked = TextureRegionDrawable(down)
             }
         })
-        setToggleButtonColors(toggleGPS, onImage, offImage)
-
-        add(gpsLabel).colspan(3).padBottom(Gdx.graphics.height * .03f).row()
-        add(offImage).width(Gdx.graphics.width * .1f).height(Gdx.graphics.height * .045f).right()
-        add(toggleGPS).width(Gdx.graphics.width * .15f).height(Gdx.graphics.height * .037f)
-        add(onImage).width(Gdx.graphics.width * .1f).height(Gdx.graphics.height * .045f).left()
-    }
-
-    fun update() {
-        if (attemptedToSignIn && BaseGame.gps!!.isSignedIn()) {
-            BaseGame.isGPS = true
-
-            achievementButton.update()
-            leaderboardsButton.update()
-
-            GameUtils.saveGameState()
-            setToggleButtonColors(toggleGPS, onImage, offImage)
-            toggleGPS.style.up = TextureRegionDrawable(up)
-            toggleGPS.style.checked = TextureRegionDrawable(up)
-            attemptedToSignIn = false
-        }
     }
 
     private fun setToggleButtonColors(toggleButton: Button, onImage: Image, offImage: Image) {

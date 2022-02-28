@@ -80,6 +80,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
                 fromActor: Actor?
             ) {
                 label.color = BaseGame.lightPink
+                BaseGame.hoverOverEnterSound!!.play(BaseGame.soundVolume)
                 super.enter(event, x, y, pointer, fromActor)
             }
 

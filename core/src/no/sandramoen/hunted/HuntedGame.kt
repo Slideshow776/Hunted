@@ -10,9 +10,9 @@ import no.sandramoen.hunted.utils.GooglePlayServices
 class HuntedGame(googlePlayServices: GooglePlayServices?, appLocale: String) : BaseGame(googlePlayServices, appLocale) {
     override fun create() {
         super.create()
-        setActiveScreen(LevelScreen())
+        // setActiveScreen(LevelScreen())
         // setActiveScreen(MenuScreen())
-        // setActiveScreen(OptionsScreen())
+        setActiveScreen(OptionsScreen())
         // setActiveScreen(SplashScreen())
     }
 }
