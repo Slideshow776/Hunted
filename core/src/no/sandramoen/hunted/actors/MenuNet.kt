@@ -12,7 +12,8 @@ class MenuNet(x: Float, y: Float, s: Stage) : BaseActor(x, y, s) {
 
         BaseGame.netFireSound!!.play(BaseGame.soundVolume)
         addAction(Actions.sequence(
-            Actions.moveBy(10f, 0f, .25f),
+            /*Actions.delay(.25f),*/
+            Actions.moveTo(x + 10f, 30f, .25f),
             Actions.run { BaseGame.netCaughtSound!!.play(BaseGame.soundVolume) }
         ))
     }
