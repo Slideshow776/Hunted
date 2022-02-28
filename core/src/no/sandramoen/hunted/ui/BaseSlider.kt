@@ -7,42 +7,89 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Container
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Slider
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 
-class BaseSlider(var value: Float, val label: Label) : Container<Slider>() {
-    var sliderContainer: Container<Slider>? = null
+class BaseSlider(value: String, labelText: String) : Table() {
 
     init {
-        val optionsWidgetWidth = Gdx.graphics.width * .6f // value must be pre-determined for scaling
-        val optionsWidgetHeight = Gdx.graphics.height * .015f // value must be pre-determined for scaling
-        val optionsSliderScale = Gdx.graphics.height * .002f // makes sure scale is device adjustable-ish
+        val containerWidth = Gdx.graphics.width * .07f
+        val containerHeight = Gdx.graphics.height * .02f
+        val containerScaleX = 4f
+        val containerScaleY = 5f
 
+        val slider = sliderInit(value)
+
+        val container = Container(slider)
+        container.isTransform = true
+        container.width = containerWidth * containerScaleX
+        container.height = containerHeight * containerScaleY
+        container.setOrigin(container.width / 2, container.height / 2)
+        container.setScale(containerScaleX, containerScaleY)
+
+        val label = labelInit(labelText)
+        setContainerHoverColor(container, label)
+
+        add(container).width(container.width).height(container.height)
+        add(label).width(Gdx.graphics.width * .1f).padLeft(Gdx.graphics.width * .02f)
+            .padBottom(Gdx.graphics.height * .01f)
+        /*debug = true*/
+    }
+
+    private fun sliderInit(value: String): Slider {
         val slider = Slider(0f, 1f, .1f, false, BaseGame.skin)
-        slider.value = BaseGame.musicVolume
+        when (value) {
+            "sound" -> slider.value = BaseGame.soundVolume
+            "music" -> slider.value = BaseGame.musicVolume
+            else -> Gdx.app.error(
+                javaClass.simpleName,
+                "Error, value could not be appropriated => $value"
+            )
+        }
         slider.addListener(object : ChangeListener() {
             override fun changed(event: ChangeEvent?, actor: Actor?) {
-                value = slider.value
+                BaseGame.musicVolume = slider.value
+                when (value) {
+                    "sound" -> BaseGame.soundVolume = slider.value
+                    "music" -> BaseGame.musicVolume = slider.value
+                }
                 BaseGame.clickSound!!.play(BaseGame.musicVolume)
                 GameUtils.saveGameState()
             }
         })
-        sliderContainer = Container(slider)
-        sliderContainer!!.isTransform = true
-        sliderContainer!!.setOrigin(
-            (optionsWidgetWidth * 5 / 6) / 2,
-            optionsWidgetHeight / 2
-        )
-        setScale(optionsSliderScale)
-        addListener(object : ClickListener() {
-            override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
+        return slider
+    }
+
+    private fun labelInit(labelText: String): Label {
+        val label = Label("$labelText", BaseGame.labelStyle)
+        label.setFontScale(1.25f)
+        GameUtils.addWidgetEnterExitEffect(label)
+        return label
+    }
+
+    private fun setContainerHoverColor(container: Container<Slider>, label: Label) {
+        container.addListener(object : ClickListener() {
+            override fun enter(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                fromActor: Actor?
+            ) {
                 label.color = BaseGame.lightPink
                 super.enter(event, x, y, pointer, fromActor)
             }
 
-            override fun exit(event: InputEvent?, x: Float, y: Float, pointer: Int, toActor: Actor?) {
+            override fun exit(
+                event: InputEvent?,
+                x: Float,
+                y: Float,
+                pointer: Int,
+                toActor: Actor?
+            ) {
                 label.color = Color.WHITE
                 super.exit(event, x, y, pointer, toActor)
             }
