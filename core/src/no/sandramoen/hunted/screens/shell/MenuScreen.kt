@@ -132,7 +132,9 @@ class MenuScreen : BaseScreen() {
     }
 
     private fun exitGame() {
+        BaseGame.clickSound!!.play(BaseGame.soundVolume)
         titleLabel.addAction(Actions.sequence(
+            Actions.delay(.5f),
                 Actions.run {
                     super.dispose()
                     Gdx.app.exit()

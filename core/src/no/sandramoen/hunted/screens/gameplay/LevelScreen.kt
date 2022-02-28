@@ -77,7 +77,7 @@ class LevelScreen : BaseScreen() {
         updateTimer(dt)
         storyEngine.update(dt, timer)
         if (!hunter.isHidden && !gameOver)
-            cinematicClosing()
+            cinematicClosing(false)
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {
@@ -108,7 +108,7 @@ class LevelScreen : BaseScreen() {
         }
     }
 
-    private fun cinematicClosing() {
+    private fun cinematicClosing(caught: Boolean) {
         BaseGame.heartBeatFasterSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeInSound!!.play(BaseGame.soundVolume)
         gameOver = true
@@ -139,7 +139,10 @@ class LevelScreen : BaseScreen() {
                     GameUtils.stopAllMusic()
                     BaseGame.heartBeatSlowerSound!!.stop()
                     BaseGame.heartBeatFasterSound!!.stop()
-                    BaseGame.setActiveScreen(LevelScreen())
+                    if (caught)
+                        BaseGame.setActiveScreen(MenuScreen())
+                    else
+                        BaseGame.setActiveScreen(LevelScreen())
                 }
             )
         )
@@ -163,7 +166,7 @@ class LevelScreen : BaseScreen() {
             net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
             hunter.clickBox.touchable = Touchable.disabled
             storyEngine.triggerCaught()
-            cinematicClosing()
+            cinematicClosing(true)
         }
 
         if (timer.toInt() == 15 && hunter.isNotBlowingHorn) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.utils.Align
+import no.sandramoen.hunted.actors.OptionsHunter
 import no.sandramoen.hunted.ui.*
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
@@ -17,6 +18,8 @@ class OptionsScreen : BaseScreen() {
     private var gpsTable = GPSTable()
 
     override fun initialize() {
+        OptionsHunter(mainStage)
+
         val table = Table()
         table.add(mainLabel())
         table.row()
@@ -35,8 +38,10 @@ class OptionsScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACKSPACE)
+        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACKSPACE) {
+            BaseGame.clickSound!!.play(BaseGame.soundVolume)
             BaseGame.setActiveScreen(MenuScreen())
+        }
         return false
     }
 
