@@ -5,12 +5,14 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import no.sandramoen.hunted.utils.BaseActor
+import no.sandramoen.hunted.utils.BaseGame
 
 class OptionsHunter(s: Stage): BaseActor(0f, 0f, s) {
 
     init {
         loadImage("hunter/idle")
         setRandomPosition()
+        color = BaseGame.lightYellowBrown
     }
 
     private fun setRandomPosition() {

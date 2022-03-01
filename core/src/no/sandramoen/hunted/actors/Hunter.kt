@@ -29,7 +29,6 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
     private lateinit var putHornAwayAnimation: Animation<TextureAtlas.AtlasRegion>
 
     private var jump = false
-    private var lightYellowBrown = Color(0.969f, 0.812f, 0.569f, 1f)
 
     lateinit var clickBox: BaseActor
 
@@ -169,7 +168,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
         Shot(x, y, stage, layerNumber)
         addAction(Actions.sequence(
             Actions.parallel(
-                Actions.color(lightYellowBrown, .125f),
+                Actions.color(BaseGame.lightYellowBrown, .125f),
                 Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
                 Actions.sequence(
                     Actions.delay(.25f),

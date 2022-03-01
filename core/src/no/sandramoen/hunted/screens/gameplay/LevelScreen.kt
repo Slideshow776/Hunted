@@ -55,12 +55,12 @@ class LevelScreen : BaseScreen() {
         val camera = mainStage.camera as OrthographicCamera
         camera.zoom -= .025f
 
-        timerLabel.color = Color(0.859f, 0.788f, 0.706f, 0f)
+        timerLabel.color = BaseGame.lightBrown
         timerLabel.addAction(Actions.sequence(
             Actions.delay(2f),
             Actions.fadeIn(.125f)
         ))
-        storyLabel.color = Color(0.988f, 0.925f, 0.82f, 1f)
+        storyLabel.color = BaseGame.lightBrown
         val padding = Gdx.graphics.height * .01f
         uiTable.add(timerLabel).expandY().top().padTop(padding).row()
         uiTable.add(storyLabel).bottom().padBottom(padding)

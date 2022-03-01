@@ -32,6 +32,7 @@ class MenuScreen : BaseScreen() {
         titleLabel = Label("Hunted", BaseGame.bigLabelStyle)
         titleLabel.setFontScale(1f)
         titleLabel.setAlignment(Align.center)
+        titleLabel.color = BaseGame.lightBrown
 
         hunter = MenuHunter(30f, 40f, mainStage)
 
