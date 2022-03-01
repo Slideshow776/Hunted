@@ -9,7 +9,8 @@ _You are being hunted! Can you find the hunter before they find you?_
 
 The hunter looks like this
 
-![hunter_big](https://user-images.githubusercontent.com/4059636/155168629-0809d23e-f8f6-4c92-8746-b04ab132c03b.png)
+![idle](https://user-images.githubusercontent.com/4059636/156218407-f857740f-33b2-4071-9c85-a2adef5868b7.png)
+
 
 Read on below for project specifics.
 
