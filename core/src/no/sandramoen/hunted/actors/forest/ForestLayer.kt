@@ -51,7 +51,7 @@ class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Fl
 
     private fun addLeaves(layer: Int) {
         for (i in 0..MathUtils.random(25, 150))
-            addActor(Leaf(50f, 50f, stage, color, layer))
+            addActor(Leaf(stage, color, layer))
     }
 
     private fun addBirds(layer: Int) {

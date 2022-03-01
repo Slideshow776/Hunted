@@ -32,7 +32,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
 
     private var gameOver = false
 
-    private var levelNumber = MathUtils.random(1, 2)
+    private var levelNumber = 6//MathUtils.random(1, 2)
 
     override fun initialize() {
         val lightRayRotation = MathUtils.random(-15f, 15f)
@@ -51,7 +51,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         storyEngine = StoryEngine(storyLabel, storyLevel)
         cinematicOpening()
 
-        hunter = Hunter(mainStage, forestLayers, levelNumber)
+        hunter = Hunter(mainStage, forestLayers, 2)
         net = Net(hunter.x, hunter.y, mainStage)
 
         Vignette(mainStage)

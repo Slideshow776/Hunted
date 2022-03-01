@@ -9,20 +9,18 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 
-class Leaf(x: Float, y: Float, s: Stage, color: Color, layer: Int) : BaseActor(x, y, s) {
+class Leaf(s: Stage, color: Color, layer: Int, scaleOfLeaf: Float = 1f) : BaseActor(0f, 0f, s) {
     init {
         loadImage("leaf")
         touchable = Touchable.disabled
 
-        val scale = 1f
         when (layer) {
-            1 -> setSize(.25f * scale, .25f * BaseGame.RATIO * scale)
-            2 -> setSize(.2f * scale, .2f * BaseGame.RATIO * scale)
-            3 -> setSize(.15f * scale, .15f * BaseGame.RATIO * scale)
-            4 -> setSize(.1f * scale, .1f * BaseGame.RATIO * scale)
+            1 -> setSize(.25f * scaleOfLeaf, .25f * BaseGame.RATIO * scaleOfLeaf)
+            2 -> setSize(.2f * scaleOfLeaf, .2f * BaseGame.RATIO * scaleOfLeaf)
+            3 -> setSize(.15f * scaleOfLeaf, .15f * BaseGame.RATIO * scaleOfLeaf)
+            4 -> setSize(.1f * scaleOfLeaf, .1f * BaseGame.RATIO * scaleOfLeaf)
         }
         setOrigin(Align.center)
-        centerAtPosition(x, y)
         setRandomPosition()
         this.color = color
 
@@ -71,6 +69,7 @@ class Leaf(x: Float, y: Float, s: Stage, color: Color, layer: Int) : BaseActor(x
             MathUtils.random(0f, 100f),
             MathUtils.random(0f, 100f)
         )
+        centerAtPosition(x, y)
     }
 
     private fun respawn() {

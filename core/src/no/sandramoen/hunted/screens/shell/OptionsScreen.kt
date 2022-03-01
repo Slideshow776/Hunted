@@ -3,12 +3,14 @@ package no.sandramoen.hunted.screens.shell
 import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.actors.Vignette
+import no.sandramoen.hunted.actors.forest.Leaf
 import no.sandramoen.hunted.actors.hunter.OptionsHunter
 import no.sandramoen.hunted.ui.*
 import no.sandramoen.hunted.utils.BaseGame
@@ -19,6 +21,7 @@ class OptionsScreen : BaseScreen() {
     private var gpsTable = GPSTable()
 
     override fun initialize() {
+        addLeaves()
         OptionsHunter(mainStage)
         Vignette(mainStage)
 
@@ -85,5 +88,21 @@ class OptionsScreen : BaseScreen() {
         })
         GameUtils.addTextButtonEnterExitEffect(textButton)
         return textButton
+    }
+
+    private fun addLeaves() {
+        for (i in 2 until 4) {
+            var color = Color.PINK
+            when (i) {
+                5 -> color = Color(0.627f, 0.867f, 0.827f, 1f)
+                4 -> color = Color(0.435f, 0.69f, 0.718f, 1f)
+                3 -> color = Color(0.341f, 0.498f, 0.616f, 1f)
+                2 -> color = Color(0.29f, 0.341f, 0.525f, 1f)
+                1 -> color = Color(0.243f, 0.231f, 0.4f, 1f)
+            }
+
+            for (i in 0..10)//MathUtils.random(500, 800))
+                Leaf(mainStage, color, i, 4f)
+        }
     }
 }

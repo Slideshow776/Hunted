@@ -2,6 +2,7 @@ package no.sandramoen.hunted.screens.shell
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
@@ -16,6 +17,7 @@ import no.sandramoen.hunted.actors.hunter.MenuHunter
 import no.sandramoen.hunted.actors.MenuNet
 import no.sandramoen.hunted.actors.MenuShot
 import no.sandramoen.hunted.actors.Vignette
+import no.sandramoen.hunted.actors.forest.Leaf
 import no.sandramoen.hunted.screens.gameplay.LevelScreen
 import no.sandramoen.hunted.ui.MadeByLabel
 import no.sandramoen.hunted.utils.BaseGame
@@ -35,6 +37,7 @@ class MenuScreen : BaseScreen() {
         titleLabel.setAlignment(Align.center)
         titleLabel.color = BaseGame.lightBrown
 
+        addLeaves()
         hunter = MenuHunter(30f, 40f, mainStage)
         Vignette(mainStage)
 
@@ -136,5 +139,21 @@ class MenuScreen : BaseScreen() {
                     Gdx.app.exit()
                 }
         ))
+    }
+
+    private fun addLeaves() {
+        for (i in 2 until 4) {
+            var color = Color.PINK
+            when (i) {
+                5 -> color = Color(0.627f, 0.867f, 0.827f, 1f)
+                4 -> color = Color(0.435f, 0.69f, 0.718f, 1f)
+                3 -> color = Color(0.341f, 0.498f, 0.616f, 1f)
+                2 -> color = Color(0.29f, 0.341f, 0.525f, 1f)
+                1 -> color = Color(0.243f, 0.231f, 0.4f, 1f)
+            }
+
+            for (i in 0..10)//MathUtils.random(500, 800))
+                Leaf(mainStage, color, i, 4f)
+        }
     }
 }
