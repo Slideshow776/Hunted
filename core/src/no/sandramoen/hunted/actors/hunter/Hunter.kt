@@ -1,7 +1,6 @@
-package no.sandramoen.hunted.actors
+package no.sandramoen.hunted.actors.hunter
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
@@ -12,13 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
+import no.sandramoen.hunted.actors.Shot
 import no.sandramoen.hunted.actors.forest.ForestLayer
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 import no.sandramoen.hunted.utils.GameUtils.Companion.isTouchDownEvent
 
-class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f, stage) {
+class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: Int) : BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
     private val revealScaleAmount = .5f
 
@@ -222,21 +222,46 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>) : BaseActor(0f, 0f,
 
     private fun getLayeredPositions(): Array<Position> {
         val positions = Array<Position>()
-        if (layerNumber == 4) {
-            positions.add(Position(Vector2(30f, 67f), 0f))
-            positions.add(Position(Vector2(55.8f, 52f), -15f))
-            positions.add(Position(Vector2(75f, 74f), 0f))
-        } else if (layerNumber == 3) {
-            positions.add(Position(Vector2(47.5f, 71.5f), 0f))
-            positions.add(Position(Vector2(73f, 50f), 10f))
-            positions.add(Position(Vector2(30f, 83f), 0f))
-            positions.add(Position(Vector2(84.4f, 84f), -170f))
-        } else if (layerNumber == 2) {
-            positions.add(Position(Vector2(5f, 65f), 0f))
-            positions.add(Position(Vector2(91.5f, 30f), -12f))
-        } else if (layerNumber == 1) {
-            positions.add(Position(Vector2(65.7f, 48.3f), 10f))
-            positions.add(Position(Vector2(17f, 74f), 0f))
+        if (levelNumber == 1) {
+            if (layerNumber == 4) {
+                positions.add(Position(Vector2(30f, 67f), 0f))
+                positions.add(Position(Vector2(55.8f, 52f), -15f))
+                positions.add(Position(Vector2(75f, 74f), 0f))
+            } else if (layerNumber == 3) {
+                positions.add(Position(Vector2(47.5f, 71.5f), 0f))
+                positions.add(Position(Vector2(73f, 50f), 10f))
+                positions.add(Position(Vector2(30f, 83f), 0f))
+                positions.add(Position(Vector2(84.4f, 84f), -170f))
+            } else if (layerNumber == 2) {
+                positions.add(Position(Vector2(5f, 65f), 0f))
+                positions.add(Position(Vector2(91.5f, 30f), -12f))
+            } else if (layerNumber == 1) {
+                positions.add(Position(Vector2(65.7f, 48.3f), 10f))
+                positions.add(Position(Vector2(17f, 74f), 0f))
+            }
+        } else if (levelNumber == 2) {
+            if (layerNumber == 4) {
+                positions.add(Position(Vector2(35f, 80f), 0f))
+                positions.add(Position(Vector2(10f, 85f), 0f))
+                positions.add(Position(Vector2(76f, 20f), -10f))
+                positions.add(Position(Vector2(40f, 90f), 180f))
+            } else if (layerNumber == 3) {
+                positions.add(Position(Vector2(28f, 15f), 10f))
+                positions.add(Position(Vector2(22f, 82.7f), 3f))
+                positions.add(Position(Vector2(43.2f, 84.6f), 0f))
+                positions.add(Position(Vector2(43.2f, 84.6f), 0f))
+                positions.add(Position(Vector2(79.3f, 59.7f), 180f))
+                positions.add(Position(Vector2(96f, 64.7f), 0f))
+            } else if (layerNumber == 2) {
+                positions.add(Position(Vector2(51.3f, 78f), 10f))
+                positions.add(Position(Vector2(29f, 83f), -5f))
+                positions.add(Position(Vector2(2f, 74f), 5f))
+                positions.add(Position(Vector2(80.5f, 81f), -15f))
+            } else if (layerNumber == 1) {
+                positions.add(Position(Vector2(55f, 57.5f), 0f))
+                positions.add(Position(Vector2(6f, 63f), 0f))
+                positions.add(Position(Vector2(94f, 80.8f), 0f))
+            }
         }
         return positions
     }

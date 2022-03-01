@@ -1,4 +1,4 @@
-package no.sandramoen.hunted.actors
+package no.sandramoen.hunted.actors.hunter
 
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils

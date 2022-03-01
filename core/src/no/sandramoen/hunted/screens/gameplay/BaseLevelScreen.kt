@@ -12,10 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.*
 import no.sandramoen.hunted.actors.forest.ForestLayer
+import no.sandramoen.hunted.actors.hunter.Hunter
 import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
-class LevelScreen : BaseScreen() {
+open class BaseLevelScreen : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
     private lateinit var io: IO
 
@@ -27,17 +28,19 @@ class LevelScreen : BaseScreen() {
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
-    private var storyEngine = StoryEngine(storyLabel)
+    private lateinit var storyEngine : StoryEngine
 
     private var gameOver = false
 
+    open var levelNumber = -1
+
     override fun initialize() {
         val lightRayRotation = MathUtils.random(-15f, 15f)
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level1/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
 
         io = IO(forestLayers)
 
@@ -45,9 +48,10 @@ class LevelScreen : BaseScreen() {
             layer.touchable = Touchable.disabled
             layer.y = 100f
         }
+        storyEngine = StoryEngine(storyLabel, levelNumber)
         cinematicOpening()
 
-        hunter = Hunter(mainStage, forestLayers)
+        hunter = Hunter(mainStage, forestLayers, levelNumber)
         net = Net(hunter.x, hunter.y, mainStage)
 
         Vignette(mainStage)
@@ -142,10 +146,17 @@ class LevelScreen : BaseScreen() {
                     if (caught)
                         BaseGame.setActiveScreen(MenuScreen())
                     else
-                        BaseGame.setActiveScreen(LevelScreen())
+                        setNextLevel()
                 }
             )
         )
+    }
+
+    private fun setNextLevel() {
+        if (levelNumber == 1)
+            BaseGame.setActiveScreen(Level2Screen())
+        else if (levelNumber == 2)
+            BaseGame.setActiveScreen(MenuScreen())
     }
 
     private fun reset() {

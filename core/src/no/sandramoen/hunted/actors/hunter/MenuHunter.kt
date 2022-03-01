@@ -1,4 +1,4 @@
-package no.sandramoen.hunted.actors
+package no.sandramoen.hunted.actors.hunter
 
 import com.badlogic.gdx.scenes.scene2d.Stage
 import no.sandramoen.hunted.utils.BaseActor

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
 import com.badlogic.gdx.utils.Align
-import no.sandramoen.hunted.actors.OptionsHunter
+import no.sandramoen.hunted.actors.hunter.OptionsHunter
 import no.sandramoen.hunted.ui.*
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen

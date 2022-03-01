@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
-import no.sandramoen.hunted.actors.MenuHunter
+import no.sandramoen.hunted.actors.hunter.MenuHunter
 import no.sandramoen.hunted.actors.MenuNet
 import no.sandramoen.hunted.actors.MenuShot
-import no.sandramoen.hunted.screens.gameplay.LevelScreen
+import no.sandramoen.hunted.screens.gameplay.BaseLevelScreen
+import no.sandramoen.hunted.screens.gameplay.Level1Screen
+import no.sandramoen.hunted.screens.gameplay.Level2Screen
 import no.sandramoen.hunted.ui.MadeByLabel
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
@@ -114,7 +116,7 @@ class MenuScreen : BaseScreen() {
     private fun startGame() {
         startButton.addAction(Actions.sequence(
                 Actions.delay(.5f),
-                Actions.run { BaseGame.setActiveScreen(LevelScreen()) }
+                Actions.run { BaseGame.setActiveScreen(Level1Screen()) }
         ))
     }
 
