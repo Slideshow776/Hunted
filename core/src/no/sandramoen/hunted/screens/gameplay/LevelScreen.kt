@@ -16,7 +16,7 @@ import no.sandramoen.hunted.actors.hunter.Hunter
 import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
-open class BaseLevelScreen : BaseScreen() {
+open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
     private lateinit var io: IO
 
@@ -32,7 +32,7 @@ open class BaseLevelScreen : BaseScreen() {
 
     private var gameOver = false
 
-    open var levelNumber = -1
+    private var levelNumber = MathUtils.random(1, 2)
 
     override fun initialize() {
         val lightRayRotation = MathUtils.random(-15f, 15f)
@@ -48,7 +48,7 @@ open class BaseLevelScreen : BaseScreen() {
             layer.touchable = Touchable.disabled
             layer.y = 100f
         }
-        storyEngine = StoryEngine(storyLabel, levelNumber)
+        storyEngine = StoryEngine(storyLabel, storyLevel)
         cinematicOpening()
 
         hunter = Hunter(mainStage, forestLayers, levelNumber)
@@ -153,10 +153,7 @@ open class BaseLevelScreen : BaseScreen() {
     }
 
     private fun setNextLevel() {
-        if (levelNumber == 1)
-            BaseGame.setActiveScreen(Level2Screen())
-        else if (levelNumber == 2)
-            BaseGame.setActiveScreen(MenuScreen())
+        BaseGame.setActiveScreen(LevelScreen(1))
     }
 
     private fun reset() {

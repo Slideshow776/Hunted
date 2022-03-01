@@ -15,9 +15,8 @@ import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.actors.hunter.MenuHunter
 import no.sandramoen.hunted.actors.MenuNet
 import no.sandramoen.hunted.actors.MenuShot
-import no.sandramoen.hunted.screens.gameplay.BaseLevelScreen
-import no.sandramoen.hunted.screens.gameplay.Level1Screen
-import no.sandramoen.hunted.screens.gameplay.Level2Screen
+import no.sandramoen.hunted.actors.Vignette
+import no.sandramoen.hunted.screens.gameplay.LevelScreen
 import no.sandramoen.hunted.ui.MadeByLabel
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
@@ -37,6 +36,7 @@ class MenuScreen : BaseScreen() {
         titleLabel.color = BaseGame.lightBrown
 
         hunter = MenuHunter(30f, 40f, mainStage)
+        Vignette(mainStage)
 
         val table = Table()
         table.add(titleLabel).padTop(Gdx.graphics.height * .1f)
@@ -116,7 +116,7 @@ class MenuScreen : BaseScreen() {
     private fun startGame() {
         startButton.addAction(Actions.sequence(
                 Actions.delay(.5f),
-                Actions.run { BaseGame.setActiveScreen(Level1Screen()) }
+                Actions.run { BaseGame.setActiveScreen(LevelScreen(1)) }
         ))
     }
 

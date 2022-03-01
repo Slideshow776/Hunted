@@ -243,7 +243,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
             if (layerNumber == 4) {
                 positions.add(Position(Vector2(35f, 80f), 0f))
                 positions.add(Position(Vector2(10f, 85f), 0f))
-                positions.add(Position(Vector2(76f, 20f), -10f))
+                positions.add(Position(Vector2(76.1f, 18f), -10f))
                 positions.add(Position(Vector2(40f, 90f), 180f))
             } else if (layerNumber == 3) {
                 positions.add(Position(Vector2(28f, 15f), 10f))
