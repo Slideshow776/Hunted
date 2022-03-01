@@ -2,9 +2,7 @@ package no.sandramoen.hunted.screens.shell
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.InputEvent
@@ -14,15 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
-import com.badlogic.gdx.utils.Array
-import no.sandramoen.hunted.actors.Hunter
 import no.sandramoen.hunted.actors.MenuHunter
 import no.sandramoen.hunted.actors.MenuNet
 import no.sandramoen.hunted.actors.MenuShot
-import no.sandramoen.hunted.actors.forest.ForestLayer
 import no.sandramoen.hunted.screens.gameplay.LevelScreen
 import no.sandramoen.hunted.ui.MadeByLabel
-import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
 import no.sandramoen.hunted.utils.GameUtils
@@ -35,12 +29,11 @@ class MenuScreen : BaseScreen() {
     private lateinit var hunter: MenuHunter
 
     override fun initialize() {
-        titleLabel = Label("Hunted", BaseGame.labelStyle)
-        titleLabel.setFontScale(3f)
+        titleLabel = Label("Hunted", BaseGame.bigLabelStyle)
+        titleLabel.setFontScale(1f)
         titleLabel.setAlignment(Align.center)
 
-        hunter = MenuHunter(30f, 45f, mainStage)
-        /*hunter.debug = true*/
+        hunter = MenuHunter(30f, 40f, mainStage)
 
         val table = Table()
         table.add(titleLabel).padTop(Gdx.graphics.height * .1f)
@@ -63,7 +56,7 @@ class MenuScreen : BaseScreen() {
     }
 
     private fun menuButtonsTable() : Table {
-        val buttonFontScale = 2f
+        val buttonFontScale = 1f
         startButton = TextButton("Start", BaseGame.textButtonStyle)
         startButton.label.setFontScale(buttonFontScale)
         startButton.addListener { e: Event ->
@@ -76,7 +69,7 @@ class MenuScreen : BaseScreen() {
         GameUtils.addTextButtonEnterExitEffect(startButton)
         startButton.addListener(object : ClickListener() {
             override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
-                hunter.addAction(Actions.moveTo(hunter.x, 45f, .1f))
+                hunter.addAction(Actions.moveTo(hunter.x, 40f, .1f))
                 super.enter(event, x, y, pointer, fromActor)
             }
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -102,7 +95,7 @@ class MenuScreen : BaseScreen() {
         GameUtils.addTextButtonEnterExitEffect(optionsButton)
         optionsButton.addListener(object : ClickListener() {
             override fun enter(event: InputEvent?, x: Float, y: Float, pointer: Int, fromActor: Actor?) {
-                hunter.addAction(Actions.moveTo(hunter.x, 30f, .1f))
+                hunter.addAction(Actions.moveTo(hunter.x, 28f, .1f))
                 super.enter(event, x, y, pointer, fromActor)
             }
             override fun clicked(event: InputEvent?, x: Float, y: Float) {

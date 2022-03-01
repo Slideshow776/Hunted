@@ -24,7 +24,7 @@ class GPSTable(): Table() {
     private val leaderboardsButton = TextButtonWithImage("Leaderboards", "leaderboards-icon")
 
     init {
-        val gpsLabel = Label("Google Play Services", BaseGame.labelStyle)
+        val gpsLabel = Label("Google Play Services", BaseGame.smallLabelStyle)
         gpsLabel.setFontScale(1.25f)
 
         add(gpsLabel).colspan(3).padBottom(Gdx.graphics.height * .02f).row()

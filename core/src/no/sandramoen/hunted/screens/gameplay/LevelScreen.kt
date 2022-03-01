@@ -24,9 +24,9 @@ class LevelScreen : BaseScreen() {
 
     private val timerStartValue = 63f
     private var timer = timerStartValue
-    private var timerLabel = Label("$timer", BaseGame.labelStyle)
+    private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
-    private var storyLabel = Label("LevelScreen", BaseGame.labelStyle)
+    private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
     private var storyEngine = StoryEngine(storyLabel)
 
     private var gameOver = false

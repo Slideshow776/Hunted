@@ -17,7 +17,7 @@ class TextButtonWithImage(buttonText: String, imagePath: String) : Table() {
 
     init {
         textButton = TextButton(buttonText, BaseGame.textButtonStyle)
-        textButton.label.setFontScale(1.25f)
+        textButton.label.setFontScale(.6f)
         textButton.addListener(object : ActorGestureListener() {
             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)
@@ -36,7 +36,7 @@ class TextButtonWithImage(buttonText: String, imagePath: String) : Table() {
         }
 
         add(textButton).padRight(Gdx.graphics.width * .02f)
-        add(image).width(Gdx.graphics.width * .06f).height(Gdx.graphics.height * .1f)
+        add(image).width(Gdx.graphics.width * .045f).height(Gdx.graphics.height * .075f)
     }
 
     fun enable() {

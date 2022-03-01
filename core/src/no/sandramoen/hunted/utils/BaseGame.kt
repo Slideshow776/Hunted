@@ -46,7 +46,8 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
         // game assets
         var gps: GooglePlayServices? = null
-        var labelStyle: LabelStyle? = null
+        var smallLabelStyle: LabelStyle? = null
+        var bigLabelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var skin: Skin? = null
@@ -204,7 +205,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
             // fonts
             FreeTypeFontGenerator.setMaxTextureSize(2048) // solves font bug that won't show some characters like "." and "," in android
-            fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
+            fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/hemi-head-426.rg-bolditalic.ttf"))
             val fontParameters = FreeTypeFontParameter()
             fontParameters.size = (.038f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
             fontParameters.color = Color.WHITE
@@ -216,10 +217,12 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             fontParameters.borderStraight = true
             fontParameters.minFilter = TextureFilter.Linear
             fontParameters.magFilter = TextureFilter.Linear
-            val customFont = fontGenerator.generateFont(fontParameters)
+            val fontSmall = fontGenerator.generateFont(fontParameters)
+            fontParameters.size = (.2f * Gdx.graphics.height).toInt() // Font size is based on width of screen...
+            val fontBig = fontGenerator.generateFont(fontParameters)
 
             val buttonFontParameters = FreeTypeFontParameter()
-            buttonFontParameters.size = (.04f * Gdx.graphics.height).toInt() // If the resolutions height is 1440 then the font size becomes 86
+            buttonFontParameters.size = (.08f * Gdx.graphics.height).toInt() // If the resolutions height is 1440 then the font size becomes 86
             buttonFontParameters.color = Color.WHITE
             buttonFontParameters.borderWidth = 2f
             buttonFontParameters.borderColor = Color.BLACK
@@ -228,8 +231,10 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             buttonFontParameters.magFilter = TextureFilter.Linear
             val buttonCustomFont = fontGenerator.generateFont(buttonFontParameters)
 
-            labelStyle = LabelStyle()
-            labelStyle!!.font = customFont
+            smallLabelStyle = LabelStyle()
+            smallLabelStyle!!.font = fontSmall
+            bigLabelStyle = LabelStyle()
+            bigLabelStyle!!.font = fontBig
 
             textButtonStyle = TextButtonStyle()
             textButtonStyle!!.font = buttonCustomFont

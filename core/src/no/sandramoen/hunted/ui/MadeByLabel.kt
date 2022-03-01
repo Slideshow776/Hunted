@@ -3,19 +3,17 @@ package no.sandramoen.hunted.ui
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 
 class MadeByLabel :
-    Label("${BaseGame.myBundle!!.get("madeBy")} Sandra Moen 2022", BaseGame.labelStyle) {
+    Label("${BaseGame.myBundle!!.get("madeBy")} Sandra Moen 2022", BaseGame.smallLabelStyle) {
 
     init {
-        setFontScale(.75f)
+        setFontScale(1f)
         setAlignment(Align.center)
         color = Color.GRAY
         addListener { e: Event ->

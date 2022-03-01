@@ -35,7 +35,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
 
         add(container).width(container.width).height(container.height)
         add(label).width(Gdx.graphics.width * .1f).padLeft(Gdx.graphics.width * .02f)
-            .padBottom(Gdx.graphics.height * .01f)
+            .padBottom(Gdx.graphics.height * .015f)
         /*debug = true*/
     }
 
@@ -64,8 +64,8 @@ class BaseSlider(value: String, labelText: String) : Table() {
     }
 
     private fun labelInit(labelText: String): Label {
-        val label = Label("$labelText", BaseGame.labelStyle)
-        label.setFontScale(1.25f)
+        val label = Label("$labelText", BaseGame.bigLabelStyle)
+        label.setFontScale(.35f)
         GameUtils.addWidgetEnterExitEffect(label)
         return label
     }

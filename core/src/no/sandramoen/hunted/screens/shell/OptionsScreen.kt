@@ -27,7 +27,7 @@ class OptionsScreen : BaseScreen() {
         table.row()
         table.add(backButton())
         table.row()
-        table.add(MadeByLabel())
+        table.add(MadeByLabel()).padBottom(Gdx.graphics.height * .02f)
         /*table.debug = true*/
 
         uiTable.add(table).fill().expand()
@@ -63,15 +63,15 @@ class OptionsScreen : BaseScreen() {
     }
 
     private fun mainLabel(): Label {
-        val label = Label("Options", BaseGame.labelStyle)
-        label.setFontScale(2f)
+        val label = Label("Options", BaseGame.bigLabelStyle)
+        label.setFontScale(.6f)
         label.setAlignment(Align.center)
         return label
     }
 
     private fun backButton(): TextButton {
         val textButton = TextButton("Back", BaseGame.textButtonStyle)
-        textButton.label.setFontScale(2f)
+        textButton.label.setFontScale(1f)
         textButton.addListener(object : ActorGestureListener() {
             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)
