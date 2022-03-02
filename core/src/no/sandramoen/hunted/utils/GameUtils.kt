@@ -57,6 +57,7 @@ class GameUtils {
             BaseGame.isGPS = BaseGame.prefs!!.getBoolean("googlePlayServices")
             BaseGame.musicVolume = BaseGame.prefs!!.getFloat("musicVolume")
             BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
+            BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
         }
 
         fun stopAllMusic() {

@@ -3,6 +3,7 @@ package no.sandramoen.hunted.actors.forest
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import no.sandramoen.hunted.actors.WaveActor
 import no.sandramoen.hunted.utils.BaseActor
 import no.sandramoen.hunted.utils.BaseGame
@@ -14,6 +15,8 @@ class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Fl
     init {
         this.color = color
         treeLayerInit(path)
+        touchable = Touchable.disabled
+        y = 100f
 
         val layer = path.substring(path.length - 1).toInt()
         if (layer < 5) {

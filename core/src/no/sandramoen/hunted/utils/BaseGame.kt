@@ -99,9 +99,9 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
 
         // global variables
         gps = this.googlePlayServices
-        currentLocale = appLocale // TODO: Move this inside if block below
         GameUtils.loadGameState()
         if (!loadPersonalParameters) {
+            currentLocale = appLocale
             soundVolume = .75f
             musicVolume = .25f
             if (Gdx.app.type == Application.ApplicationType.Android)

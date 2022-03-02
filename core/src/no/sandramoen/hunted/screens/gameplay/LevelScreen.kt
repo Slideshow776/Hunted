@@ -28,11 +28,11 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
-    private lateinit var storyEngine : StoryEngine
+    private var storyEngine : StoryEngine = StoryEngine(storyLabel, storyLevel)
 
     private var gameOver = false
 
-    private var levelNumber = 6//MathUtils.random(1, 2)
+    private var levelNumber = MathUtils.random(1, 6)
 
     override fun initialize() {
         val lightRayRotation = MathUtils.random(-15f, 15f)
@@ -43,17 +43,10 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
 
         io = IO(forestLayers)
-
-        for (layer in forestLayers) {
-            layer.touchable = Touchable.disabled
-            layer.y = 100f
-        }
-        storyEngine = StoryEngine(storyLabel, storyLevel)
         cinematicOpening()
 
-        hunter = Hunter(mainStage, forestLayers, 2)
+        hunter = Hunter(mainStage, forestLayers, levelNumber)
         net = Net(hunter.x, hunter.y, mainStage)
-
         Vignette(mainStage)
 
         val camera = mainStage.camera as OrthographicCamera
@@ -65,9 +58,8 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
             Actions.fadeIn(.125f)
         ))
         storyLabel.color = BaseGame.lightBrown
-        val padding = Gdx.graphics.height * .01f
-        uiTable.add(timerLabel).expandY().top().padTop(padding).row()
-        uiTable.add(storyLabel).bottom().padBottom(padding)
+        uiTable.add(timerLabel).expandY().top().padTop(Gdx.graphics.height * .01f).row()
+        uiTable.add(storyLabel).bottom().padBottom(Gdx.graphics.height * .01f)
         /*uiTable.debug = true*/
 
         GameUtils.playAmbientMusicWithRandomStart()
@@ -93,6 +85,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         if (keycode == Keys.R) reset()
         if (keycode == Keys.T) hunter.blowHorn()
         if (keycode == Keys.Q) timer = timerStartValue
+        if (keycode == Keys.NUM_2) hunter.clickBox.debug = !hunter.clickBox.debug
         if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE) {
             GameUtils.stopAllMusic()
             BaseGame.setActiveScreen(MenuScreen())
