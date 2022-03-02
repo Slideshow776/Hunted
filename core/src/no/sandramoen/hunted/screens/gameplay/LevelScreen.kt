@@ -53,11 +53,13 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         camera.zoom -= .025f
 
         timerLabel.color = BaseGame.lightBrown
+        timerLabel.setFontScale(1.1f)
         timerLabel.addAction(Actions.sequence(
             Actions.delay(2f),
             Actions.fadeIn(.125f)
         ))
         storyLabel.color = BaseGame.lightBrown
+        storyLabel.setFontScale(1.1f)
         uiTable.add(timerLabel).expandY().top().padTop(Gdx.graphics.height * .01f).row()
         uiTable.add(storyLabel).bottom().padBottom(Gdx.graphics.height * .01f)
         /*uiTable.debug = true*/
@@ -87,6 +89,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         if (keycode == Keys.Q) timer = timerStartValue
         if (keycode == Keys.NUM_2) hunter.clickBox.debug = !hunter.clickBox.debug
         if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE) {
+            BaseGame.clickSound!!.play(BaseGame.soundVolume)
             GameUtils.stopAllMusic()
             BaseGame.setActiveScreen(MenuScreen())
         }
@@ -101,7 +104,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         forestLayers.last().fog.makeInvisible()
         forestLayers.last().fog.delayedFadeIn(duration)
         for (layer in forestLayers) {
-            layer.addAction(Actions.moveBy(0f, -100f, duration, Interpolation.exp10Out))
+            layer.addAction(Actions.moveBy(0f, -105f, duration, Interpolation.exp10Out))
         }
     }
 
@@ -115,7 +118,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         for (layer in forestLayers) {
             layer.addAction(Actions.sequence(
                     Actions.delay(delayDuration),
-                    Actions.moveBy(0f, 100f, 10f, Interpolation.exp10Out)
+                    Actions.moveBy(0f, 105f, 10f, Interpolation.exp10Out)
             ))
         }
         net.addAction(Actions.sequence(

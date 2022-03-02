@@ -16,7 +16,7 @@ class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Fl
         this.color = color
         treeLayerInit(path)
         touchable = Touchable.disabled
-        y = 100f
+        y = 105f
 
         val layer = path.substring(path.length - 1).toInt()
         if (layer < 5) {

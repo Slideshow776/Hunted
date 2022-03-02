@@ -29,8 +29,16 @@ class SplashScreen : BaseScreen() {
     }
 
     override fun keyDown(keycode: Int): Boolean {
-        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACKSPACE)
-            Gdx.app.exit()
+        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACKSPACE) {
+            BaseGame.clickSound!!.play(BaseGame.soundVolume)
+            shockwaveBackground.addAction(Actions.sequence(
+                Actions.delay(.5f),
+                Actions.run {
+                    super.dispose()
+                    Gdx.app.exit()
+                }
+            ))
+        }
         return false
     }
 

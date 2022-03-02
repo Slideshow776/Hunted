@@ -59,9 +59,9 @@ class OptionsScreen : BaseScreen() {
             table.row()
         }
 
-        if (Gdx.app.type == Application.ApplicationType.Android) {
+        /*if (Gdx.app.type == Application.ApplicationType.Android) {
             table.add(gpsTable).padBottom(Gdx.graphics.height * .01f).row()
-        }
+        }*/
 
         /*table.debug = true*/
         return table
