@@ -138,6 +138,9 @@ Read on below for project specifics.
    ambient1Music.position = MathUtils.random(0f, 97f)
    ```
    This particular setup randomizes ambient music (in seconds), so that the player dosen't hear the same sounds upon starting a new game.
+   
+ * Voice-over flowchart:
+![image](https://user-images.githubusercontent.com/4059636/156520361-71b798d7-b938-488c-99da-909f6a8a5ab4.png)
 
 ## Other
 For other project specifics check out the [commits](https://github.com/Slideshow776/Hunted/commits/main).
