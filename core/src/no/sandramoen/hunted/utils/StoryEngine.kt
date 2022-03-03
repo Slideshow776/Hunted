@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.utils.Array
 
-class StoryEngine(private val label: Label, private val storyLevel: Int, private val timerStartValue: Int, val stage: Stage) {
+class StoryEngine(private val label: Label, private val tutorial: Boolean, private val timerStartValue: Int, val stage: Stage) {
     private var typeWriterElapsedTime = 0f
     private var charactersPerSecond = 15f
     private var storyText = ""
@@ -19,7 +19,6 @@ class StoryEngine(private val label: Label, private val storyLevel: Int, private
     private var storyTriggerFlag = true
 
     private var interruptables = Array<Sound>()
-    private val TUTORIAL = 1
 
     var pause = false
 
@@ -32,11 +31,11 @@ class StoryEngine(private val label: Label, private val storyLevel: Int, private
     fun update(dt: Float, timer: Int) {
         if (pause) return
 
-        if (storyLevel == TUTORIAL) {
+        if (tutorial) {
             if (timer == (timerStartValue * .95f).toInt() && tutorial1Flag) {
                 timerTrigger(BaseGame.myBundle!!.get("level1_intro1"), BaseGame.level1_intro1VoiceSound)
                 tutorial1Flag = false
-            } else if (timer == (timerStartValue * .88f).toInt() && tutorial2Flag && storyLevel == 1) {
+            } else if (timer == (timerStartValue * .88f).toInt() && tutorial2Flag) {
                 timerTrigger(BaseGame.myBundle!!.get("level1_intro2"), BaseGame.level1_intro2VoiceSound)
                 tutorial2Flag = false
             }

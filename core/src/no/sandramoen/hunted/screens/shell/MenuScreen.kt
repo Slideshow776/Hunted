@@ -62,8 +62,17 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE || keycode == Keys.BACKSPACE)
             exitGame()
-        else if (keycode == Keys.ENTER)
+        else if (keycode == Keys.ENTER) {
+            MenuShot(hunter.x, hunter.y + hunter.width / 2, mainStage)
+            for (i in 0..MathUtils.random(0, 1))
+                hunter.addAction(Actions.sequence(
+                    Actions.delay(MathUtils.random(.1f, .3f)),
+                    Actions.run { MenuShot(hunter.x, hunter.y + hunter.width / 2, mainStage) }
+                ))
+            startButton.touchable = Touchable.disabled
+            BaseGame.menuMusic!!.stop()
             startGame()
+        }
         return false
     }
 
@@ -92,6 +101,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
                         Actions.run { MenuShot(hunter.x, hunter.y + hunter.width / 2, mainStage) }
                     ))
                 startButton.touchable = Touchable.disabled
+                BaseGame.menuMusic!!.stop()
                 super.clicked(event, x, y)
             }
         })
@@ -127,7 +137,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private fun startGame() {
         startButton.addAction(Actions.sequence(
                 Actions.delay(.5f),
-                Actions.run { BaseGame.setActiveScreen(LevelScreen(1)) }
+                Actions.run { BaseGame.setActiveScreen(LevelScreen(tutorial = true)) }
         ))
     }
 

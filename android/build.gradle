@@ -18,10 +18,10 @@ android {
     }
     defaultConfig {
         applicationId "no.sandramoen.hunted"
-        minSdkVersion 14
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 3
+        versionName "3.0"
     }
     buildTypes {
         release {

@@ -26,6 +26,7 @@ class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Fl
             addLeaves(layer)
             addBirds(layer)
             addLightRays(layer)
+            addMoose(layer)
         }
 
         if (layer == 1) {
@@ -66,6 +67,12 @@ class ForestLayer(s: Stage, path: String, color: Color, var lightRayRotation: Fl
         if (layer > 1)
             for (i in 0 until MathUtils.random(0, 2))
                 addActor(LightRay(MathUtils.random(10f, 90f), 2f, stage, lightRayRotation))
+    }
+
+    private fun addMoose(layer: Int) {
+        if (layer > 1 && MathUtils.random(0f, 1f) > .4)
+            for (i in 0 until MathUtils.random(0, 1))
+                addActor(Moose(stage, color, layer))
     }
 
     private fun initCoverUp(y: Float, s: Stage) {

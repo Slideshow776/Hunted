@@ -16,7 +16,7 @@ import no.sandramoen.hunted.actors.hunter.Hunter
 import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
-open class LevelScreen(private val storyLevel: Int) : BaseScreen() {
+open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
     private lateinit var io: IO
 
@@ -28,7 +28,7 @@ open class LevelScreen(private val storyLevel: Int) : BaseScreen() {
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
-    private var storyEngine : StoryEngine = StoryEngine(storyLabel, storyLevel, timerStartValue.toInt(), mainStage)
+    private var storyEngine : StoryEngine = StoryEngine(storyLabel, tutorial, timerStartValue.toInt(), mainStage)
 
     private var gameOver = false
 
@@ -150,7 +150,7 @@ open class LevelScreen(private val storyLevel: Int) : BaseScreen() {
     }
 
     private fun setNextLevel() {
-        BaseGame.setActiveScreen(LevelScreen(storyLevel + 1))
+        BaseGame.setActiveScreen(LevelScreen())
     }
 
     private fun reset() {
