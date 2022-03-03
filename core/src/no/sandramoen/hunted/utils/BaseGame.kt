@@ -70,7 +70,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var horn_blowVoiceSound: Sound? = null
         var level1_intro2VoiceSound: Sound? = null
         var runVoiceSound: Sound? = null
-        var level_middleVoiceSound: Sound? = null
         var level1_intro1VoiceSound: Sound? = null
         var clickSound: Sound? = null
         var hoverOverEnterSound: Sound? = null
@@ -143,7 +142,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/story/do you hear that.wav", Sound::class.java)
             assetManager.load("audio/sound/story/find the hunter.wav", Sound::class.java)
             assetManager.load("audio/sound/story/run!.wav", Sound::class.java)
-            assetManager.load("audio/sound/story/still out there.wav", Sound::class.java)
             assetManager.load("audio/sound/story/you're being hunted.wav", Sound::class.java)
 
             // fonts
@@ -189,7 +187,6 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             horn_blowVoiceSound = assetManager.get("audio/sound/story/do you hear that.wav", Sound::class.java)
             level1_intro2VoiceSound = assetManager.get("audio/sound/story/find the hunter.wav", Sound::class.java)
             runVoiceSound = assetManager.get("audio/sound/story/run!.wav", Sound::class.java)
-            level_middleVoiceSound = assetManager.get("audio/sound/story/still out there.wav", Sound::class.java)
             level1_intro1VoiceSound = assetManager.get("audio/sound/story/you're being hunted.wav", Sound::class.java)
 
             // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)

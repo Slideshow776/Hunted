@@ -16,19 +16,19 @@ import no.sandramoen.hunted.actors.hunter.Hunter
 import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
-open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
+open class LevelScreen(private val storyLevel: Int) : BaseScreen() {
     private val forestLayers = Array<ForestLayer>()
     private lateinit var io: IO
 
     private lateinit var hunter: Hunter
     private lateinit var net: Net
 
-    private val timerStartValue = 63f
+    private val timerStartValue = 78f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
     private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
-    private var storyEngine : StoryEngine = StoryEngine(storyLabel, storyLevel)
+    private var storyEngine : StoryEngine = StoryEngine(storyLabel, storyLevel, timerStartValue.toInt(), mainStage)
 
     private var gameOver = false
 
@@ -73,7 +73,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
             forestLayers[i].act(dt)
         io.accelerometer()
         updateTimer(dt)
-        storyEngine.update(dt, timer)
+        storyEngine.update(dt, timer.toInt())
         if (!hunter.isHidden && !gameOver)
             cinematicClosing(false)
     }
@@ -112,7 +112,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         BaseGame.heartBeatFasterSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeInSound!!.play(BaseGame.soundVolume)
         gameOver = true
-        val delayDuration = 8f
+        val delayDuration = 9.5f
         forestLayers.last().fog.clearActions()
         forestLayers.last().fog.delayedFadeOut(delayDuration)
         for (layer in forestLayers) {
@@ -127,7 +127,8 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
         ))
 
         if (!net.isShot)
-            storyEngine.triggerFound()
+            storyEngine.triggerFound(hunter.detectedPlayer)
+
         timerLabel.addAction(
             Actions.sequence(
                 Actions.delay(2f),
@@ -149,7 +150,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
     }
 
     private fun setNextLevel() {
-        BaseGame.setActiveScreen(LevelScreen(1))
+        BaseGame.setActiveScreen(LevelScreen(storyLevel + 1))
     }
 
     private fun reset() {
@@ -173,7 +174,7 @@ open class LevelScreen(private var storyLevel: Int) : BaseScreen() {
             cinematicClosing(true)
         }
 
-        if (timer.toInt() == 15 && hunter.isNotBlowingHorn) {
+        if (timer.toInt() == (timerStartValue * .25f).toInt() && hunter.isNotBlowingHorn) {
             hunter.blowHorn()
             storyEngine.triggerHornSound()
         }

@@ -18,7 +18,8 @@ import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 import no.sandramoen.hunted.utils.GameUtils.Companion.isTouchDownEvent
 
-class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: Int) : BaseActor(0f, 0f, stage) {
+class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: Int) :
+    BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
     private val revealScaleAmount = .5f
 
@@ -33,7 +34,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
     lateinit var clickBox: BaseActor
 
     var isHidden = true
-    var inAction = false
+    var detectedPlayer = false
     var layerNumber: Int = -1
     var isNotBlowingHorn = true
 
@@ -80,7 +81,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
     }
 
     fun reset() {
-        inAction = false
+        detectedPlayer = false
         isHidden = true
         jump = false
         rotation = 0f
@@ -96,7 +97,18 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
         clickBox = BaseActor(x, y, stage)
         clickBox.centerAtActor(this)
         clickBox.addListener { e: Event ->
-            if (isTouchDownEvent(e)) { revealHunter() }
+            if (isTouchDownEvent(e)) {
+                if (MathUtils.random(1, 4) > 1) {
+                    isHidden = false
+                } else {
+                    isHidden = false
+                    detectedPlayer = true
+                    addAction(Actions.sequence(
+                        Actions.delay(6.5f),
+                        Actions.run { revealHunter() }
+                    ))
+                }
+            }
             false
         }
     }
@@ -166,8 +178,6 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
     private fun revealHunter() {
         stopBlowingHorn()
         clickBox.touchable = Touchable.disabled
-        inAction = true
-        isHidden = false
         addAction(Actions.rotateTo(0f, .125f))
         jump = true
         setSpeed(4f)
@@ -178,20 +188,22 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
         setAnimation(somersaultAnimation)
         somersaultAction()
         Shot(x, y, stage, layerNumber)
-        addAction(Actions.sequence(
-            Actions.parallel(
-                Actions.color(BaseGame.lightYellowBrown, .125f),
-                Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
-                Actions.sequence(
-                    Actions.delay(.25f),
-                    Actions.run { Shot(x, y, stage, layerNumber) },
-                    Actions.delay(.5f),
-                    Actions.run { Shot(x, y, stage, layerNumber) },
-                    Actions.delay(.75f),
-                    Actions.fadeOut(1.75f)
+        addAction(
+            Actions.sequence(
+                Actions.parallel(
+                    Actions.color(BaseGame.lightYellowBrown, .125f),
+                    Actions.scaleBy(revealScaleAmount, revealScaleAmount, 3f),
+                    Actions.sequence(
+                        Actions.delay(.25f),
+                        Actions.run { Shot(x, y, stage, layerNumber) },
+                        Actions.delay(.5f),
+                        Actions.run { Shot(x, y, stage, layerNumber) },
+                        Actions.delay(.75f),
+                        Actions.fadeOut(1.75f)
+                    )
                 )
             )
-        ))
+        )
     }
 
     private fun setUpLayerPositionAndSize() {
