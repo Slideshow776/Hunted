@@ -1,5 +1,6 @@
 package no.sandramoen.hunted.actors.forest
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -42,21 +43,24 @@ class FogLayer(x: Float, y: Float, s: Stage, path: String) : BaseActor(x, y, s) 
     }
 
     fun delayedFadeIn(duration: Float) {
-        val delayedFadeInAction = Actions.sequence(
+        fog1.addAction(Actions.sequence(
             Actions.delay(duration),
-            Actions.alpha(.3f, 10f)
-        )
-        fog1.addAction(delayedFadeInAction)
-        fog2.addAction(delayedFadeInAction)
+            Actions.parallel(
+                Actions.alpha(.3f, 10f)
+            )
+        ))
+        fog2.addAction(Actions.sequence(
+            Actions.delay(duration),
+            Actions.parallel(
+                Actions.alpha(.3f, 10f)
+            )
+        ))
     }
 
     fun delayedFadeOut(duration: Float) {
-        val delayedFadeOutAction = Actions.sequence(
-            Actions.delay(duration),
-            Actions.fadeOut(10f)
-        )
-        fog1.addAction(delayedFadeOutAction)
-        fog2.addAction(delayedFadeOutAction)
+        clearActions()
+        fog1.addAction(Actions.alpha(0f, duration))
+        fog2.addAction(Actions.alpha(0f, duration))
     }
 
     fun makeInvisible() {

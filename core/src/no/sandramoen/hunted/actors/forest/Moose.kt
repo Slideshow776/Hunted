@@ -49,11 +49,9 @@ class Moose(s: Stage, color: Color, val layer: Int) : BaseActor(0f, 0f, s) {
         }
         setOrigin(Align.center)
         touchable = Touchable.disabled
-        /*this.color = Color.PINK*/
         this.color = color
         if (layer == 4) modifier = 2f
         setPosition(MathUtils.random(-50f, 150f), 2f + layer * modifier)
-        debug = true
     }
 
     override fun act(dt: Float) {

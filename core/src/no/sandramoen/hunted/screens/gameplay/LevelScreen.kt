@@ -113,7 +113,6 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
         BaseGame.pantingFadeInSound!!.play(BaseGame.soundVolume)
         gameOver = true
         val delayDuration = 9.5f
-        forestLayers.last().fog.clearActions()
         forestLayers.last().fog.delayedFadeOut(delayDuration)
         for (layer in forestLayers) {
             layer.addAction(Actions.sequence(
