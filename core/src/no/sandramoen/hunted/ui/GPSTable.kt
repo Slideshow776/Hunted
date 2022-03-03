@@ -31,7 +31,6 @@ class GPSTable(): Table() {
         add(toggleButton()).row()
         add(achievementButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
         add(leaderboardsButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
-
         /*debug = true*/
     }
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Table
@@ -85,6 +86,7 @@ class MenuScreen : BaseScreen() {
                         Actions.delay(MathUtils.random(.1f, .3f)),
                         Actions.run { MenuShot(hunter.x, hunter.y + hunter.width / 2, mainStage) }
                     ))
+                startButton.touchable = Touchable.disabled
                 super.clicked(event, x, y)
             }
         })
@@ -106,6 +108,7 @@ class MenuScreen : BaseScreen() {
             }
             override fun clicked(event: InputEvent?, x: Float, y: Float) {
                 MenuNet(hunter.x, hunter.y, mainStage)
+                optionsButton.touchable = Touchable.disabled
                 super.clicked(event, x, y)
             }
         })

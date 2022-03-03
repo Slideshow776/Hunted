@@ -10,8 +10,8 @@ class HuntedGame(googlePlayServices: GooglePlayServices?, appLocale: String) : B
     override fun create() {
         super.create()
         // setActiveScreen(LevelScreen(1))
-        // setActiveScreen(MenuScreen())
+        setActiveScreen(MenuScreen())
         // setActiveScreen(OptionsScreen())
-        setActiveScreen(SplashScreen())
+        // setActiveScreen(SplashScreen())
     }
 }

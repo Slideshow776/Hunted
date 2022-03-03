@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
@@ -30,7 +31,7 @@ class OptionsScreen : BaseScreen() {
         table.row()
         table.add(optionsTable()).fillY().expandY()
         table.row()
-        table.add(backButton())
+        table.add(backButton()).padBottom(Gdx.graphics.height * .02f)
         table.row()
         table.add(MadeByLabel()).padBottom(Gdx.graphics.height * .02f)
         /*table.debug = true*/
@@ -59,9 +60,9 @@ class OptionsScreen : BaseScreen() {
             table.row()
         }
 
-        /*if (Gdx.app.type == Application.ApplicationType.Android) {
+        if (Gdx.app.type == Application.ApplicationType.Android) {
             table.add(gpsTable).padBottom(Gdx.graphics.height * .01f).row()
-        }*/
+        }
 
         /*table.debug = true*/
         return table
@@ -79,6 +80,7 @@ class OptionsScreen : BaseScreen() {
         textButton.label.setFontScale(1f)
         textButton.addListener(object : ActorGestureListener() {
             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
+                textButton.touchable = Touchable.disabled
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)
                 textButton.addAction(Actions.sequence(
                     Actions.delay(.5f),
