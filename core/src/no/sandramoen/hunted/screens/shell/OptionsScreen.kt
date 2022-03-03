@@ -84,7 +84,7 @@ class OptionsScreen : BaseScreen() {
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)
                 textButton.addAction(Actions.sequence(
                     Actions.delay(.5f),
-                    Actions.run { BaseGame.setActiveScreen(MenuScreen()) }
+                    Actions.run { BaseGame.setActiveScreen(MenuScreen(playMusic = false)) }
                 ))
             }
         })

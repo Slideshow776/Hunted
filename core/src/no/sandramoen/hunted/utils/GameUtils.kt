@@ -64,6 +64,7 @@ class GameUtils {
             BaseGame.ambient1Music!!.stop()
             BaseGame.level1Music!!.stop()
             BaseGame.level2Music!!.stop()
+            BaseGame.menuMusic!!.stop()
         }
 
         fun stopAmbientMusic() {

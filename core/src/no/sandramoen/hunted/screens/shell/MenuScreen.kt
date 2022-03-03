@@ -25,7 +25,7 @@ import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.BaseScreen
 import no.sandramoen.hunted.utils.GameUtils
 
-class MenuScreen : BaseScreen() {
+class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private lateinit var startButton: TextButton
     private lateinit var optionsButton: TextButton
     private lateinit var titleLabel: Label
@@ -50,6 +50,11 @@ class MenuScreen : BaseScreen() {
         table.add(MadeByLabel()).padBottom(Gdx.graphics.height * .02f)
         uiTable.add(table).fill().expand()
         /*table.debug = true*/
+
+        if (playMusic) {
+            BaseGame.menuMusic!!.play()
+            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
+        }
     }
 
     override fun update(dt: Float) {}

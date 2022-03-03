@@ -76,6 +76,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var ambient1Music: Music? = null
         var level1Music: Music? = null
         var level2Music: Music? = null
+        var menuMusic: Music? = null
 
         // game state
         var prefs: Preferences? = null
@@ -123,6 +124,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
             assetManager.load("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
             assetManager.load("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
+            assetManager.load("audio/music/568878__erokia__ambient-wave-single-1.wav", Music::class.java)
 
             // sounds
             assetManager.load("audio/sound/Laser_Shoot28.wav", Sound::class.java)
@@ -169,6 +171,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             ambient1Music = assetManager.get("audio/music/577446__klankbeeld__park-may-720pm-nl-denoise-210523-0284.wav", Music::class.java)
             level1Music = assetManager.get("audio/music/415274__neolein__mystic-ambience.wav", Music::class.java)
             level2Music = assetManager.get("audio/music/437182__neolein__electronicas-voice.wav", Music::class.java)
+            menuMusic = assetManager.get("audio/music/568878__erokia__ambient-wave-single-1.wav", Music::class.java)
 
             shotSound = assetManager.get("audio/sound/Laser_Shoot28.wav", Sound::class.java)
             swooshSound = assetManager.get("audio/sound/Hit_Hurt13.wav", Sound::class.java)
