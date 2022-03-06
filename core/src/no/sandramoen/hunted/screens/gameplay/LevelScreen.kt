@@ -1,5 +1,6 @@
 package no.sandramoen.hunted.screens.gameplay
 
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
@@ -23,7 +24,7 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
     private lateinit var hunter: Hunter
     private lateinit var net: Net
 
-    private val timerStartValue = 78f
+    private val timerStartValue = 98f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
 
@@ -141,10 +142,12 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
                     GameUtils.stopAllMusic()
                     BaseGame.heartBeatSlowerSound!!.stop()
                     BaseGame.heartBeatFasterSound!!.stop()
-                    if (caught)
+                    if (caught) {
                         BaseGame.setActiveScreen(MenuScreen())
-                    else
+                    } else {
+                        GameUtils.rewardAchievement("found")
                         setNextLevel()
+                    }
                 }
             )
         )
@@ -169,10 +172,7 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
             timerLabel.setText("${timer.toInt()}")
         } else if (timer <= 0f && timer >= -10f) {
             timer = -11f
-            net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
-            hunter.clickBox.touchable = Touchable.disabled
-            storyEngine.triggerCaught()
-            cinematicClosing(true)
+            playerCaught()
         }
 
         if (timer.toInt() == (timerStartValue * .25f).toInt() && hunter.isNotBlowingHorn) {
@@ -182,5 +182,13 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
                 Actions.run { storyEngine.triggerHornBlown() }
             ))
         }
+    }
+
+    private fun playerCaught() {
+        net.shoot(hunter.x, hunter.y, GameUtils.shotTravelAmount(hunter.layerNumber))
+        hunter.clickBox.touchable = Touchable.disabled
+        storyEngine.triggerCaught()
+        cinematicClosing(true)
+        GameUtils.rewardAchievement("caught")
     }
 }

@@ -1,5 +1,6 @@
 package no.sandramoen.hunted.utils
 
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.Color
@@ -133,6 +134,11 @@ class GameUtils {
                     Actions.alpha(lowestAlpha, duration / 2),
                     Actions.alpha(1f, duration / 2)
             )))
+        }
+
+        fun rewardAchievement(name: String, increment: Int = 1) {
+            if (BaseGame.gps != null && Gdx.app.type == Application.ApplicationType.Android)
+                BaseGame.gps!!.rewardAchievement(name, increment)
         }
     }
 }

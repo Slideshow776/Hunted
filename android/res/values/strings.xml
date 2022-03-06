@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Hunted</string>
-
+    <string name="caughtAchievement">CgkIvqO7pK0LEAIQAQ</string>
+    <string name="found1">CgkIvqO7pK0LEAIQAg</string>
+    <string name="found5">CgkIvqO7pK0LEAIQAw</string>
+    <string name="found10">CgkIvqO7pK0LEAIQBA</string>
+    <string name="found50">CgkIvqO7pK0LEAIQBQ</string>
 </resources>
