@@ -114,7 +114,7 @@ class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: In
     }
 
     private fun setSize() {
-        val hunterScale = 1f
+        val hunterScale = 1.05f
         when (layerNumber) {
             1 -> setSize(1.25f * hunterScale, 1f * BaseGame.RATIO * hunterScale)
             2 -> setSize(1.4f * hunterScale, 1.12f * BaseGame.RATIO * hunterScale)
