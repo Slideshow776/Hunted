@@ -124,6 +124,7 @@ Read on below for project specifics.
 ## Credits
 * Ambient forest sounds by [klankbeeld](https://freesound.org/people/klankbeeld/) on [freesound.org](freesound.org).
 * Music by [neolein](https://freesound.org/people/neolein/) on [freesound.org](freesound.org).
+* Voice acting by the talented Øystein Sjøtveit.
 
 ## Project comments
 * Found out `.ttf` fonts can have a shadow, like this:
