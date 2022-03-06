@@ -25,6 +25,6 @@ public class DesktopLauncher {
 		config.resizable = true;
 		config.addIcon("images/excluded/desktopIcon.png", Files.FileType.Internal);
 
-		new LwjglApplication(new HuntedGame(null, "en"), config);
+		new LwjglApplication(new HuntedGame(null, "no"), config); // TODO: change app locale to 'en'
 	}
 }

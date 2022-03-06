@@ -33,7 +33,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private lateinit var hunter: MenuHunter
 
     override fun initialize() {
-        titleLabel = Label("Hunted", BaseGame.bigLabelStyle)
+        titleLabel = Label(BaseGame.myBundle!!.get("title"), BaseGame.bigLabelStyle)
         titleLabel.setFontScale(1f)
         titleLabel.setAlignment(Align.center)
         titleLabel.color = BaseGame.lightBrown
@@ -106,7 +106,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
             }
         })
 
-        optionsButton = TextButton("Options", BaseGame.textButtonStyle)
+        optionsButton = TextButton(BaseGame.myBundle!!.get("options"), BaseGame.textButtonStyle)
         optionsButton.label.setFontScale(buttonFontScale)
         optionsButton.addListener { e: Event ->
             if (GameUtils.isTouchDownEvent(e)) {

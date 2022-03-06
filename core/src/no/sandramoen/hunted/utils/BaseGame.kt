@@ -27,7 +27,6 @@ import java.util.*
 import kotlin.system.measureTimeMillis
 
 abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: String) : Game(), AssetErrorListener {
-    private val tag = "BaseGame.kt"
     private val appLocale = appLocale
 
     init { game = this }
@@ -66,11 +65,54 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var pantingFadeInSound: Sound? = null
         var pantingFadeOutSound: Sound? = null
         var bushSound: Sound? = null
-        var caughtVoiceSound: Sound? = null
-        var horn_blowVoiceSound: Sound? = null
-        var level1_intro2VoiceSound: Sound? = null
-        var runVoiceSound: Sound? = null
-        var level1_intro1VoiceSound: Sound? = null
+        var en_caughtVoiceSound: Sound? = null
+        var en_hornBlowVoiceSound: Sound? = null
+        var en_tutorial0VoiceSound: Sound? = null
+        var en_tutorial1VoiceSound: Sound? = null
+        var en_outro0VoiceSound: Sound? = null
+        var en_outro1VoiceSound: Sound? = null
+        var en_outro2VoiceSound: Sound? = null
+        var en_outroSafeVoiceSound: Sound? = null
+        var en_outroDanger0VoiceSound: Sound? = null
+        var en_outroDanger1VoiceSound: Sound? = null
+        var en_intro0VoiceSound: Sound? = null
+        var en_intro1VoiceSound: Sound? = null
+        var en_intro2VoiceSound: Sound? = null
+        var en_story0VoiceSound: Sound? = null
+        var en_story1VoiceSound: Sound? = null
+        var en_story2VoiceSound: Sound? = null
+        var en_story3VoiceSound: Sound? = null
+        var en_story4VoiceSound: Sound? = null
+        var en_story5VoiceSound: Sound? = null
+        var en_story6VoiceSound: Sound? = null
+        var en_story7VoiceSound: Sound? = null
+        var en_story8VoiceSound: Sound? = null
+        var en_story9VoiceSound: Sound? = null
+        var en_story10VoiceSound: Sound? = null
+        var no_caughtVoiceSound: Sound? = null
+        var no_hornBlowVoiceSound: Sound? = null
+        var no_tutorial0VoiceSound: Sound? = null
+        var no_tutorial1VoiceSound: Sound? = null
+        var no_outro0VoiceSound: Sound? = null
+        var no_outro1VoiceSound: Sound? = null
+        var no_outro2VoiceSound: Sound? = null
+        var no_outroSafeVoiceSound: Sound? = null
+        var no_outroDanger0VoiceSound: Sound? = null
+        var no_outroDanger1VoiceSound: Sound? = null
+        var no_intro0VoiceSound: Sound? = null
+        var no_intro1VoiceSound: Sound? = null
+        var no_intro2VoiceSound: Sound? = null
+        var no_story0VoiceSound: Sound? = null
+        var no_story1VoiceSound: Sound? = null
+        var no_story2VoiceSound: Sound? = null
+        var no_story3VoiceSound: Sound? = null
+        var no_story4VoiceSound: Sound? = null
+        var no_story5VoiceSound: Sound? = null
+        var no_story6VoiceSound: Sound? = null
+        var no_story7VoiceSound: Sound? = null
+        var no_story8VoiceSound: Sound? = null
+        var no_story9VoiceSound: Sound? = null
+        var no_story10VoiceSound: Sound? = null
         var clickSound: Sound? = null
         var hoverOverEnterSound: Sound? = null
         var ambient1Music: Music? = null
@@ -111,7 +153,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         try {
             skin = Skin(Gdx.files.internal("skins/default/uiskin.json"))
         } catch (error: Throwable) {
-            Gdx.app.error(tag, "Error: Could not load skin: $error")
+            Gdx.app.error(javaClass.simpleName, "Error: Could not load skin: $error")
         }
 
         // asset manager
@@ -140,11 +182,56 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.load("audio/sound/click1.wav", Sound::class.java)
             assetManager.load("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
-            assetManager.load("audio/sound/story/caught.wav", Sound::class.java)
-            assetManager.load("audio/sound/story/do you hear that.wav", Sound::class.java)
-            assetManager.load("audio/sound/story/find the hunter.wav", Sound::class.java)
-            assetManager.load("audio/sound/story/run!.wav", Sound::class.java)
-            assetManager.load("audio/sound/story/you're being hunted.wav", Sound::class.java)
+            // sounds - voice
+            assetManager.load("audio/sound/voice/en/caught.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/hornBlow.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/tutorial0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/tutorial1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outro0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outro1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outro2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outroSafe.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outroDanger0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/outroDanger1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/intro0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/intro1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/intro2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story3.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story4.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story5.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story6.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story7.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story8.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story9.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/en/story10.ogg", Sound::class.java)
+
+            assetManager.load("audio/sound/voice/no/caught.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/hornBlow.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/tutorial0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/tutorial1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outro0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outro1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outro2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outroSafe.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outroDanger0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/outroDanger1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/intro0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/intro1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/intro2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story0.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story1.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story2.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story3.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story4.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story5.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story6.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story7.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story8.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story9.ogg", Sound::class.java)
+            assetManager.load("audio/sound/voice/no/story10.ogg", Sound::class.java)
 
             // fonts
             val resolver = InternalFileHandleResolver()
@@ -186,13 +273,56 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             clickSound = assetManager.get("audio/sound/click1.wav", Sound::class.java)
             hoverOverEnterSound = assetManager.get("audio/sound/hoverOverEnter.wav", Sound::class.java)
 
-            caughtVoiceSound = assetManager.get("audio/sound/story/caught.wav", Sound::class.java)
-            horn_blowVoiceSound = assetManager.get("audio/sound/story/do you hear that.wav", Sound::class.java)
-            level1_intro2VoiceSound = assetManager.get("audio/sound/story/find the hunter.wav", Sound::class.java)
-            runVoiceSound = assetManager.get("audio/sound/story/run!.wav", Sound::class.java)
-            level1_intro1VoiceSound = assetManager.get("audio/sound/story/you're being hunted.wav", Sound::class.java)
+            // audio - voice
+            en_caughtVoiceSound = assetManager.get("audio/sound/voice/en/caught.ogg", Sound::class.java)
+            en_hornBlowVoiceSound = assetManager.get("audio/sound/voice/en/hornBlow.ogg", Sound::class.java)
+            en_tutorial0VoiceSound = assetManager.get("audio/sound/voice/en/tutorial0.ogg", Sound::class.java)
+            en_tutorial1VoiceSound = assetManager.get("audio/sound/voice/en/tutorial1.ogg", Sound::class.java)
+            en_outro0VoiceSound = assetManager.get("audio/sound/voice/en/outro0.ogg", Sound::class.java)
+            en_outro1VoiceSound = assetManager.get("audio/sound/voice/en/outro1.ogg", Sound::class.java)
+            en_outro2VoiceSound = assetManager.get("audio/sound/voice/en/outro2.ogg", Sound::class.java)
+            en_outroSafeVoiceSound = assetManager.get("audio/sound/voice/en/outroSafe.ogg", Sound::class.java)
+            en_outroDanger0VoiceSound = assetManager.get("audio/sound/voice/en/outroDanger0.ogg", Sound::class.java)
+            en_outroDanger1VoiceSound = assetManager.get("audio/sound/voice/en/outroDanger1.ogg", Sound::class.java)
+            en_intro0VoiceSound = assetManager.get("audio/sound/voice/en/intro0.ogg", Sound::class.java)
+            en_intro1VoiceSound = assetManager.get("audio/sound/voice/en/intro1.ogg", Sound::class.java)
+            en_intro2VoiceSound = assetManager.get("audio/sound/voice/en/intro2.ogg", Sound::class.java)
+            en_story0VoiceSound = assetManager.get("audio/sound/voice/en/story0.ogg", Sound::class.java)
+            en_story1VoiceSound = assetManager.get("audio/sound/voice/en/story1.ogg", Sound::class.java)
+            en_story2VoiceSound = assetManager.get("audio/sound/voice/en/story2.ogg", Sound::class.java)
+            en_story3VoiceSound = assetManager.get("audio/sound/voice/en/story3.ogg", Sound::class.java)
+            en_story4VoiceSound = assetManager.get("audio/sound/voice/en/story4.ogg", Sound::class.java)
+            en_story5VoiceSound = assetManager.get("audio/sound/voice/en/story5.ogg", Sound::class.java)
+            en_story6VoiceSound = assetManager.get("audio/sound/voice/en/story6.ogg", Sound::class.java)
+            en_story7VoiceSound = assetManager.get("audio/sound/voice/en/story7.ogg", Sound::class.java)
+            en_story8VoiceSound = assetManager.get("audio/sound/voice/en/story8.ogg", Sound::class.java)
+            en_story9VoiceSound = assetManager.get("audio/sound/voice/en/story9.ogg", Sound::class.java)
+            en_story10VoiceSound = assetManager.get("audio/sound/voice/en/story10.ogg", Sound::class.java)
 
-            // deathLSound = assetManager.get("audio/sound/BNB_SFX_DEATH_L.wav", Sound::class.java)
+            no_caughtVoiceSound = assetManager.get("audio/sound/voice/no/caught.ogg", Sound::class.java)
+            no_hornBlowVoiceSound = assetManager.get("audio/sound/voice/no/hornBlow.ogg", Sound::class.java)
+            no_tutorial0VoiceSound = assetManager.get("audio/sound/voice/no/tutorial0.ogg", Sound::class.java)
+            no_tutorial1VoiceSound = assetManager.get("audio/sound/voice/no/tutorial1.ogg", Sound::class.java)
+            no_outro0VoiceSound = assetManager.get("audio/sound/voice/no/outro0.ogg", Sound::class.java)
+            no_outro1VoiceSound = assetManager.get("audio/sound/voice/no/outro1.ogg", Sound::class.java)
+            no_outro2VoiceSound = assetManager.get("audio/sound/voice/no/outro2.ogg", Sound::class.java)
+            no_outroSafeVoiceSound = assetManager.get("audio/sound/voice/no/outroSafe.ogg", Sound::class.java)
+            no_outroDanger0VoiceSound = assetManager.get("audio/sound/voice/no/outroDanger0.ogg", Sound::class.java)
+            no_outroDanger1VoiceSound = assetManager.get("audio/sound/voice/no/outroDanger1.ogg", Sound::class.java)
+            no_intro0VoiceSound = assetManager.get("audio/sound/voice/no/intro0.ogg", Sound::class.java)
+            no_intro1VoiceSound = assetManager.get("audio/sound/voice/no/intro1.ogg", Sound::class.java)
+            no_intro2VoiceSound = assetManager.get("audio/sound/voice/no/intro2.ogg", Sound::class.java)
+            no_story0VoiceSound = assetManager.get("audio/sound/voice/no/story0.ogg", Sound::class.java)
+            no_story1VoiceSound = assetManager.get("audio/sound/voice/no/story1.ogg", Sound::class.java)
+            no_story2VoiceSound = assetManager.get("audio/sound/voice/no/story2.ogg", Sound::class.java)
+            no_story3VoiceSound = assetManager.get("audio/sound/voice/no/story3.ogg", Sound::class.java)
+            no_story4VoiceSound = assetManager.get("audio/sound/voice/no/story4.ogg", Sound::class.java)
+            no_story5VoiceSound = assetManager.get("audio/sound/voice/no/story5.ogg", Sound::class.java)
+            no_story6VoiceSound = assetManager.get("audio/sound/voice/no/story6.ogg", Sound::class.java)
+            no_story7VoiceSound = assetManager.get("audio/sound/voice/no/story7.ogg", Sound::class.java)
+            no_story8VoiceSound = assetManager.get("audio/sound/voice/no/story8.ogg", Sound::class.java)
+            no_story9VoiceSound = assetManager.get("audio/sound/voice/no/story9.ogg", Sound::class.java)
+            no_story10VoiceSound = assetManager.get("audio/sound/voice/no/story10.ogg", Sound::class.java)
 
             // text files
             defaultShader = assetManager.get("shaders/default.vs", Text::class.java).getString()
@@ -247,7 +377,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
                 Gdx.graphics.setCursor(customCursor)
             }
         }
-        Gdx.app.error(tag, "Asset manager took $time ms to load all game assets.")
+        Gdx.app.error(javaClass.simpleName, "Asset manager took $time ms to load all game assets.")
     }
 
     override fun dispose() {
@@ -258,11 +388,11 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             assetManager.dispose()
             fontGenerator.dispose()
         } catch (error: UninitializedPropertyAccessException) {
-            Gdx.app.error("BaseGame", "$error")
+            Gdx.app.error(javaClass.simpleName, "$error")
         }
     }
 
     override fun error(asset: AssetDescriptor<*>, throwable: Throwable) {
-        Gdx.app.error(tag, "Could not load asset: " + asset.fileName, throwable)
+        Gdx.app.error(javaClass.simpleName, "Could not load asset: " + asset.fileName, throwable)
     }
 }

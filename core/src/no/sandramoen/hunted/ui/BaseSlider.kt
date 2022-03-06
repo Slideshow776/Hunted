@@ -19,7 +19,7 @@ class BaseSlider(value: String, labelText: String) : Table() {
         val containerWidth = Gdx.graphics.width * .07f
         val containerHeight = Gdx.graphics.height * .02f
         val containerScaleX = 4f
-        val containerScaleY = 5f
+        val containerScaleY = 4.5f
 
         val slider = sliderInit(value)
 
@@ -64,8 +64,8 @@ class BaseSlider(value: String, labelText: String) : Table() {
     }
 
     private fun labelInit(labelText: String): Label {
-        val label = Label("$labelText", BaseGame.bigLabelStyle)
-        label.setFontScale(.35f)
+        val label = Label("$labelText", BaseGame.smallLabelStyle)
+        label.setFontScale(1.2f)
         GameUtils.addWidgetEnterExitEffect(label)
         return label
     }

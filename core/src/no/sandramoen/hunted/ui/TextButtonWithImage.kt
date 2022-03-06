@@ -17,7 +17,7 @@ class TextButtonWithImage(buttonText: String, imagePath: String) : Table() {
 
     init {
         textButton = TextButton(buttonText, BaseGame.textButtonStyle)
-        textButton.label.setFontScale(.6f)
+        textButton.label.setFontScale(.65f)
         textButton.addListener(object : ActorGestureListener() {
             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {
                 BaseGame.clickSound!!.play(BaseGame.soundVolume)

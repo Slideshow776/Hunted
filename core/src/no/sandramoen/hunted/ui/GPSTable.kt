@@ -24,13 +24,13 @@ class GPSTable(): Table() {
     private val leaderboardsButton = TextButtonWithImage("Leaderboards", "leaderboards-icon")
 
     init {
-        val gpsLabel = Label("Google Play Services", BaseGame.smallLabelStyle)
-        gpsLabel.setFontScale(1.25f)
+        val gpsLabel = Label("Google Play ${BaseGame.myBundle!!.get("services")}", BaseGame.smallLabelStyle)
+        gpsLabel.setFontScale(1.2f)
 
         add(gpsLabel).colspan(3).padBottom(Gdx.graphics.height * .02f).row()
         add(toggleButton()).row()
-        add(achievementButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
-        add(leaderboardsButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
+        add(achievementButton).padTop(Gdx.graphics.height * .01f).colspan(2).row()
+        // add(leaderboardsButton).padTop(Gdx.graphics.height * .03f).colspan(2).row()
         /*debug = true*/
     }
 

@@ -27,13 +27,13 @@ class OptionsScreen : BaseScreen() {
         Vignette(mainStage)
 
         val table = Table()
-        table.add(mainLabel())
+        table.add(mainLabel()).padBottom(Gdx.graphics.height * .03f)
         table.row()
         table.add(optionsTable()).fillY().expandY()
         table.row()
-        table.add(backButton()).padBottom(Gdx.graphics.height * .02f)
+        table.add(backButton()).padBottom(Gdx.graphics.height * .03f)
         table.row()
-        table.add(MadeByLabel()).padBottom(Gdx.graphics.height * .02f)
+        table.add(MadeByLabel()).padBottom(Gdx.graphics.height * .03f)
         /*table.debug = true*/
 
         uiTable.add(table).fill().expand()
@@ -46,7 +46,7 @@ class OptionsScreen : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACKSPACE) {
             BaseGame.clickSound!!.play(BaseGame.soundVolume)
-            BaseGame.setActiveScreen(MenuScreen())
+            BaseGame.setActiveScreen(MenuScreen(playMusic = false))
         }
         return false
     }
@@ -54,11 +54,13 @@ class OptionsScreen : BaseScreen() {
     private fun optionsTable(): Table {
         val table = Table()
         if (BaseGame.skin != null) {
-            table.add(BaseSlider("sound", "Sound")).padBottom(Gdx.graphics.height * .01f)
+            table.add(BaseSlider("sound", BaseGame.myBundle!!.get("sound"))).padBottom(Gdx.graphics.height * .01f)
             table.row()
-            table.add(BaseSlider("music", "Music")).padBottom(Gdx.graphics.height * .05f)
+            table.add(BaseSlider("music", BaseGame.myBundle!!.get("music"))).padBottom(Gdx.graphics.height * .02f)
             table.row()
         }
+
+        table.add(LanguageCarousel()).padBottom(Gdx.graphics.height * .04f).row()
 
         if (Gdx.app.type == Application.ApplicationType.Android) {
             table.add(gpsTable).padBottom(Gdx.graphics.height * .01f).row()
@@ -69,14 +71,14 @@ class OptionsScreen : BaseScreen() {
     }
 
     private fun mainLabel(): Label {
-        val label = Label("Options", BaseGame.bigLabelStyle)
+        val label = Label(BaseGame.myBundle!!.get("options"), BaseGame.bigLabelStyle)
         label.setFontScale(.6f)
         label.setAlignment(Align.center)
         return label
     }
 
     private fun backButton(): TextButton {
-        val textButton = TextButton("Back", BaseGame.textButtonStyle)
+        val textButton = TextButton(BaseGame.myBundle!!.get("back"), BaseGame.textButtonStyle)
         textButton.label.setFontScale(1f)
         textButton.addListener(object : ActorGestureListener() {
             override fun tap(event: InputEvent?, x: Float, y: Float, count: Int, button: Int) {

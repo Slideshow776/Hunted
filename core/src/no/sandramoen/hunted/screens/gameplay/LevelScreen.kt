@@ -88,10 +88,12 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
         if (keycode == Keys.T) hunter.blowHorn()
         if (keycode == Keys.Q) timer = timerStartValue
         if (keycode == Keys.NUM_2) hunter.clickBox.debug = !hunter.clickBox.debug
+        if (keycode == Keys.NUM_1) storyEngine.storyTrigger()
         if (keycode == Keys.ESCAPE || keycode == Keys.BACK || keycode == Keys.BACKSPACE) {
             BaseGame.clickSound!!.play(BaseGame.soundVolume)
             GameUtils.stopAllMusic()
             BaseGame.setActiveScreen(MenuScreen())
+            storyEngine.stopAllSounds()
         }
         return super.keyDown(keycode)
     }
@@ -175,7 +177,10 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
 
         if (timer.toInt() == (timerStartValue * .25f).toInt() && hunter.isNotBlowingHorn) {
             hunter.blowHorn()
-            storyEngine.triggerHornSound()
+            timerLabel.addAction(Actions.sequence(
+                Actions.delay(4.2f),
+                Actions.run { storyEngine.triggerHornBlown() }
+            ))
         }
     }
 }

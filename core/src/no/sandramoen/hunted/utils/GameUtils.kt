@@ -48,6 +48,7 @@ class GameUtils {
             BaseGame.prefs!!.putBoolean("googlePlayServices", BaseGame.isGPS)
             BaseGame.prefs!!.putFloat("musicVolume", BaseGame.musicVolume)
             BaseGame.prefs!!.putFloat("soundVolume", BaseGame.soundVolume)
+            BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
             BaseGame.prefs!!.flush()
         }
 
@@ -86,6 +87,7 @@ class GameUtils {
             BaseGame.level1Music!!.volume = BaseGame.musicVolume
             BaseGame.level2Music!!.volume = BaseGame.musicVolume
             BaseGame.ambient1Music!!.volume = BaseGame.musicVolume
+            BaseGame.menuMusic!!.volume = BaseGame.musicVolume
         }
 
         fun playAndLoopMusic(music: Music?, volume: Float = BaseGame.musicVolume) {
