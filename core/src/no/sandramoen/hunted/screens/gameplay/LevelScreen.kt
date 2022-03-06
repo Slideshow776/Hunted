@@ -1,12 +1,12 @@
 package no.sandramoen.hunted.screens.gameplay
 
-import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -27,6 +27,7 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
     private val timerStartValue = 98f
     private var timer = timerStartValue
     private var timerLabel = Label("$timer", BaseGame.smallLabelStyle)
+    private lateinit var tutorialLabel: Label
 
     private var storyLabel = Label("LevelScreen", BaseGame.smallLabelStyle)
     private var storyEngine : StoryEngine = StoryEngine(storyLabel, tutorial, timerStartValue.toInt(), mainStage)
@@ -55,10 +56,13 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
 
         timerLabel.color = BaseGame.lightBrown
         timerLabel.setFontScale(1.1f)
-        timerLabel.addAction(Actions.sequence(
-            Actions.delay(2f),
-            Actions.fadeIn(.125f)
-        ))
+        if (tutorial)
+            timerLabel.addAction(Actions.fadeOut(0f))
+        else
+            timerLabel.addAction(Actions.sequence(
+                Actions.delay(2f),
+                Actions.fadeIn(.125f)
+            ))
         storyLabel.color = BaseGame.lightBrown
         storyLabel.setFontScale(1.1f)
         uiTable.add(timerLabel).expandY().top().padTop(Gdx.graphics.height * .01f).row()
@@ -67,13 +71,17 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
 
         GameUtils.playAmbientMusicWithRandomStart()
         GameUtils.playRandomLevelMusic()
+        if (tutorial)
+            tutorial()
     }
 
     override fun update(dt: Float) {
         for (i in 0 until forestLayers.size)
             forestLayers[i].act(dt)
         io.accelerometer()
-        updateTimer(dt)
+
+        if (!tutorial || timer >= timerStartValue - 15f)
+            updateTimer(dt)
         storyEngine.update(dt, timer.toInt())
         if (!hunter.isHidden && !gameOver)
             cinematicClosing(false)
@@ -99,6 +107,38 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
         return super.keyDown(keycode)
     }
 
+    private fun tutorial() {
+        val stopwatch = BaseActor(0f, 0f, mainStage)
+        tutorialLabel = Label(BaseGame.myBundle!!.get("tutorialText0"), BaseGame.smallLabelStyle)
+        tutorialLabel.color = BaseGame.lightBrown
+        tutorialLabel.addAction(Actions.fadeOut(0f))
+        val group = Group()
+        group.addActor(tutorialLabel)
+        group.setScale(.05f)
+
+        stopwatch.setSize(1f, 1f)
+        var xPosition =
+            if (hunter.clickBox.x <= 50f)
+                hunter.clickBox.x + hunter.clickBox.width
+            else
+                hunter.clickBox.x - hunter.clickBox.width * 7
+        val yPos =
+            if (hunter.clickBox.y <= 50f)
+                hunter.clickBox.y + hunter.clickBox.height
+            else
+                hunter.clickBox.y - hunter.clickBox.height
+        stopwatch.setPosition(xPosition, yPos)
+        stopwatch.addActor(group)
+        stopwatch.addAction(Actions.sequence(
+            Actions.delay(15f),
+            Actions.run { hunter.clickBox.debug = true },
+            Actions.delay(1f),
+            Actions.run { tutorialLabel.addAction(Actions.fadeIn(2f)) },
+            Actions.delay(2f),
+            Actions.run { GameUtils.pulseWidget(tutorialLabel) }
+        ))
+    }
+
     private fun cinematicOpening() {
         BaseGame.heartBeatSlowerSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeOutSound!!.play(BaseGame.soundVolume * .6f)
@@ -112,6 +152,14 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
     }
 
     private fun cinematicClosing(caught: Boolean) {
+        if (tutorial) {
+            hunter.clickBox.debug = false
+            tutorialLabel.clearActions()
+            tutorialLabel.addAction(Actions.fadeOut(2f))
+            BaseGame.tutorial = false
+            GameUtils.saveGameState()
+        }
+
         BaseGame.heartBeatFasterSound!!.play(BaseGame.soundVolume * .6f)
         BaseGame.pantingFadeInSound!!.play(BaseGame.soundVolume)
         gameOver = true

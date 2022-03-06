@@ -137,7 +137,7 @@ class MenuScreen(private val playMusic: Boolean = true) : BaseScreen() {
     private fun startGame() {
         startButton.addAction(Actions.sequence(
                 Actions.delay(.5f),
-                Actions.run { BaseGame.setActiveScreen(LevelScreen(tutorial = true)) }
+                Actions.run { BaseGame.setActiveScreen(LevelScreen(tutorial = BaseGame.tutorial)) }
         ))
     }
 

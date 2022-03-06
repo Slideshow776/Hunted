@@ -50,6 +50,7 @@ class GameUtils {
             BaseGame.prefs!!.putFloat("musicVolume", BaseGame.musicVolume)
             BaseGame.prefs!!.putFloat("soundVolume", BaseGame.soundVolume)
             BaseGame.prefs!!.putString("locale", BaseGame.currentLocale)
+            BaseGame.prefs!!.putBoolean("tutorial", BaseGame.tutorial)
             BaseGame.prefs!!.flush()
         }
 
@@ -60,6 +61,7 @@ class GameUtils {
             BaseGame.musicVolume = BaseGame.prefs!!.getFloat("musicVolume")
             BaseGame.soundVolume = BaseGame.prefs!!.getFloat("soundVolume")
             BaseGame.currentLocale = BaseGame.prefs!!.getString("locale")
+            BaseGame.tutorial = BaseGame.prefs!!.getBoolean("tutorial")
         }
 
         fun stopAllMusic() {

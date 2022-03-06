@@ -126,6 +126,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
         var soundVolume = .75f
         var musicVolume = .5f
         var isGPS = false
+        var tutorial = true
         var currentLocale: String? = null
         var myBundle: I18NBundle? = null
 
@@ -148,6 +149,7 @@ abstract class BaseGame(var googlePlayServices: GooglePlayServices?, appLocale: 
             musicVolume = .25f
             if (Gdx.app.type == Application.ApplicationType.Android)
                 isGPS = true
+            tutorial = true
         }
         RATIO = Gdx.graphics.width.toFloat() / Gdx.graphics.height
         try {
