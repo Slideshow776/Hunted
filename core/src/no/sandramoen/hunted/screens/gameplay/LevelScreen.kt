@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -14,6 +15,8 @@ import com.badlogic.gdx.utils.Array
 import no.sandramoen.hunted.actors.*
 import no.sandramoen.hunted.actors.forest.ForestLayer
 import no.sandramoen.hunted.actors.hunter.Hunter
+import no.sandramoen.hunted.actors.particles.SporesActor
+import no.sandramoen.hunted.actors.particles.Layer5SporesEffect
 import no.sandramoen.hunted.screens.shell.MenuScreen
 import no.sandramoen.hunted.utils.*
 
@@ -38,11 +41,11 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
 
     override fun initialize() {
         val lightRayRotation = MathUtils.random(-15f, 15f)
-        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 5", Color(0.627f, 0.867f, 0.827f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 4", Color(0.435f, 0.69f, 0.718f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 3", Color(0.341f, 0.498f, 0.616f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 2", Color(0.29f, 0.341f, 0.525f, 1f), lightRayRotation))
-        forestLayers.add(ForestLayer(mainStage, "forest/level$levelNumber/Layer 1", Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, levelNumber, 5, Color(0.627f, 0.867f, 0.827f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, levelNumber, 4, Color(0.435f, 0.69f, 0.718f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, levelNumber, 3, Color(0.341f, 0.498f, 0.616f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, levelNumber, 2, Color(0.29f, 0.341f, 0.525f, 1f), lightRayRotation))
+        forestLayers.add(ForestLayer(mainStage, levelNumber, 1, Color(0.243f, 0.231f, 0.4f, 1f), lightRayRotation))
 
         io = IO(forestLayers)
         cinematicOpening()
@@ -85,6 +88,13 @@ open class LevelScreen(private val tutorial: Boolean = false) : BaseScreen() {
         storyEngine.update(dt, timer.toInt())
         if (!hunter.isHidden && !gameOver)
             cinematicClosing(false)
+
+        // Gdx.app.error(javaClass.simpleName, "FPS => ${Gdx.graphics.framesPerSecond}")
+    }
+
+    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        // println(camera.unproject(Vector3(screenX.toFloat(), screenY.toFloat(), 0f)))
+        return super.touchDown(screenX, screenY, pointer, button)
     }
 
     override fun mouseMoved(screenX: Int, screenY: Int): Boolean {

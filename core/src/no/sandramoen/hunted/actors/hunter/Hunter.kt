@@ -18,7 +18,7 @@ import no.sandramoen.hunted.utils.BaseGame
 import no.sandramoen.hunted.utils.GameUtils
 import no.sandramoen.hunted.utils.GameUtils.Companion.isTouchDownEvent
 
-class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, val levelNumber: Int) :
+class Hunter(stage: Stage, forestLayers: Array<ForestLayer>, private val levelNumber: Int) :
     BaseActor(0f, 0f, stage) {
     private val forestLayers = forestLayers
     private val revealScaleAmount = .5f
