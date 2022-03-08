@@ -23,7 +23,7 @@ class SporesActor(
     private fun delayedStartOfEffect() {
         val frequency = MathUtils.random(15f, 90f)
         val startTime = MathUtils.random(0f, 90f)
-        println("start: $startTime, frequency: $frequency")
+        // println("start: $startTime, frequency: $frequency")
         addAction(Actions.sequence(
             Actions.delay(startTime),
             Actions.run {
