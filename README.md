@@ -3,8 +3,8 @@ A survival horror pattern recognition game.
 
 _You are being hunted! Can you find the hunter before they find you?_
 
-[Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
-[Play it](https://play.google.com/store/apps/details?id=no.sandramoen.hunted) on Google Play.
+* [Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
+* [Play it](https://play.google.com/store/apps/details?id=no.sandramoen.hunted) on Google Play.
 
 [![Image link of a youtube trailer](https://user-images.githubusercontent.com/4059636/157228448-7ee6e08a-4926-4321-ab8e-168ea120e5bf.png)](https://www.youtube.com/watch?v=trP7xkboZHk)
 
