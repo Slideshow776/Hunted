@@ -1,7 +1,7 @@
 # Hunted
 A survival horror pattern recognition game.
 
-_You are being hunted! Can you find the hunter before they find you?_
+_You are being hunted! Can you find the hunter before he finds you first?_
 
 * [Try it](https://github.com/Slideshow776/Hunted/releases/latest) on desktop and Android.
 * ~~[Play it](https://play.google.com/store/apps/details?id=no.sandramoen.hunted) on Google Play.~~ (still in review)
